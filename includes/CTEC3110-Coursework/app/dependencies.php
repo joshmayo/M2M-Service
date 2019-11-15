@@ -18,25 +18,30 @@ $container['view'] = function ($container) {
 };
 
 $container['validator'] = function ($container) {
-  $validator = new \Country\Validator();
+  $validator = new \M2MConnect\Validator();
   return $validator;
 };
 $container['soapWrapper'] = function ($container) {
-  $validator = new \Country\SoapWrapper();
+  $validator = new \M2MConnect\SoapWrapper();
   return $validator;
 };
 
-$container['countryDetailsModel'] = function ($container) {
-  $model = new \Country\CountryDetailsModel();
-  return $model;
-};
+//$container['countryDetailsModel'] = function ($container) {
+//  $model = new \Country\CountryDetailsModel();
+//  return $model;
+//};
+
+    $container['messageDetailsModel'] = function ($container) {
+        $model = new \M2MConnect\MessageDetailsModel();
+        return $model;
+    };
 
 $container['processOutput'] = function ($container) {
-  $model = new \Country\ProcessOutput();
+  $model = new \M2MConnect\ProcessOutput();
   return $model;
 };
 
 $container['xmlParser'] = function ($container) {
-  $model = new \Country\XmlParser();
+  $model = new \M2MConnect\XmlParser();
   return $model;
 };

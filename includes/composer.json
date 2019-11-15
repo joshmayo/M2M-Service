@@ -16,7 +16,8 @@
             "Dictionary\\": "dictionary/app/src",
             "StockQuotes\\": "stockquotes/app/src",
             "TempConv\\": "temperature_conversion/app/src",
-            "Country\\": "country_details/app/src"
+            "Country\\": "country_details/app/src",
+            "M2MConnect\\": "CTEC3110-Coursework/app/src"
         }
     }
 }

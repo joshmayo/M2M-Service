@@ -9,7 +9,7 @@
  * @copyright De Montfort University
  */
 
-namespace Country;;
+namespace M2MConnect;
 
 class XmlParser
 {

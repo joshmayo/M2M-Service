@@ -6,7 +6,7 @@
  * Time: 10:01
  */
 
-namespace Country;
+namespace M2MConnect;
 
 class CountryDetailsModel
 {
@@ -70,7 +70,9 @@ class CountryDetailsModel
             case 'capital':
                 $select_detail['required_service'] = 'CapitalCity';
                 $select_detail['service_parameters'] = [
-                    'sCountryISOCode' => $this->country_code
+                    'username' => M2M_USER,
+                    'password' => M2M_PASS,
+                    'count' => 25
                 ];
                 $select_detail['result_object'] = 'CapitalCityResult';
                 break;

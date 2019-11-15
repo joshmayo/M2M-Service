@@ -19,7 +19,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
 {
 
     $country_names = getCountryNamesAndIsoCodes($app);
-//var_dump($country_names);
+    var_dump($country_names);
     $html_output = $this->view->render($response,
     'homepageform.html.twig',
     [
@@ -50,15 +50,15 @@ function processOutput($app, $html_output)
 
 function getCountryNamesAndIsoCodes($app)
 {
-    $country_detail_result = [];
+    $message_detail_result = [];
     $soap_wrapper = $app->getContainer()->get('soapWrapper');
 
-    $countrydetails_model = $app->getContainer()->get('countryDetailsModel');
-    $countrydetails_model->setSoapWrapper($soap_wrapper);
+    $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+    $messagedetails_model->setSoapWrapper($soap_wrapper);
 
-    $countrydetails_model->retrieveCountryNames();
-    $country_detail_result = $countrydetails_model->getResult();
+    $messagedetails_model->retrieveMessages();
+    $message_detail_result = $messagedetails_model->getResult();
 
-    return $country_detail_result;
+    return $message_detail_result;
 
 }

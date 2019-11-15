@@ -8,7 +8,7 @@
 
 ini_set('display_errors', 'On');
 ini_set('html_errors', 'On');
-ini_set('xdebug.trace_output_name', 'country_details.%t');
+ini_set('xdebug.trace_output_name', 'messaging_details.%t');
 
 define('DIRSEP', DIRECTORY_SEPARATOR);
 
@@ -18,8 +18,12 @@ $css_path = $url_root . '/css/standard.css';
 define('CSS_PATH', $css_path);
 define('APP_NAME', 'Country Details');
 define('LANDING_PAGE', $_SERVER['SCRIPT_NAME']);
+define('M2M_USER', '19_SophieHughes');
+define('M2M_PASS', 'P161776552019php');
+define('MSISDN', '7817814149');
+define('COUNTRY_CODE', '+44');
 
-$wsdl = 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL';
+$wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);
 
 $detail_types = ['capital', 'continents', 'full', 'gmt'];

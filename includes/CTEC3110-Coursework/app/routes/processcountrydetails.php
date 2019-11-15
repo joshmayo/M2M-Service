@@ -20,9 +20,12 @@ $app->post(
 
         $tainted_parameters = $request->getParsedBody();
         $cleaned_parameters = cleanupParameters($app, $tainted_parameters);
-        $country_details_result = getCountryDetails($app, $cleaned_parameters);
-        $validated_country_details = validateDownloadedData($app, $country_details_result);
-        var_dump($validated_country_details);
+        // $country_details_result = getCountryDetails($app, $cleaned_parameters);
+
+        $message_result = getMessages($app);
+
+        // $validated_country_details = validateDownloadedData($app, $country_details_result);
+        var_dump($message_result);
 
         $html_output = $this->view->render($response,
             'display_result.html.twig',
@@ -101,3 +104,18 @@ function getCountryDetails($app, $cleaned_parameters)
 
     return $country_detail_result;
 }
+
+    function getMessages($app)
+    {
+        $message_detail_result = [];
+        $soap_wrapper = $app->getContainer()->get('soapWrapper');
+
+        $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+        $messagedetails_model->setSoapWrapper($soap_wrapper);
+
+        // $countrydetails_model->setParameters($cleaned_parameters);
+        $messagedetails_model->performDetailRetrieval();
+        $message_detail_result = $messagedetails_model->getResult();
+
+        return $message_detail_result;
+    }
