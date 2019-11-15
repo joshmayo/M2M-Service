@@ -1,0 +1,11 @@
+/*
+!.gitignore
+!/includes
+/includes/*
+!/includes/CTEC3110-Coursework
+!/includes/composer.json
+!/includes/composer.lock
+!/includes/composer.phar
+!/public_php
+/public_php/*
+!/public_php/CTEC3110-Coursework
