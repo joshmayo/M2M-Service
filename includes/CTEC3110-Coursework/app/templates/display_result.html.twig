@@ -1,0 +1,11 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+  <div id="lg-form-container">
+  <h2>{{ page_heading_2 }}</h2>
+  <p>{{ page_text }}</p>
+    <p>Country selected was <b>{{ country_name }}</b></p>
+    <p>Required detail was <b>{{ detail }}</b></p>
+    <p>{{ result }}</p>
+    <p class="curr_page"><a href="{{ landing_page }}">Another go</a></p>
+  </div>
+{% endblock %}

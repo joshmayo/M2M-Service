@@ -1,0 +1,26 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <div id="page-content-div">
+        <h2>{{ page_heading_2 }}</h2>
+        <p>{{ page_text }}</p>
+        <form action="{{action}}" method="{{method}}">
+            <fieldset>
+                <legend>Country details</legend>
+                <select name="country" required autofocus>
+                    <option value="" selected>Select a country</option>
+                    {% for code, name in country_names %}
+                        <option value="{{code}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <p>Select the required detail:</p>
+                <label for="full"><input id="full" type="radio" name="detail" value="full" checked>Full Details</label>
+                <label for="capital"><input id="code" type="radio" name="detail" value="capital">Capital City</label>
+                <label for="currency"><input id="currency" type="radio" name="detail" value="currency">Currency</label>
+                <label for="continents"><input id="continents" type="radio" name="detail" value="continents">List all Continents by Name</label>
+                <br><br>
+                <input type="submit" value="Retrieve the details >>>">
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
