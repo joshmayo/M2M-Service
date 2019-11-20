@@ -1,9 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: slim
- * Date: 24/10/17
- * Time: 10:01
+ * User: P16190097
+ * Date: 10/11/19
+ * Time: 10:05
+ *
+ *
  */
 
 namespace M2MConnect;
@@ -22,7 +24,7 @@ class MessageDetailsModel
         $this->xml_parser = null;
         $this->country_code = '';
         $this->detail = '';
-        $this->result = [];
+        $this->result = '';
     }
 
     public function __destruct(){}

@@ -45,4 +45,19 @@ $settings = [
   ],
 ];
 
+//    {
+//        message: {
+//        id: '18-3110-AS',
+//		switch: {
+//        1: Bool,
+//        2: Bool,
+//        3: Bool,
+//        4: Bool
+//        },
+//        fan: Bool,
+//        heater: int,
+//        keypad: char
+//        }
+//}
+
 return $settings;

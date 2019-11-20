@@ -59,6 +59,13 @@ function getMessages($app)
     $messagedetails_model->retrieveMessages();
     $message_detail_result = $messagedetails_model->getResult();
 
-    return $message_detail_result;
+    $xml_parser = $app->getContainer()->get('xmlParser');
+    var_dump($message_detail_result);
+    $xml_parser->setXmlStringToParse($message_detail_result);
+    $xml_parser->parseTheXmlString();
+    $message_list = $xml_parser->getParsedData();
+    //var_dump($message_list);
+
+    return $message_list;
 
 }
