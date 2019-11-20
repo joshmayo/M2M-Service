@@ -11,4 +11,3 @@
 	*/
 
 require 'routes/homepage.php';
-require 'routes/processcountrydetails.php';
