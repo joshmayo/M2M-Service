@@ -18,26 +18,26 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/', function (Request $request, Response $response) use ($app) {
 
     $message_list = getMessages($app);
-    // var_dump($message_list);
-//    $html_output = $this->view->render($response,
-//    'homepageform.html.twig',
-//    [
-//      'css_path' => CSS_PATH,
-//      'landing_page' => LANDING_PAGE,
-//      'method' => 'post',
-//      'action' => 'processcountrydetails', // this action no longer exists
-//      'initial_input_box_value' => null,
-//      'page_title' => APP_NAME,
-//      'page_heading_1' => APP_NAME,
-//      'page_heading_2' => 'Display details about a country',
-//      'country_names' => $message_list,
-//      'page_text' => 'Select a country name, then select the required information details',
-//    ]
-//    );
 
-    //$processed_output = processOutput($app, $html_output);
+    $html_output = $this->view->render($response,
+    'homepagetable.html.twig',
+    [
+      'css_path' => CSS_PATH,
+      'landing_page' => LANDING_PAGE,
+      'method' => 'post', // no longer exists
+      'action' => 'processcountrydetails', // this action no longer exists
+      'initial_input_box_value' => null,
+      'page_title' => APP_NAME,
+      'page_heading_1' => APP_NAME,
+      'page_heading_2' => 'Messages', // no longer exists
+      'message_list' => $message_list,
+      'page_text' => 'Select a country name, then select the required information details', // no longer exists
+    ]
+    );
 
-    return true;
+    $processed_output = processOutput($app, $html_output);
+
+    return $processed_output;
 
 })->setName('homepage');
 
@@ -66,7 +66,7 @@ function getMessages($app)
         $xml_parser->parseTheXmlString();
         array_push($message_list, $xml_parser->getParsedData());
     }
-    var_dump($message_list);
+    //var_dump($message_list);
 
     return $message_list;
 

@@ -1,0 +1,24 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <main>
+        <h2>{{ page_heading_2 }}</h2>
+        <table class="table table-sm table-dark">
+            <thread>
+                <th scope="col">#</th>
+                <th scope="col">Message</th>
+                <th scope="col">Recieved</th>
+                <th scope="col">Source MSISDN</th>
+            </thread>
+            <tbody>
+            {% for message in message_list %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ message.MESSAGE }}</td>
+                    <td>{{ message.RECEIVEDTIME }}</td>
+                    <td>{{ message.SOURCEMSISDN }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
+{% endblock %}
