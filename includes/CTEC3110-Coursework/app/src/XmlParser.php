@@ -16,7 +16,7 @@ class XmlParser
     private $xml_parser;							  // handle to instance of the XML parser
     private $parsed_data;	          // array holds extracted data
     private $element_name;	            // store the current element name
-    private $temporary_attributes;	// temporarily store tag attributes and values
+    private $temporary_attributes = [];	// temporarily store tag attributes and values
     private $xml_string_to_parse;
 
     public function __construct()
@@ -84,16 +84,14 @@ class XmlParser
     // process data from an element
     private function process_element_data($parser, $element_data)
     {
-        if (array_key_exists($this->element_name, $this->parsed_data) === false)
+        $this->parsed_data[$this->element_name] = $element_data;
+        if (sizeof($this->temporary_attributes) > 0)
         {
-            $this->parsed_data[$this->element_name] = $element_data;
-            if (sizeof($this->temporary_attributes) > 0)
+            foreach ($this->temporary_attributes as $tag_att_name => $tag_att_value)
             {
-                foreach ($this->temporary_attributes as $tag_att_name => $tag_att_value)
-                {
-                    $this->parsed_data[$tag_att_name] = $tag_att_value;
-                }
+                $this->parsed_data[$tag_att_name] = $tag_att_value;
             }
+            var_dump($this->temporary_attributes);
         }
     }
 

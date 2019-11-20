@@ -19,7 +19,7 @@ $app->get('/', function(Request $request, Response $response) use ($app)
 {
 
     $message_list = getMessages($app);
-    var_dump($message_list);
+    // var_dump($message_list);
 //    $html_output = $this->view->render($response,
 //    'homepageform.html.twig',
 //    [
@@ -51,6 +51,8 @@ function processOutput($app, $html_output)
 
 function getMessages($app)
 {
+    $message_list = [];
+
     $soap_wrapper = $app->getContainer()->get('soapWrapper');
 
     $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
@@ -60,11 +62,12 @@ function getMessages($app)
     $message_detail_result = $messagedetails_model->getResult();
 
     $xml_parser = $app->getContainer()->get('xmlParser');
-    var_dump($message_detail_result);
-    $xml_parser->setXmlStringToParse($message_detail_result);
-    $xml_parser->parseTheXmlString();
-    $message_list = $xml_parser->getParsedData();
-    //var_dump($message_list);
+    foreach ($message_detail_result as $key => $message) {
+        $xml_parser->setXmlStringToParse($message);
+        $xml_parser->parseTheXmlString();
+        array_push($message_list, $xml_parser->getParsedData());
+    }
+    var_dump($message_list);
 
     return $message_list;
 

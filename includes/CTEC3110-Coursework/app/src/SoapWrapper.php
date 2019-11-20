@@ -17,7 +17,7 @@ class SoapWrapper
         try
         {
             $soap_client_handle = new \SoapClient($wsdl, $soap_client_parameters);
-            var_dump($soap_client_handle->__getFunctions());
+            //var_dump($soap_client_handle->__getFunctions());
 //            var_dump($soap_client_handle->__getTypes());
         }
         catch (\SoapFault $exception)
@@ -39,7 +39,6 @@ class SoapWrapper
                 //$webservice_call_result = $soap_client->{$webservice_function}($webservice_call_parameters);
 
                 $webservice_call_result = $soap_client->__soapCall($webservice_function, $webservice_call_parameters);
-                var_dump($webservice_call_result);
                 $soap_call_result = $webservice_call_result;
                 // $soap_call_result = $webservice_call_result->{$webservice_value};
             }
