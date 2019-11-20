@@ -24,6 +24,33 @@ CREATE TABLE `message_metadata` (
   PRIMARY KEY (`metadata_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Stored procedures for `message_metadata`
+-- ----------------------------
+
+DELIMITER $$
+ 
+CREATE PROCEDURE GetMessages()
+BEGIN
+    SELECT 
+        md.metadata_id,
+		message_content_id,
+		source_msisdn,
+		destination_msisdn,
+		recieved_time,
+		switch_1,
+		switch_2,
+		switch_3,
+		switch_4,
+		fan,
+		heater,
+		keypad
+    FROM
+        message_metadata md
+	inner join message_content c on md.metadata_id = c.metadata_id
+    ORDER BY recieved_time;    
+END$$
+DELIMITER ;
 
 -- ----------------------------
 -- Table structure for `message_content`
