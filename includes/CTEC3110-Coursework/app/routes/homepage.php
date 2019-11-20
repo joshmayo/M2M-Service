@@ -15,8 +15,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/', function(Request $request, Response $response) use ($app)
-{
+$app->get('/', function (Request $request, Response $response) use ($app) {
 
     $message_list = getMessages($app);
     // var_dump($message_list);

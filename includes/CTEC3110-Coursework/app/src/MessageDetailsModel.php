@@ -5,7 +5,8 @@
  * Date: 10/11/19
  * Time: 10:05
  *
- *
+ *  class for retreiving messages from the M2M service via SOAP
+ * todo: add error handling to soap call
  */
 
 namespace M2MConnect;
@@ -27,7 +28,9 @@ class MessageDetailsModel
         $this->result = '';
     }
 
-    public function __destruct(){}
+    public function __destruct()
+    {
+    }
 
     public function setSoapWrapper($soap_wrapper)
     {
@@ -43,8 +46,7 @@ class MessageDetailsModel
     {
         $soap_client_handle = $this->soap_wrapper->createSoapClient();
 
-        if ($soap_client_handle !== false)
-        {
+        if ($soap_client_handle !== false) {
             $webservice_function = 'peekMessages';
             $webservice_call_parameters = [
                 'username' => M2M_USER,
@@ -54,7 +56,8 @@ class MessageDetailsModel
                 'countryCode' => '44'
             ];
             $webservice_value = 'peekMessagesResponse';
-            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function, $webservice_call_parameters, $webservice_value);
+            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
+                $webservice_call_parameters, $webservice_value);
 
             $this->result = $soapcall_result;
         }
