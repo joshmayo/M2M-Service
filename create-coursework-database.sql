@@ -12,17 +12,6 @@ GRANT SELECT, INSERT ON coursework_db.* TO coursework_user@localhost IDENTIFIED 
 USE coursework_db;
 
 -- ----------------------------
--- Table structure for `error_log`
--- ----------------------------
-
-DROP TABLE IF EXISTS `error_log`;
-CREATE TABLE `error_log` (
-  `error_id` int(4) NOT NULL AUTO_INCREMENT,
-  `error` varchar(800) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`error_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for `message_metadata`
 -- ----------------------------
 
@@ -34,6 +23,7 @@ CREATE TABLE `message_metadata` (
   `recieved_time` datetime CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`metadata_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for `message_content`
@@ -52,3 +42,39 @@ CREATE TABLE `message_content` (
   `keypad` char CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`message_content_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `sessions`
+-- ----------------------------
+
+CREATE TABLE `sessions` (
+ `session_id` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+ `session_var_name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+ `session_value` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+ `session_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='CURRENT_TIMESTAMP';
+
+
+-- ----------------------------
+-- Table structure for `users`
+-- ----------------------------
+
+CREATE TABLE `users` (
+  `user_id` int(4) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hashed_password` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `privilege` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`error_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `error_log`
+-- ----------------------------
+
+CREATE TABLE `error_log` (
+  `error_id` int(4) NOT NULL AUTO_INCREMENT,
+  `error` varchar(800) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `error_datetime` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`error_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
