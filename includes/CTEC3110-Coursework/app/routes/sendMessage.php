@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 02/12/2019
- * Time: 12:56
- */
 
 /**
  * sendMessage.php
@@ -29,12 +23,12 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
             'method' => 'post',
-            'action' => 'processcountrydetails',
+            'action' => 'superDuperMessageAction', //change to to send message action when made
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message',
-            'page_text' => 'Select a country name, then select the required information details', // no longer exists
+            'page_text' => 'Send a message to M2M Service', // no longer exists
         ]
     );
 

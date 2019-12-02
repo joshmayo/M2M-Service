@@ -27,7 +27,7 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
       'page_heading_1' => APP_NAME,
       'page_heading_2' => 'Messages',
       'message_list' => $message_list,
-      'page_text' => 'Select a country name, then select the required information details', // no longer exists
+      'page_text' => 'M2M messages view', // no longer exists
     ]
     );
 

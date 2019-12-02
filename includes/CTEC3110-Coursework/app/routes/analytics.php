@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 02/12/2019
- * Time: 12:56
- */
 
 /**
- * sendMessage.php
+ * analytics.php
  *
- * Form for sending messages to SOAP M2M API
+ * page for dispaying message analytics
  *
  * Author: Josh Mayo
  * Date: 02/12/2019
@@ -28,13 +22,11 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
-            'method' => 'post',
-            'action' => 'processcountrydetails',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'page_text' => 'Select a country name, then select the required information details', // no longer exists
+            'page_text' => 'M2M message Analytics', // no longer exists
         ]
     );
 
