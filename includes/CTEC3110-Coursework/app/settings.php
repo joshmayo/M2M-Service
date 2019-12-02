@@ -39,6 +39,20 @@ $settings = [
         'cache' => false,
         'auto_reload' => true,
       ]],
+      'pdo_settings' => [
+          'rdbms' => 'mysql',
+          'host' => 'localhost',
+          'db_name' => 'coursework_db',
+          'port' => '3306',
+          'user_name' => 'coursework_user',
+          'user_password' => 'coursework_user_pass',
+          'charset' => 'utf8',
+          'collation' => 'utf8_unicode_ci',
+          'options' => [
+              PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+              PDO::ATTR_EMULATE_PREPARES   => true,
+          ]],
   ],
 ];
 
