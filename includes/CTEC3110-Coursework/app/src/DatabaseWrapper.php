@@ -167,4 +167,65 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string, $query_parameters);
     }
+
+    public function unsetSessionVar($session_key){}
+
+    public function setSessionVar($session_key, $session_value)
+    {
+        if ($this->getSessionVar($session_key) === true)
+        {
+            $this->storeSessionVar($session_key, $session_value);
+        }
+        else
+        {
+            $this->createSessionVar($session_key, $session_value);
+        }
+
+        return($this->errors);
+    }
+
+    public function getSessionVar($session_key)
+    {
+        $session_var_exists = false;
+        $query_string = 'CALL CheckSessionVar()';
+
+        $query_parameters = [
+            ':local_session_id' => session_id(),
+            ':session_var_name' => $session_key
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+
+        if ($this->countRows() > 0)
+        {
+            $session_var_exists = true;
+        }
+        return $session_var_exists;
+    }
+
+    private function createSessionVar($session_key, $session_value)
+    {
+        $query_string = 'CALL CreateSessionVar()';
+
+        $query_parameters = [
+            ':local_session_id' => session_id(),
+            ':session_var_name' => $session_key,
+            ':session_var_value' => $session_value
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
+    private function storeSessionVar($session_key, $session_value)
+    {
+        $query_string = 'CALL SetSessionVar';
+
+        $query_parameters = [
+            ':local_session_id' => session_id(),
+            ':session_var_name' => $session_key,
+            ':session_var_value' => $session_value
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
 }
