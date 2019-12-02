@@ -154,7 +154,7 @@ class DatabaseWrapper
 
         $query_parameters = [
             ':source_msisdn_to_add' => $message->getSourceMsisdn(),
-            ':destination_msisdn_to_add' => $message->getDesintationMsisn(),
+            ':destination_msisdn_to_add' => $message->getDestinationMsisn(),
             ':switch_1_to_add' => $message->getSwitch1(),
             ':switch_2_to_add' => $message->getSwitch2(),
             ':switch_3_to_add' => $message->getSwitch3(),
@@ -162,7 +162,7 @@ class DatabaseWrapper
             ':fan_to_add' => $message->getFan(),
             ':heater_to_add' => $message->getHeater(),
             ':keypad_to_add' => $message->getKeypad(),
-            ':received_time_to_add' => $message->getRecievedTime()
+            ':received_time_to_add' => $message->getReceivedTime()
         ];
 
         $this->safeQuery($query_string, $query_parameters);

@@ -4,7 +4,8 @@
  *
  */
 
-namespace Country;;
+namespace Country;
+;
 
 class Message
 {
@@ -19,7 +20,8 @@ class Message
     private $keypad;
     private $received_time;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->source_msisdn = '';
         $this->destination_msisdn = '';
         $this->switch_1 = '';
@@ -32,14 +34,16 @@ class Message
         $this->received_time = '';
     }
 
-    public function __destruct(){ }
+    public function __destruct()
+    {
+    }
 
     public function getSourceMsisdn()
     {
         return $this->source_msisdn;
     }
 
-    public function getDesintationMsisn()
+    public function getDestinationMsisn()
     {
         return $this->destination_msisdn;
     }
@@ -79,7 +83,7 @@ class Message
         return $this->keypad;
     }
 
-    public function getRecievedTime()
+    public function getReceivedTime()
     {
         return $this->received_time;
     }
