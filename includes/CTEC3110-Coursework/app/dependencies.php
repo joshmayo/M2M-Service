@@ -27,8 +27,18 @@ $container['soapWrapper'] = function ($container) {
     return $validator;
 };
 
+$container['databaseWrapper'] = function ($container) {
+    $database_wrapper_handle = new \M2MConnect\DatabaseWrapper();
+    return $database_wrapper_handle;
+};
+
 $container['messageDetailsModel'] = function ($container) {
     $model = new \M2MConnect\MessageDetailsModel();
+    return $model;
+};
+
+$container['message'] = function ($container) {
+    $model = new \M2MConnect\Message();
     return $model;
 };
 

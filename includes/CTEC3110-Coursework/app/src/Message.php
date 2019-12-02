@@ -4,8 +4,8 @@
  *
  */
 
-namespace Country;
-;
+namespace M2MConnect;
+
 
 class Message
 {

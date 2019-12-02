@@ -8,7 +8,7 @@
  * Date: 02/12/2019
  */
 
-namespace Country;
+namespace M2MConnect;
 
 
 class DatabaseWrapper
