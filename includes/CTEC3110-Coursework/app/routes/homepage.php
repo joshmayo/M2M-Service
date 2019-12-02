@@ -57,12 +57,33 @@ function getMessages($app)
     $message_detail_result = $messagedetails_model->getResult();
 
     $xml_parser = $app->getContainer()->get('xmlParser');
-    foreach ($message_detail_result as $key => $message) {
-        $xml_parser->setXmlStringToParse($message);
-        $xml_parser->parseTheXmlString();
-        array_push($message_list, $xml_parser->getParsedData());
+    foreach ($message_detail_result as $key => $message_xml)
+    {
+        if(strpos($message_xml, '18-3110-AS') !== false)
+        {
+            $xml_parser->setXmlStringToParse($message_xml);
+            $xml_parser->parseTheXmlString();
+            $parsed_xml = $xml_parser->getParsedData();
+            $parsed_json = json_decode($parsed_xml['MESSAGE'], true);
+
+            $message = new \M2MConnect\Message(
+                $parsed_xml['SOURCEMSISDN'],
+                $parsed_xml['DESTINATIONMSISDN'],
+                $parsed_json['switch']['1'],
+                $parsed_json['switch']['2'],
+                $parsed_json['switch']['3'],
+                $parsed_json['switch']['4'],
+                $parsed_json['fan'],
+                $parsed_json['heater'],
+                $parsed_json['keypad'],
+                $parsed_xml['RECEIVEDTIME']
+            );
+
+            $database = $app->getContainer()->get('databaseWrapper');
+            $database->addMessage($message);
+        }
+
     }
-    //var_dump($message_list);
 
     return $message_list;
 

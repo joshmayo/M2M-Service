@@ -20,18 +20,18 @@ class Message
     private $keypad;
     private $received_time;
 
-    public function __construct()
+    public function __construct($source_msisdn, $destination_msisdn, $switch_1, $switch_2, $switch_3, $switch_4, $fan, $heater, $keypad, $received_time)
     {
-        $this->source_msisdn = '';
-        $this->destination_msisdn = '';
-        $this->switch_1 = '';
-        $this->switch_2 = '';
-        $this->switch_3 = '';
-        $this->switch_4 = '';
-        $this->fan = '';
-        $this->heater = '';
-        $this->keypad = '';
-        $this->received_time = '';
+        $this->source_msisdn = $source_msisdn;
+        $this->destination_msisdn = $destination_msisdn;
+        $this->switch_1 = $switch_1;
+        $this->switch_2 = $switch_2;
+        $this->switch_3 = $switch_3;
+        $this->switch_4 = $switch_4;
+        $this->fan = $fan;
+        $this->heater = $heater;
+        $this->keypad = $keypad;
+        $this->received_time = $received_time;
     }
 
     public function __destruct()
