@@ -12,6 +12,10 @@ body {
     padding-left: 10%;
 }
 
+.primary-color {
+    background-color: #f035a0;
+}
+
 /***********************************************/
 /* heading styles                              */
 /***********************************************/
@@ -74,7 +78,7 @@ hr {width:100%;height:1px;}
 .deepline {width:100%;height:10px;color:#0000FE;background-color:#0000FF;}
 
 /***********************************************/
-/* sidebar styles                      */
+/* sidebar styles                              */
 /***********************************************/
 
 .sidebar {
@@ -83,5 +87,67 @@ hr {width:100%;height:1px;}
 
 .navbar {
     background-color:#000;
-    colof:#fff;
+    color:#fff;
+}
+
+/***********************************************/
+/* custom switch styles                        */
+/***********************************************/
+
+.custom-control-label::before {
+    background-color: transparent;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+    border-color: #f035a0;
+    background-color: #f035a0;
+}
+
+.custom-control-input:not(:disabled):active~.custom-control-label::before {
+    color: #fff;
+    background-color: #b245f0;
+    border-color: #b245f0;
+}
+
+/***********************************************/
+/* button switch styles                        */
+/***********************************************/
+
+.btn.primary-color {
+    border: none;
+}
+
+.btn.primary-color:focus, .btn.primary-color:active, .btn.primary-color:hover {
+    background-color: #C02A80 !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+.button {
+    margin: 0px 20px;
+}
+
+/*.sendMessage-btn-container {
+    text-align: center;
+}*/
+
+/***********************************************/
+/* form styles                                 */
+/***********************************************/
+
+.column {
+    float: left;
+    width: 35%;
+    padding: 10px 10px 0px 20px;
+}
+
+/* Clear floats after the columns */
+.rows:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column-switch {
+    padding-top: 35px;
 }

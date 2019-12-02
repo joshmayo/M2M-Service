@@ -19,6 +19,7 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
         'sendMessageForm.html.twig',
         [
             'css_path' => CSS_PATH,
+            'js_path' => JS_PATH,
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
