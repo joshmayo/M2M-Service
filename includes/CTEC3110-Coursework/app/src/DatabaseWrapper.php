@@ -98,6 +98,25 @@ class DatabaseWrapper
         return $this->errors['db_error'];
     }
 
+    public function countRows()
+    {
+        $num_rows = $this->prepared_statement->rowCount();
+        return $num_rows;
+    }
+
+    public function safeFetchRow()
+    {
+        $record_set = $this->prepared_statement->fetch(PDO::FETCH_NUM);
+        return $record_set;
+    }
+
+    public function safeFetchArray()
+    {
+        $row = $this->prepared_statement->fetch(PDO::FETCH_ASSOC);
+        $this->prepared_statement->closeCursor();
+        return $row;
+    }
+
     public function getMessageMetaData($metadata_id)
     {
         $query_string = 'CALL GetMessageMetadata()';
@@ -110,8 +129,42 @@ class DatabaseWrapper
 
         if ($this->countRows() > 0)
         {
-            $metadata = true;
+            $metadata = $this->safeFetchRow();
         }
         return $metadata;
+    }
+
+    public function getMessages()
+    {
+        $query_string = 'CALL GetMessages()';
+        $query_parameters = [];
+
+        $this->safeQuery($query_string, $query_parameters);
+
+        if ($this->countRows() > 0)
+        {
+            $messages = $this->safeFetchArray();
+        }
+        return $messages;
+    }
+
+    public function addMessage(Message $message)
+    {
+        $query_string = 'CALL AddMessage()';
+
+        $query_parameters = [
+            ':source_msisdn_to_add' => $message->getSourceMsisdn(),
+            ':destination_msisdn_to_add' => $message->getDesintationMsisn(),
+            ':switch_1_to_add' => $message->getSwitch1(),
+            ':switch_2_to_add' => $message->getSwitch2(),
+            ':switch_3_to_add' => $message->getSwitch3(),
+            ':switch_4_to_add' => $message->getSwitch4(),
+            ':fan_to_add' => $message->getFan(),
+            ':heater_to_add' => $message->getHeater(),
+            ':keypad_to_add' => $message->getKeypad(),
+            ':received_time_to_add' => $message->getRecievedTime()
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
     }
 }

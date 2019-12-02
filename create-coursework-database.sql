@@ -54,7 +54,7 @@ CREATE TABLE `message_content` (
 	`fan` boolean,
 	`heater` int(2),
 	`keypad` char CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`recieved_time` datetime DEFAULT NULL,
+	`received_time` datetime DEFAULT NULL,
 	PRIMARY KEY (message_content_id),
 	FOREIGN KEY (metadata_id) REFERENCES message_metadata(metadata_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
@@ -72,7 +72,7 @@ BEGIN
 		message_content_id,
 		source_msisdn,
 		destination_msisdn,
-		recieved_time,
+		received_time,
 		switch_1,
 		switch_2,
 		switch_3,
@@ -83,7 +83,7 @@ BEGIN
     FROM
         message_metadata md
 	inner join message_content c on md.metadata_id = c.metadata_id
-    ORDER BY recieved_time;    
+    ORDER BY received_time;    
 END$$
 DELIMITER ;
 
@@ -100,7 +100,7 @@ CREATE PROCEDURE AddMessage(
 	IN fan_to_add boolean,
 	IN heater_to_add int(2),
 	IN keypad_to_add char,
-	IN recieved_time_to_add datetime
+	IN received_time_to_add datetime
 )
 BEGIN
 	SELECT @existing_metadata;
@@ -129,7 +129,7 @@ BEGIN
 		fan,
 		heater,
 		keypad,
-		recieved_time
+		received_time
 	)
 	VALUES
 	(
@@ -141,7 +141,7 @@ BEGIN
 		fan_to_add,
 		heater_to_add,
 		keypad_to_add,
-		recieved_time_to_add
+		received_time_to_add
 	);
 	
 END$$
