@@ -5,7 +5,8 @@
         "slim/slim": "^3.12",
         "slim/twig-view": "^2.4",
         "monolog/monolog": "^2",
-        "doctrine/orm": "^2.6"
+        "doctrine/orm": "^2.6",
+        "ext-sodium": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8"
@@ -17,7 +18,8 @@
             "StockQuotes\\": "stockquotes/app/src",
             "TempConv\\": "temperature_conversion/app/src",
             "Country\\": "country_details/app/src",
-            "M2MConnect\\": "CTEC3110-Coursework/app/src"
+            "M2MConnect\\": "CTEC3110-Coursework/app/src",
+            "Encryption\\": "encryption/app/src"
         }
     }
 }
