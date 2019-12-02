@@ -168,6 +168,66 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
+    public function addUser($name, $hashed_pw, $privs)
+    {
+        $query_string = 'CALL AddUser()';
+
+        $query_parameters = [
+            ':name' => $name,
+            ':hashed_pw' => $hashed_pw,
+            ':privs' => $privs
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
+    public function deleteUser($user_id)
+    {
+        $query_string = 'CALL DeleteUser()';
+
+        $query_parameters = [
+            ':user_id_to_delete' => $user_id
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
+    public function togglePrivilege($user_id)
+    {
+        $query_string = 'CALL TogglePrivilege()';
+
+        $query_parameters = [
+            ':user_id_to_toggle' => $user_id
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
+    public function updateUser($user_id, $name, $hashed_pw, $privs)
+    {
+        $query_string = 'CALL UpdateUser()';
+
+        $query_parameters = [
+            ':user_id_to_update' => $user_id,
+            ':name' => $name,
+            ':hashed_pw' => $hashed_pw,
+            ':privs' => $privs
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
+    public function logError($error_content)
+    {
+        $query_string = 'CALL LogError()';
+
+        $query_parameters = [
+            ':error_message_content' => $error_content
+        ];
+
+        $this->safeQuery($query_string, $query_parameters);
+    }
+
     public function unsetSessionVar($session_key){}
 
     public function setSessionVar($session_key, $session_value)
