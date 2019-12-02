@@ -2,9 +2,45 @@ html {margin:0;padding:0;border:0;}
 
 body {
     color:#fff;
-    background-color:#343a40;
+    background-color:#171c25;
     font-family:arial, sans-serif;
     /*font-size:12pt;*/
+}
+
+.container-override {
+    padding-right: 10%;
+    padding-left: 10%;
+}
+
+/***********************************************/
+/* heading styles                              */
+/***********************************************/
+
+.header-container {
+    padding: 20px 0;
+}
+h1, h2 {
+    color: #f035a0;
+}
+h3 {
+    color: #b245f0;
+}
+h4 {
+    color: #8253f0;
+}
+
+/***********************************************/
+/* navbar styles                               */
+/***********************************************/
+
+.navbar-link {
+    color: #fff !important;
+}
+/*.navbar-item {*/
+    /*color: #fff !important;*/
+/*}*/
+.navbar-item:hover .navbar-link {
+    color: #f035a0 !important;
 }
 
 /***********************************************/
@@ -46,19 +82,6 @@ hr {width:100%;height:1px;}
 }
 
 .navbar {
-    border-width:5px;
-    border-bottom-style:outset;
-}
-
-.navbar-shadow {
-    position: fixed;
-    top: 60px;
-    right: 0;
-    left: 0;
-    z-index: 28;
-    display: block;
-    height: 5px;
-    content: "";
-    background: linear-gradient(rgba(0, 0, 0, .075), rgba(0, 0, 0, .001)) repeat-x 0 0;
-    border-top: 1px solid rgba(0, 0, 0, .15);
+    background-color:#000;
+    colof:#fff;
 }

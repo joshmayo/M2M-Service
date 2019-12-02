@@ -1,7 +1,12 @@
 {% extends 'banner.html.twig' %}
 {% block content %}
     <main>
-        <h2>{{ page_heading_2 }}</h2>
+        <div class="header-container">
+            <h2 class="display-4">
+                {{ page_heading_2 }}
+                <small class="text-muted">{{ page_heading_1 }}</small>
+            </h2>
+        </div>
         <table class="table table-sm table-dark">
             <thread>
                 <th scope="col">#</th>
@@ -20,5 +25,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <h1 class="display-4">h1</h1>
+        <h2 class="display-4">h2</h2>
+        <h3 class="display-4">h3</h3>
+        <h4 class="display-4">h4</h4>
     </main>
 {% endblock %}

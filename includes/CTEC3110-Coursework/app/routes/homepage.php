@@ -2,13 +2,10 @@
 /**
  * homepage.php
  *
- * display the check primes application homepage
+ * display the Message application homepage
  *
- * allows the user to enter a value for testing if prime
- *
- * Author: CF Ingrams
- * Email: <cfi@dmu.ac.uk>
- * Date: 18/10/2015
+ * Author: Josh Mayo
+ * Date: 02/12/2019
  *
  */
 
@@ -24,12 +21,11 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
     [
       'css_path' => CSS_PATH,
       'landing_page' => LANDING_PAGE,
-      'method' => 'post', // no longer exists
-      'action' => 'processcountrydetails', // this action no longer exists
-      'initial_input_box_value' => null,
+      'sendMessage_page' => 'sendMessage',
+      'analytics_page' => 'analytics',
       'page_title' => APP_NAME,
       'page_heading_1' => APP_NAME,
-      'page_heading_2' => 'Messages', // no longer exists
+      'page_heading_2' => 'Messages',
       'message_list' => $message_list,
       'page_text' => 'Select a country name, then select the required information details', // no longer exists
     ]
