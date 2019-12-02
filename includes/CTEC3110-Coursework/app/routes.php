@@ -11,4 +11,5 @@
 	*/
 
 require 'routes/homepage.php';
-require 'routes/processcountrydetails.php';
+require 'routes/sendMessage.php';
+require 'routes/analytics.php';

@@ -18,6 +18,9 @@
             "StockQuotes\\": "stockquotes/app/src",
             "TempConv\\": "temperature_conversion/app/src",
             "Country\\": "country_details/app/src",
+<<<<<<< HEAD
+=======
+>>>>>>> dev
             "Encryption\\": "encryption/app/src"
         }
     }
