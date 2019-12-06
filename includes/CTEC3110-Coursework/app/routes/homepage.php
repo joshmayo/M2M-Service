@@ -80,7 +80,7 @@ function getMessages($app)
             );
 
             $database = $app->getContainer()->get('databaseWrapper');
-            $database->addMessage($message);
+            //$database->addMessage($message);
         }
 
     }
