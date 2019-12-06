@@ -14,7 +14,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function (Request $request, Response $response) use ($app) {
 
-    $message_list = getMessages($app);
+    getMessages($app);
+    $message_list = returnMessages($app);
 
     $html_output = $this->view->render($response,
     'homepagetable.html.twig',
@@ -57,13 +58,53 @@ function getMessages($app)
     $message_detail_result = $messagedetails_model->getResult();
 
     $xml_parser = $app->getContainer()->get('xmlParser');
-    foreach ($message_detail_result as $key => $message) {
-        $xml_parser->setXmlStringToParse($message);
-        $xml_parser->parseTheXmlString();
-        array_push($message_list, $xml_parser->getParsedData());
+    foreach ($message_detail_result as $key => $message_xml)
+    {
+        if(strpos($message_xml, '18-3110-AS') !== false && strpos($message_xml, 'invalid code') == false)
+        {
+            $xml_parser->setXmlStringToParse($message_xml);
+            $xml_parser->parseTheXmlString();
+            $parsed_xml = $xml_parser->getParsedData();
+            $parsed_json = json_decode($parsed_xml['MESSAGE'], true);
+
+            $message = new \M2MConnect\Message(
+                $parsed_xml['SOURCEMSISDN'],
+                $parsed_xml['DESTINATIONMSISDN'],
+                $parsed_json['switch']['1'],
+                $parsed_json['switch']['2'],
+                $parsed_json['switch']['3'],
+                $parsed_json['switch']['4'],
+                $parsed_json['fan'],
+                $parsed_json['heater'],
+                $parsed_json['keypad'],
+                $parsed_xml['RECEIVEDTIME']
+            );
+
+            $database = $app->getContainer()->get('databaseWrapper');
+            $db_conf = $app->getContainer()->get('settings');
+            $settings = $db_conf['pdo_settings'];
+
+            $messagedetails_model->addMessage($message, $database, $settings);
+        }
+
     }
-    //var_dump($message_list);
 
     return $message_list;
 
+}
+
+function returnMessages($app)
+{
+    $message_list = [];
+
+    $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+    $database = $app->getContainer()->get('databaseWrapper');
+    $db_conf = $app->getContainer()->get('settings');
+    $settings = $db_conf['pdo_settings'];
+
+    $message_list = $messagedetails_model->getMessagesFromDatabase($database, $settings);
+
+    var_dump($message_list);
+
+    return $message_list;
 }
