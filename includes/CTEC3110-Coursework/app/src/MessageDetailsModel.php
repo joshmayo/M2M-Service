@@ -94,4 +94,26 @@ class MessageDetailsModel
 
         return $messages;
     }
+    
+    public function sendMessage($message_body)
+    {
+        $soap_client_handle = $this->soap_wrapper->createSoapClient();
+        if($soap_client_handle !== false) {
+
+            $webservice_function = 'sendMessage';
+            $webservice_call_parameters = [
+                'username' => M2M_USER,
+                'password' => M2M_PASS,
+                'deviceMsisdn' => COUNTRY_CODE . MSISDN,
+                'message' => $message_body,
+                'deliveryReport' => true,
+                'mtBearer' => 'SMS',
+            ];
+            $webservice_value = 'peekMessagesResponse';
+            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
+                $webservice_call_parameters, $webservice_value);
+
+            $this->result = $soapcall_result;
+        }
+    }
 }

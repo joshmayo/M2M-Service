@@ -8,7 +8,7 @@
             </h2>
         </div>
         <div class="form-container">
-            <form action="javascript:void(0);">
+            <form action="{{ action }}" method="{{ method }}">
                 <div class="rows">
                     <div class="column column-switch">
                         <div class="form-group">
@@ -45,13 +45,15 @@
                     <div class="column">
                         <div class="form-group">
                             <label for="heater">Heater</label>
-                            <input type="number" min="0" max="99" class="form-control" id="heater"
+                            <input name="heater" type="number" min="0" max="99" class="form-control" id="heater"
                                    aria-describedby="emailHelp">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Keypad</label>
-                            <input type="number" min="0" max="9" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <label for="keypad">Keypad</label>
+                            <input name="keypad" type="number" min="0" max="9" class="form-control"
+                                   id="keypad"
+                                   aria-describedby="emailHelp">
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                     </div>
@@ -60,6 +62,7 @@
                     <button type="submit" class="btn btn-primary primary-color button" id="sendMessage-btn">Send</button>
                 </div>
             </form>
+            <h4>{{ message }}</h4>
         </div>
     </main>
 {% endblock %}
