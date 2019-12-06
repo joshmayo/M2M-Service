@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS coursework_db COLLATE utf8_unicode_ci;
 --
 -- Create the user account
 --
-GRANT SELECT, INSERT ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY 'coursework_user_pass';
+GRANT EXECUTE ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY 'coursework_user_pass';
 
 USE coursework_db;
 
@@ -54,7 +54,7 @@ CREATE TABLE `message_content` (
 	`fan` boolean,
 	`heater` int(2),
 	`keypad` char CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`received_time` datetime DEFAULT NULL,
+	`received_time` time DEFAULT NULL,
 	PRIMARY KEY (message_content_id),
 	FOREIGN KEY (metadata_id) REFERENCES message_metadata(metadata_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
@@ -100,7 +100,7 @@ CREATE PROCEDURE AddMessage(
 	IN fan_to_add boolean,
 	IN heater_to_add int(2),
 	IN keypad_to_add char,
-	IN received_time_to_add datetime
+	IN received_time_to_add time
 )
 BEGIN
   SELECT @existing_time;

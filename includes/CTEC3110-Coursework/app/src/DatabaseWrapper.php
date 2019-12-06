@@ -150,22 +150,18 @@ class DatabaseWrapper
 
     public function addMessage(Message $message)
     {
-        $query_string = 'CALL AddMessage()';
+        $query_string = 'CALL AddMessage('.$message->getSourceMsisdn().','
+            .$message->getDestinationMsisn().','
+            .$message->getSwitch1().','
+            .$message->getSwitch2().','
+            .$message->getSwitch3().','
+            .$message->getSwitch4().','
+            .$message->getFan().','
+            .$message->getHeater().','
+            .$message->getKeypad().','
+            .$message->getReceivedTime().')';
 
-        $query_parameters = [
-            ':source_msisdn_to_add' => $message->getSourceMsisdn(),
-            ':destination_msisdn_to_add' => $message->getDestinationMsisn(),
-            ':switch_1_to_add' => $message->getSwitch1(),
-            ':switch_2_to_add' => $message->getSwitch2(),
-            ':switch_3_to_add' => $message->getSwitch3(),
-            ':switch_4_to_add' => $message->getSwitch4(),
-            ':fan_to_add' => $message->getFan(),
-            ':heater_to_add' => $message->getHeater(),
-            ':keypad_to_add' => $message->getKeypad(),
-            ':received_time_to_add' => $message->getReceivedTime()
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     public function addUser($name, $hashed_pw, $privs)

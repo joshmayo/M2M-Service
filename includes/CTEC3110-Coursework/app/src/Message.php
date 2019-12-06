@@ -91,14 +91,4 @@ class Message
     {
         return $this->received_time;
     }
-
-
-
-    public function storeMessage()
-    {
-        $this->message_database->setDatabaseConnectionSettings($this->database_connection_settings);
-        $this->message_database->makeDatabaseConnection();
-
-        $this->message_database->addMessage($this);
-    }
 }

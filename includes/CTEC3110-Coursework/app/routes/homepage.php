@@ -80,7 +80,10 @@ function getMessages($app)
             );
 
             $database = $app->getContainer()->get('databaseWrapper');
-            //$database->addMessage($message);
+            $db_conf = $app->getContainer()->get('settings');
+            $settings = $db_conf['pdo_settings'];
+
+            $messagedetails_model->addMessage($message, $database, $settings);
         }
 
     }

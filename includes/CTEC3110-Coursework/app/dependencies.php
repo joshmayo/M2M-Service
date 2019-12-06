@@ -51,3 +51,8 @@ $container['xmlParser'] = function ($container) {
     $model = new \M2MConnect\XmlParser();
     return $model;
 };
+
+$container['loggerWrapper'] = function ($container) {
+    $logging_wrapper = new Monolog\Logger('logger');
+    return $logging_wrapper;
+};
