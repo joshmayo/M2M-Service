@@ -10,6 +10,8 @@
 
 namespace M2MConnect;
 
+use PDO;
+use DateTime;
 
 class DatabaseWrapper
 {
@@ -112,7 +114,7 @@ class DatabaseWrapper
 
     public function safeFetchArray()
     {
-        $row = $this->prepared_statement->fetch(PDO::FETCH_ASSOC);
+        $row = $this->prepared_statement->fetchAll();
         $this->prepared_statement->closeCursor();
         return $row;
     }
@@ -136,20 +138,24 @@ class DatabaseWrapper
 
     public function getMessages()
     {
+        $messages = [];
         $query_string = 'CALL GetMessages()';
-        $query_parameters = [];
 
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
 
         if ($this->countRows() > 0)
         {
             $messages = $this->safeFetchArray();
         }
+
         return $messages;
     }
 
     public function addMessage(Message $message)
     {
+        $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
+        $dateToBeInserted = $date->format('Y-m-d H:i:s');
+
         $query_string = 'CALL AddMessage('.$message->getSourceMsisdn().','
             .$message->getDestinationMsisn().','
             .$message->getSwitch1().','
@@ -158,8 +164,8 @@ class DatabaseWrapper
             .$message->getSwitch4().','
             .$message->getFan().','
             .$message->getHeater().','
-            .$message->getKeypad().','
-            .$message->getReceivedTime().')';
+            .$message->getKeypad().',\''
+            .$dateToBeInserted.'\')';
 
         $this->safeQuery($query_string);
     }

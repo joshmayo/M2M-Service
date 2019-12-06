@@ -14,7 +14,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/', function (Request $request, Response $response) use ($app) {
 
-    $message_list = getMessages($app);
+    getMessages($app);
+    $message_list = returnMessages($app);
 
     $html_output = $this->view->render($response,
     'homepagetable.html.twig',
@@ -59,7 +60,7 @@ function getMessages($app)
     $xml_parser = $app->getContainer()->get('xmlParser');
     foreach ($message_detail_result as $key => $message_xml)
     {
-        if(strpos($message_xml, '18-3110-AS') !== false)
+        if(strpos($message_xml, '18-3110-AS') !== false && strpos($message_xml, 'invalid code') == false)
         {
             $xml_parser->setXmlStringToParse($message_xml);
             $xml_parser->parseTheXmlString();
@@ -90,4 +91,20 @@ function getMessages($app)
 
     return $message_list;
 
+}
+
+function returnMessages($app)
+{
+    $message_list = [];
+
+    $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+    $database = $app->getContainer()->get('databaseWrapper');
+    $db_conf = $app->getContainer()->get('settings');
+    $settings = $db_conf['pdo_settings'];
+
+    $message_list = $messagedetails_model->getMessagesFromDatabase($database, $settings);
+
+    var_dump($message_list);
+
+    return $message_list;
 }

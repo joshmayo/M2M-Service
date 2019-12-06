@@ -77,11 +77,21 @@ class MessageDetailsModel
         }
     }
 
-    public function addMessage($message, $message_database, $settings)
+    public function addMessage($message, $database, $settings)
     {
-        $message_database->setDatabaseConnectionSettings($settings);
-        $message_database->makeDatabaseConnection();
+        $database->setDatabaseConnectionSettings($settings);
+        $database->makeDatabaseConnection();
 
-        $message_database->addMessage($message);
+        $database->addMessage($message);
+    }
+
+    public function getMessagesFromDatabase($database, $settings)
+    {
+        $database->setDatabaseConnectionSettings($settings);
+        $database->makeDatabaseConnection();
+
+        $messages = $database->getMessages();
+
+        return $messages;
     }
 }

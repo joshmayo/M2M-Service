@@ -54,7 +54,7 @@ CREATE TABLE `message_content` (
 	`fan` boolean,
 	`heater` int(2),
 	`keypad` char CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`received_time` time DEFAULT NULL,
+	`received_time` datetime DEFAULT NULL,
 	PRIMARY KEY (message_content_id),
 	FOREIGN KEY (metadata_id) REFERENCES message_metadata(metadata_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
@@ -68,7 +68,7 @@ DELIMITER $$
 CREATE PROCEDURE GetMessages()
 BEGIN
     SELECT 
-        md.metadata_id,
+    md.metadata_id,
 		message_content_id,
 		source_msisdn,
 		destination_msisdn,
@@ -82,7 +82,7 @@ BEGIN
 		keypad
     FROM
         message_metadata md
-	inner join message_content c on md.metadata_id = c.metadata_id
+	join message_content c on md.metadata_id = c.metadata_id
     ORDER BY received_time;    
 END$$
 DELIMITER ;
@@ -100,7 +100,7 @@ CREATE PROCEDURE AddMessage(
 	IN fan_to_add boolean,
 	IN heater_to_add int(2),
 	IN keypad_to_add char,
-	IN received_time_to_add time
+	IN received_time_to_add datetime
 )
 BEGIN
   SELECT @existing_time;
@@ -114,14 +114,13 @@ BEGIN
 
     SELECT @existing_metadata;
 
-    IF @existing_metadata is null THEN
-
     SELECT DISTINCT metadata_id
     FROM message_metadata
     WHERE source_msisdn = source_msisdn_to_add
     and destination_msisdn = destination_msisdn_to_add
     INTO @existing_metadata;
 
+    IF @existing_metadata IS null THEN
 
       INSERT INTO message_metadata (source_msisdn, destination_msisdn)
       VALUES (source_msisdn_to_add, destination_msisdn_to_add);
