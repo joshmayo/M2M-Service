@@ -19,20 +19,19 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
     $cleaned_parameters['id'] = '18-3110-AS';
 
     $message_body = json_encode($cleaned_parameters);
-    $message_detail_result = $message_body;
 
     $soap_wrapper = $app->getContainer()->get('soapWrapper');
     $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
     $messagedetails_model->setSoapWrapper($soap_wrapper);
 
     try {
-        //$messagedetails_model->sendMessage($message_body);
-        //$message_detail_result = $messagedetails_model->getResult();
-
+        $messagedetails_model->sendMessage($message_body);
+        $message_detail_result = $messagedetails_model->getResult();
         //$app->redirect('/homepage');
     }
     catch (Exception $error){
-        $error_msg = $error;
+        $message_detail_result = $error->getMessage();
+        //var_dump($error);
     }
 
     $html_output = $this->view->render($response,
@@ -130,6 +129,5 @@ function cleanupParameters($app, $tainted_parameters)
         $cleaned_parameters['switch']['4'] = $validated_switch_4;
         $cleaned_parameters['fan'] = $validated_fan;
     }
-    var_dump($cleaned_parameters);
     return $cleaned_parameters;
 }
