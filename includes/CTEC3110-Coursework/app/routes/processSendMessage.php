@@ -11,9 +11,6 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->post('/processSendMessage',  function (Request $request, Response $response) use ($app) {
 
-    $error_msg = false;
-    $message_detail_result = '';
-
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanupParameters($app, $tainted_parameters);
     $cleaned_parameters['id'] = '18-3110-AS';
@@ -26,28 +23,24 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
 
     try {
         $messagedetails_model->sendMessage($message_body);
-        $message_detail_result = $messagedetails_model->getResult();
+        $message_detail_result = 'Message sent successfully';
         //$app->redirect('/homepage');
     }
     catch (Exception $error){
         $message_detail_result = $error->getMessage();
-        //var_dump($error);
     }
 
     $html_output = $this->view->render($response,
-        'sendMessageForm.html.twig',
+        'sendMessageResult.html.twig',
         [
             'css_path' => CSS_PATH,
             'js_path' => JS_PATH,
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
-            'method' => 'post',
-            'action' => 'processSendMessage', //change to to send message action when made
-            'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Send Message',
+            'page_heading_2' => 'Send Message Result',
             'page_text' => 'Send a message to M2M Service', // no longer exists
             'message' => $message_detail_result,
         ]
@@ -121,13 +114,13 @@ function cleanupParameters($app, $tainted_parameters)
         isset($validated_switch_4) &&
         isset($validated_fan))
     {
-        $cleaned_parameters['heater'] = $validated_keypad_code;
-        $cleaned_parameters['keypad'] = $validated_heater_code;
         $cleaned_parameters['switch']['1'] = $validated_switch_1;
         $cleaned_parameters['switch']['2'] = $validated_switch_2;
         $cleaned_parameters['switch']['3'] = $validated_switch_3;
         $cleaned_parameters['switch']['4'] = $validated_switch_4;
         $cleaned_parameters['fan'] = $validated_fan;
+        $cleaned_parameters['heater'] = $validated_keypad_code;
+        $cleaned_parameters['keypad'] = $validated_heater_code;
     }
     return $cleaned_parameters;
 }

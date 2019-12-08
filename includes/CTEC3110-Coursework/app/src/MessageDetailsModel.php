@@ -13,8 +13,6 @@ namespace M2MConnect;
 
 class MessageDetailsModel
 {
-    private $country_code;
-    private $detail;
     private $result;
     private $xml_parser;
     private $soap_wrapper;
@@ -25,8 +23,6 @@ class MessageDetailsModel
     {
         $this->soap_wrapper = null;
         $this->xml_parser = null;
-        $this->country_code = '';
-        $this->detail = '';
         $this->result = '';
         $this->message_database = null;
         $this->database_connection_settings = null;

@@ -12,6 +12,13 @@ body {
     padding-left: 10%;
 }
 
+a {
+    color: #f035a0;
+    text-decoration: underline;
+}
+a:visited {
+    color: #8253f0;
+}
 /***********************************************/
 /* heading styles                              */
 /***********************************************/
