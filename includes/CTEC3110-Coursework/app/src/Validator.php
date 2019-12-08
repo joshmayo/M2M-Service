@@ -14,19 +14,12 @@ class Validator
         $checked_heater_code = false;
         if (isset($heater_code_to_check))
         {
-            if (!empty($heater_code_to_check))
+            if (is_int($heater_code_to_check) && $heater_code_to_check <= 99 && $heater_code_to_check >= 0)
             {
-                if (is_int($heater_code_to_check) && $heater_code_to_check <= 99 && $heater_code_to_check >= 0)
-                {
-                    $checked_heater_code = $heater_code_to_check;
-                }
-                else {
-                    $checked_heater_code = 'invalid code';
-                }
+                $checked_heater_code = $heater_code_to_check;
             }
-            else
-            {
-                $checked_heater_code = 'none selected';
+            else {
+                $checked_heater_code = 'invalid number';
             }
         }
         return $checked_heater_code;
@@ -38,19 +31,12 @@ class Validator
         $checked_keypad_code = false;
         if (isset($keypad_to_check))
         {
-            if (!empty($keypad_to_check))
+            if (is_int($keypad_to_check) && $keypad_to_check <= 9 && $keypad_to_check >= 0)
             {
-                if (is_int($keypad_to_check) && $keypad_to_check <= 9 && $keypad_to_check >= 0)
-                {
-                    $checked_keypad_code = $keypad_to_check;
-                }
-                else {
-                    $checked_keypad_code = 'invalid code';
-                }
+                $checked_keypad_code = $keypad_to_check;
             }
-            else
-            {
-                $checked_keypad_code = 'none selected';
+            else {
+                $checked_keypad_code = 'invalid number';
             }
         }
         return $checked_keypad_code;
@@ -63,6 +49,13 @@ class Validator
         if (is_bool($switch_to_check))
         {
             $checked_switch = $switch_to_check;
+        }
+        elseif ($switch_to_check = 'on')
+        {
+            $checked_switch = true;
+        }
+        else {
+            $checked_switch = 'invalid switch';
         }
 
         return $checked_switch;

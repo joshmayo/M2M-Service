@@ -15,7 +15,6 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
     $message_detail_result = '';
 
     $tainted_parameters = $request->getParsedBody();
-    var_dump($request);
     $cleaned_parameters = cleanupParameters($app, $tainted_parameters);
     $cleaned_parameters['id'] = '18-3110-AS';
 
@@ -65,6 +64,12 @@ function cleanupParameters($app, $tainted_parameters)
     $cleaned_parameters = [];
     $validated_keypad_code = false;
     $validated_heater_code = false;
+    $validated_switch_1 = false;
+    $validated_switch_2 = false;
+    $validated_switch_3 = false;
+    $validated_switch_4 = false;
+    $validated_fan = false;
+
 
     $validator = $app->getContainer()->get('validator');
 
@@ -109,7 +114,13 @@ function cleanupParameters($app, $tainted_parameters)
         $validated_switch_4 = $validator->validateSwitch($tainted_switch);
     }
 
-    if (($validated_keypad_code != false) && ($validated_heater_code != false))
+    if (isset($validated_keypad_code) &&
+        isset($validated_heater_code) &&
+        isset($validated_switch_1) &&
+        isset($validated_switch_2) &&
+        isset($validated_switch_3) &&
+        isset($validated_switch_4) &&
+        isset($validated_fan))
     {
         $cleaned_parameters['heater'] = $validated_keypad_code;
         $cleaned_parameters['keypad'] = $validated_heater_code;
@@ -119,5 +130,6 @@ function cleanupParameters($app, $tainted_parameters)
         $cleaned_parameters['switch']['4'] = $validated_switch_4;
         $cleaned_parameters['fan'] = $validated_fan;
     }
+    var_dump($cleaned_parameters);
     return $cleaned_parameters;
 }
