@@ -16,7 +16,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/analytics', function (Request $request, Response $response) use ($app) {
 
     $html_output = $this->view->render($response,
-        'sendMessageForm.html.twig',
+        'charts.html.twig',
         [
             'css_path' => CSS_PATH,
             'js_path' => JS_PATH,
