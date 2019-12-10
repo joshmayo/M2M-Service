@@ -30,7 +30,6 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message',
             'page_text' => 'Send a message to M2M Service', // no longer exists
-            'message' => '',
         ]
     );
 

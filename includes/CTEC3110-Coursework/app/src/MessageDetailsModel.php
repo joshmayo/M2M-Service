@@ -105,7 +105,7 @@ class MessageDetailsModel
                 'deliveryReport' => true,
                 'mtBearer' => 'SMS',
             ];
-            $webservice_value = 'peekMessagesResponse';
+            $webservice_value = 'sendMessageResponse';
             $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
                 $webservice_call_parameters, $webservice_value);
 

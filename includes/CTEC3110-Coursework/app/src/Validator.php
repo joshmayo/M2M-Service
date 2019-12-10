@@ -69,4 +69,15 @@ class Validator
 
         return $validated_string_data;
     }
+
+    public function validateMessagePayload($message)
+    {
+        if($message)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

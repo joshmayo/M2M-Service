@@ -16,19 +16,7 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
     $cleaned_parameters['id'] = '18-3110-AS';
 
     $message_body = json_encode($cleaned_parameters);
-
-    $soap_wrapper = $app->getContainer()->get('soapWrapper');
-    $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
-    $messagedetails_model->setSoapWrapper($soap_wrapper);
-
-    try {
-        $messagedetails_model->sendMessage($message_body);
-        $message_detail_result = 'Message sent successfully';
-        //$app->redirect('/homepage');
-    }
-    catch (Exception $error){
-        $message_detail_result = $error->getMessage();
-    }
+    $message_detail_result = send($app, $message_body);
 
     $html_output = $this->view->render($response,
         'sendMessageResult.html.twig',
@@ -50,6 +38,22 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
 
     return $processed_output;
 });
+
+function send($app, $payload)
+{
+    $soap_wrapper = $app->getContainer()->get('soapWrapper');
+    $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+    $messagedetails_model->setSoapWrapper($soap_wrapper);
+
+    try {
+        $messagedetails_model->sendMessage($payload);
+        $result = 'Message sent successfully';
+    }
+    catch (Exception $error){
+        $result = $error->getMessage();
+    }
+    return $result;
+}
 
 function cleanupParameters($app, $tainted_parameters)
 {
