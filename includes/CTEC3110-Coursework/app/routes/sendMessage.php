@@ -24,7 +24,7 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
             'method' => 'post',
-            'action' => 'processSendMessage', //change to to send message action when made
+            'action' => 'processSendMessage',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
