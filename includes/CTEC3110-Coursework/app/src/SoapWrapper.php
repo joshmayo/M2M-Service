@@ -49,7 +49,7 @@ class SoapWrapper
                 $soap_call_result = $webservice_call_result;
             } catch (Exception $exception) {
                 //\SoapFault
-                $soap_call_result = $exception;
+                $soap_call_result = $exception->getMessage();
             }
         }
         return $soap_call_result;

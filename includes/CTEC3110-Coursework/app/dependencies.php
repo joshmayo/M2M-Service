@@ -37,6 +37,11 @@ $container['messageDetailsModel'] = function ($container) {
     return $model;
 };
 
+$container['messageDbModel'] = function ($container) {
+    $model = new \M2MConnect\MessageDbModel();
+    return $model;
+};
+
 $container['message'] = function ($container) {
     $model = new \M2MConnect\Message();
     return $model;

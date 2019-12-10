@@ -7,27 +7,36 @@
                 <small class="text-muted">{{ page_heading_1 }}</small>
             </h2>
         </div>
+        <span>{{ message }}</span>
         <table class="table table-sm table-dark">
             <thread>
-                <th scope="col">#</th>
-                <th scope="col">Message</th>
-                <th scope="col">Recieved</th>
+                <th scope="col">Heater</th>
+                <th scope="col">Keypad</th>
+                <th scope="col">Fan</th>
+                <th scope="col">Switch 1</th>
+                <th scope="col">Switch 2</th>
+                <th scope="col">Switch 3</th>
+                <th scope="col">Switch 4</th>
+                <th scope="col">Received time</th>
                 <th scope="col">Source MSISDN</th>
+                <th scope="col">Destination MSISDN</th>
             </thread>
             <tbody>
             {% for message in message_list %}
                 <tr>
-                    <th scope="row">{{ loop.index }}</th>
-                    <td>{{ message.MESSAGE }}</td>
-                    <td>{{ message.RECEIVEDTIME }}</td>
-                    <td>{{ message.SOURCEMSISDN }}</td>
+                    <td>{{ message.heater ~ '°C' }}</td>
+                    <td>{{ message.keypad }}</td>
+                    <td>{{ (message.fan == 1) ? 'Forwards' : 'Backwards' }}</td>
+                    <td>{{ (message.switch_1 == 1) ? 'on' : 'off' }}</td>
+                    <td>{{ (message.switch_2 == 1) ? 'on' : 'off' }}</td>
+                    <td>{{ (message.switch_3 == 1) ? 'on' : 'off' }}</td>
+                    <td>{{ (message.switch_4 == 1) ? 'on' : 'off' }}</td>
+                    <td>{{ message.received_time }}</td>
+                    <td>{{ message.source_msisdn }}</td>
+                    <td>{{ message.destination_msisdn }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <h1 class="display-4">h1</h1>
-        <h2 class="display-4">h2</h2>
-        <h3 class="display-4">h3</h3>
-        <h4 class="display-4">h4</h4>
     </main>
 {% endblock %}

@@ -16,16 +16,12 @@ class MessageDetailsModel
     private $result;
     private $xml_parser;
     private $soap_wrapper;
-    private $message_database;
-    private $database_connection_settings;
 
     public function __construct()
     {
         $this->soap_wrapper = null;
         $this->xml_parser = null;
         $this->result = '';
-        $this->message_database = null;
-        $this->database_connection_settings = null;
     }
 
     public function __destruct()
@@ -35,16 +31,6 @@ class MessageDetailsModel
     public function setSoapWrapper($soap_wrapper)
     {
         $this->soap_wrapper = $soap_wrapper;
-    }
-
-    public function setDatabaseWrapper($db_wrapper)
-    {
-        $this->message_database = $db_wrapper;
-    }
-
-    public function setDatabaseConnectionSettings($database_connection_settings)
-    {
-        $this->database_connection_settings = $database_connection_settings;
     }
 
     public function getResult()
@@ -71,24 +57,6 @@ class MessageDetailsModel
 
             $this->result = $soapcall_result;
         }
-    }
-
-    public function addMessage($message, $database, $settings)
-    {
-        $database->setDatabaseConnectionSettings($settings);
-        $database->makeDatabaseConnection();
-
-        $database->addMessage($message);
-    }
-
-    public function getMessagesFromDatabase($database, $settings)
-    {
-        $database->setDatabaseConnectionSettings($settings);
-        $database->makeDatabaseConnection();
-
-        $messages = $database->getMessages();
-
-        return $messages;
     }
     
     public function sendMessage($message_body)
