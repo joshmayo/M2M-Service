@@ -18,8 +18,8 @@ $css_path = $url_root . '/css/standard.css';
 define('CSS_PATH', $css_path);
 define('APP_NAME', 'CTEC3110-Coursework');
 define('LANDING_PAGE', $_SERVER['SCRIPT_NAME']);
-define('M2M_USER', '19_SophieHughes');
-define('M2M_PASS', 'P161776552019php');
+define('M2M_USER', '19_KieranMcCrory');
+define('M2M_PASS', 'Kmccrory2019');
 define('MSISDN', '7817814149');
 define('COUNTRY_CODE', '44');
 

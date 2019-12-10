@@ -158,11 +158,11 @@ class DatabaseWrapper
 
         $query_string = 'CALL AddMessage('.$message->getSourceMsisdn().','
             .$message->getDestinationMsisn().','
-            .$message->getSwitch1().','
-            .$message->getSwitch2().','
-            .$message->getSwitch3().','
-            .$message->getSwitch4().','
-            .$message->getFan().','
+            .$message->getSwitch1() . ','
+            .$message->getSwitch2() . ','
+            .$message->getSwitch3() . ','
+            .$message->getSwitch4() . ','
+            .$message->getFan() . ','
             .$message->getHeater().','
             .$message->getKeypad().',\''
             .$dateToBeInserted.'\')';

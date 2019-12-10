@@ -19,8 +19,6 @@ class Message
     private $heater;
     private $keypad;
     private $received_time;
-    private $message_database;
-    private $database_connection_settings;
 
     public function __construct($source_msisdn = "", $destination_msisdn = "", $switch_1 = null, $switch_2 = null, $switch_3 = null, $switch_4 = null, $fan = null, $heater = 0, $keypad = 0, $received_time = null)
     {
@@ -34,8 +32,6 @@ class Message
         $this->heater = $heater;
         $this->keypad = $keypad;
         $this->received_time = $received_time;
-        $this->message_database = null;
-        $this->database_connection_settings = null;
     }
 
     public function __destruct()
