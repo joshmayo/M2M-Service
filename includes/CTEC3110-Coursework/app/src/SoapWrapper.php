@@ -47,8 +47,9 @@ class SoapWrapper
 
                 $webservice_call_result = $soap_client->__soapCall($webservice_function, $webservice_call_parameters);
                 $soap_call_result = $webservice_call_result;
-            } catch (\SoapFault $exception) {
-                $soap_call_result = $exception;
+            } catch (Exception $exception) {
+                //\SoapFault
+                $soap_call_result = $exception->getMessage();
             }
         }
         return $soap_call_result;

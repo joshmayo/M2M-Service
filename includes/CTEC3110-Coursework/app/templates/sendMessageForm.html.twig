@@ -7,8 +7,78 @@
                 <small class="text-muted">{{ page_heading_1 }}</small>
             </h2>
         </div>
-        <div>
-
+        <div class="form-container">
+            <form action="{{ action }}" method="{{ method }}">
+                <div class="rows">
+                    <div class="center-text inline-block">
+                        <div class="wrapper">
+                            <div class="column">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <span class="secondary-color block">Switch 1</span>
+                                        <label class="switch-lb-left" for="switch1">Off</label>
+                                        <input name="switch1" type="checkbox" class="custom-control-input" id="switch1">
+                                        <label class="custom-control-label" for="switch1">On</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <span class="secondary-color block">Switch 3</span>
+                                        <label class="switch-lb-left" for="switch3">Off</label>
+                                        <input name="switch3" type="checkbox" class="custom-control-input" id="switch3">
+                                        <label class="custom-control-label" for="switch3">On</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <span class="secondary-color block">Switch 2</span>
+                                        <label class="switch-lb-left" for="switch2">Off</label>
+                                        <input name="switch2" type="checkbox" class="custom-control-input" id="switch2">
+                                        <label class="custom-control-label" for="switch2">On</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <span class="secondary-color block">Switch 4</span>
+                                        <label class="switch-lb-left" for="switch4">Off</label>
+                                        <input name="switch4" type="checkbox" class="custom-control-input" id="switch4">
+                                        <label class="custom-control-label" for="switch4">On</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group inline-block">
+                            <div class="custom-control custom-switch">
+                                <span class="secondary-color block">Fan Control</span>
+                                <label class="switch-lb-left" for="fan">Backwards</label>
+                                <input name="fan" type="checkbox" class="custom-control-input" id="fan">
+                                <label class="custom-control-label" for="fan">Forwards</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="secondary-color" for="heater">Heater</label>
+                            <input name="heater" type="number" min="0" max="99" value="0" class="form-control"
+                                   id="heater"
+                                   aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">Enter heater value here</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="secondary-color" for="keypad">Keypad</label>
+                            <input name="keypad" type="number" min="0" max="9" value="0" class="form-control"
+                                   id="keypad"
+                                   aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">Enter keypad value here</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="sendMessage-btn-container">
+                    <button type="submit" class="btn btn-primary primary-color button" id="sendMessage-btn">Send</button>
+                </div>
+            </form>
         </div>
     </main>
 {% endblock %}
