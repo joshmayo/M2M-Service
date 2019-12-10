@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS coursework_db COLLATE utf8_unicode_ci;
 --
 -- Create the user account
 --
-GRANT SELECT, INSERT ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY 'coursework_user_pass';
+GRANT EXECUTE ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY 'coursework_user_pass';
 
 USE coursework_db;
 
@@ -68,7 +68,7 @@ DELIMITER $$
 CREATE PROCEDURE GetMessages()
 BEGIN
     SELECT 
-        md.metadata_id,
+    md.metadata_id,
 		message_content_id,
 		source_msisdn,
 		destination_msisdn,
@@ -82,7 +82,7 @@ BEGIN
 		keypad
     FROM
         message_metadata md
-	inner join message_content c on md.metadata_id = c.metadata_id
+	join message_content c on md.metadata_id = c.metadata_id
     ORDER BY received_time;    
 END$$
 DELIMITER ;
@@ -103,47 +103,57 @@ CREATE PROCEDURE AddMessage(
 	IN received_time_to_add datetime
 )
 BEGIN
-	SELECT @existing_metadata;
-	
-	SELECT DISTINCT metadata_id 
-	FROM message_metadata
-	WHERE source_msisdn = source_msisdn_to_add 
-	and destination_msisdn = destination_msisdn_to_add
-	INTO @existing_metadata;
-	
-	IF @existing_metadata is null THEN 
-	
-		INSERT INTO message_metadata (source_msisdn, destination_msisdn)
-		VALUES (source_msisdn_to_add, destination_msisdn_to_add);
-		SELECT LAST_INSERT_ID() INTO @existing_metadata;
-		
-	END IF	;
-		
-	INSERT INTO message_content
-	(
-		metadata_id,
-		switch_1,
-		switch_2,
-		switch_3,
-		switch_4,
-		fan,
-		heater,
-		keypad,
-		received_time
-	)
-	VALUES
-	(
-		@existing_metadata,
-		switch_1_to_add,
-		switch_2_to_add,
-		switch_3_to_add,
-		switch_4_to_add,
-		fan_to_add,
-		heater_to_add,
-		keypad_to_add,
-		received_time_to_add
-	);
-	
+  SELECT @existing_time;
+
+	SELECT received_time
+	FROM message_content
+	WHERE received_time = received_time_to_add
+	INTO @existing_time;
+
+	IF @existing_time IS NULL THEN
+
+    SELECT @existing_metadata;
+
+    SELECT DISTINCT metadata_id
+    FROM message_metadata
+    WHERE source_msisdn = source_msisdn_to_add
+    and destination_msisdn = destination_msisdn_to_add
+    INTO @existing_metadata;
+
+    IF @existing_metadata IS null THEN
+
+      INSERT INTO message_metadata (source_msisdn, destination_msisdn)
+      VALUES (source_msisdn_to_add, destination_msisdn_to_add);
+      SELECT LAST_INSERT_ID() INTO @existing_metadata;
+
+    END IF	;
+
+    INSERT INTO message_content
+    (
+      metadata_id,
+      switch_1,
+      switch_2,
+      switch_3,
+      switch_4,
+      fan,
+      heater,
+      keypad,
+      received_time
+    )
+    VALUES
+    (
+      @existing_metadata,
+      switch_1_to_add,
+      switch_2_to_add,
+      switch_3_to_add,
+      switch_4_to_add,
+      fan_to_add,
+      heater_to_add,
+      keypad_to_add,
+      received_time_to_add
+    );
+	END IF ;
+
 END$$
 DELIMITER ;
 

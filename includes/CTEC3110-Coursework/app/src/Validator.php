@@ -8,45 +8,53 @@ class Validator
 
     public function __destruct() { }
 
-    public function validateCountryCode($country_code_to_check)
+    public function validateHeaterCode($heater_code_to_check)
     {
-        $checked_country = false;
-        if (isset($country_code_to_check))
+        $checked_heater_code = false;
+        if (isset($heater_code_to_check))
         {
-            if (!empty($country_code_to_check))
+            if (is_numeric($heater_code_to_check) && $heater_code_to_check <= 99 && $heater_code_to_check >= 0)
             {
-                if (strlen($country_code_to_check) == 2)
-                {
-                    $checked_country = $country_code_to_check;
-                }
+                $checked_heater_code = (int)$heater_code_to_check;
             }
-            else
-            {
-                $checked_country = 'none selected';
+            else {
+                $checked_heater_code = 'invalid number';
             }
         }
-        return $checked_country;
+        return $checked_heater_code;
     }
 
-    public function validateDetailType($type_to_check)
+    public function validateKeypadCode($keypad_to_check)
     {
-        $checked_detail_type = false;
-        $detail_types = DETAIL_TYPES;
-
-        if (in_array($type_to_check, $detail_types) === true)
+        $checked_keypad_code = false;
+        if (isset($keypad_to_check))
         {
-            $checked_detail_type = $type_to_check;
+            if (is_numeric($keypad_to_check) && $keypad_to_check <= 9 && $keypad_to_check >= 0)
+            {
+                $checked_keypad_code = (int)$keypad_to_check;
+            }
+            else {
+                $checked_keypad_code = 'invalid number';
+            }
+        }
+        return $checked_keypad_code;
+    }
+
+    public function validateSwitch($switch_to_check)
+    {
+        if (is_bool($switch_to_check))
+        {
+            $checked_switch = $switch_to_check;
+        }
+        elseif ($switch_to_check == 'on')
+        {
+            $checked_switch = true;
+        }
+        else {
+            $checked_switch = 'invalid switch';
         }
 
-        return $checked_detail_type;
+        return $checked_switch;
     }
 
-    public function validateDownloadedData($tainted_data)
-    {
-        $validated_string_data = '';
-
-        $validated_string_data = filter_var($tainted_data, FILTER_SANITIZE_STRING);
-
-        return $validated_string_data;
-    }
 }
