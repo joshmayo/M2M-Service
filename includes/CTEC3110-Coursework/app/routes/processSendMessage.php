@@ -13,10 +13,16 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
 
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanupParameters($app, $tainted_parameters);
-    $cleaned_parameters['id'] = '18-3110-AS';
 
-    $message_body = json_encode($cleaned_parameters);
-    $message_detail_result = send($app, $message_body);
+    if($cleaned_parameters != false)
+    {
+        $cleaned_parameters['id'] = '18-3110-AS';
+        $message_body = json_encode($cleaned_parameters);
+        $message_detail_result = send($app, $message_body);
+    }
+    else{
+        $message_detail_result = 'Please submit valid commands only';
+    }
 
     $html_output = $this->view->render($response,
         'sendMessageResult.html.twig',
@@ -110,13 +116,13 @@ function cleanupParameters($app, $tainted_parameters)
         $validated_switch_4 = $validator->validateSwitch($tainted_switch);
     }
 
-    if (isset($validated_keypad_code) &&
-        isset($validated_heater_code) &&
-        isset($validated_switch_1) &&
-        isset($validated_switch_2) &&
-        isset($validated_switch_3) &&
-        isset($validated_switch_4) &&
-        isset($validated_fan))
+    if (is_int($validated_keypad_code) &&
+        is_int($validated_heater_code) &&
+        is_bool($validated_switch_1) &&
+        is_bool($validated_switch_2) &&
+        is_bool($validated_switch_3) &&
+        is_bool($validated_switch_4) &&
+        is_bool($validated_fan))
     {
         $cleaned_parameters['switch']['1'] = $validated_switch_1;
         $cleaned_parameters['switch']['2'] = $validated_switch_2;
@@ -125,6 +131,9 @@ function cleanupParameters($app, $tainted_parameters)
         $cleaned_parameters['fan'] = $validated_fan;
         $cleaned_parameters['heater'] = $validated_keypad_code;
         $cleaned_parameters['keypad'] = $validated_heater_code;
+    }
+    else{
+        return false;
     }
     return $cleaned_parameters;
 }
