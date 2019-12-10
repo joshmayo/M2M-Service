@@ -70,11 +70,11 @@ function getMessages($app)
             $message = new \M2MConnect\Message(
                 $parsed_xml['SOURCEMSISDN'],
                 $parsed_xml['DESTINATIONMSISDN'],
-                $parsed_json['switch']['1'],
-                $parsed_json['switch']['2'],
-                $parsed_json['switch']['3'],
-                $parsed_json['switch']['4'],
-                $parsed_json['fan'],
+                $parsed_json['switch']['1'] == '' ? 0 : 1,
+                $parsed_json['switch']['2'] == '' ? 0 : 1,
+                $parsed_json['switch']['3'] == '' ? 0 : 1,
+                $parsed_json['switch']['4'] == '' ? 0 : 1,
+                $parsed_json['fan'] == '' ? 0 : 1,
                 $parsed_json['heater'],
                 $parsed_json['keypad'],
                 $parsed_xml['RECEIVEDTIME']
