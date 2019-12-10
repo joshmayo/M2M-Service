@@ -15,7 +15,10 @@ define('DIRSEP', DIRECTORY_SEPARATOR);
 $url_root = $_SERVER['SCRIPT_NAME'];
 $url_root = implode('/', explode('/', $url_root, -1));
 $css_path = $url_root . '/css/standard.css';
+$js_path = $url_root . '/js/index.js';
+
 define('CSS_PATH', $css_path);
+define('JS_PATH', $js_path);
 define('APP_NAME', 'CTEC3110-Coursework');
 define('LANDING_PAGE', $_SERVER['SCRIPT_NAME']);
 define('M2M_USER', '19_KieranMcCrory');

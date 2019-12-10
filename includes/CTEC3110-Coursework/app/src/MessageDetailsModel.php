@@ -13,8 +13,6 @@ namespace M2MConnect;
 
 class MessageDetailsModel
 {
-    private $country_code;
-    private $detail;
     private $result;
     private $xml_parser;
     private $soap_wrapper;
@@ -25,8 +23,6 @@ class MessageDetailsModel
     {
         $this->soap_wrapper = null;
         $this->xml_parser = null;
-        $this->country_code = '';
-        $this->detail = '';
         $this->result = '';
         $this->message_database = null;
         $this->database_connection_settings = null;
@@ -93,5 +89,27 @@ class MessageDetailsModel
         $messages = $database->getMessages();
 
         return $messages;
+    }
+    
+    public function sendMessage($message_body)
+    {
+        $soap_client_handle = $this->soap_wrapper->createSoapClient();
+        if($soap_client_handle !== false) {
+
+            $webservice_function = 'sendMessage';
+            $webservice_call_parameters = [
+                'username' => M2M_USER,
+                'password' => M2M_PASS,
+                'deviceMsisdn' => COUNTRY_CODE . MSISDN,
+                'message' => $message_body,
+                'deliveryReport' => true,
+                'mtBearer' => 'SMS',
+            ];
+            $webservice_value = 'sendMessageResponse';
+            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
+                $webservice_call_parameters, $webservice_value);
+
+            $this->result = $soapcall_result;
+        }
     }
 }

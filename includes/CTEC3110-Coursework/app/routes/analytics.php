@@ -19,6 +19,7 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
         'sendMessageForm.html.twig',
         [
             'css_path' => CSS_PATH,
+            'js_path' => JS_PATH,
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
