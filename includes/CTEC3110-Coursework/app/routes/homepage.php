@@ -106,14 +106,12 @@ function getMessages($app)
 
 function returnMessages($app)
 {
-
-    $messageDb_model = $app->getContainer()->get('messageDbModel');
     $database = $app->getContainer()->get('databaseWrapper');
     $db_conf = $app->getContainer()->get('settings');
-    $settings = $db_conf['pdo_settings'];
+    $database->setDatabaseConnectionSettings( $db_conf['pdo_settings']);
 
     try {
-        $message_list = $messageDb_model->getMessagesFromDatabase($database, $settings);
+        $message_list = $database->getMessages();
     }
     catch (Exception $error) {
         return $error->getMessage();

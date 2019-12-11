@@ -149,6 +149,7 @@ class DatabaseWrapper
 
     public function getMessages()
     {
+        $this->makeDatabaseConnection();
         $messages = [];
         $query_string = 'CALL GetMessages()';
 
