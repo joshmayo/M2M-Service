@@ -4,10 +4,10 @@ require 'vendor/autoload.php';
 
 $settings = require __DIR__ . '/app/settings.php';
 
-if (function_exists('xdebug_start_trace'))
-{
-  xdebug_start_trace();
-}
+//if (function_exists('xdebug_start_trace'))
+//{
+//  xdebug_start_trace();
+//}
 
 $container = new \Slim\Container($settings);
 
@@ -19,7 +19,11 @@ require __DIR__ . '/app/routes.php';
 
 $app->run();
 
-if (function_exists('xdebug_stop_trace'))
-{
-  xdebug_stop_trace();
-}
+//if (function_exists('xdebug_stop_trace'))
+//{
+//  xdebug_stop_trace();
+//}
+
+
+
+// MUST UNCOMMENT THE ABOVE TO ADD XDEBUG BACK IN

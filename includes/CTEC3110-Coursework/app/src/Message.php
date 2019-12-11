@@ -2,6 +2,7 @@
 /**
  * class Message
  *
+ * An object to represent the messages that are sent and retrieved by the application.
  */
 
 namespace M2MConnect;
