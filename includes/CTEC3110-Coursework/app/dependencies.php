@@ -47,8 +47,8 @@ $container['message'] = function ($container) {
     return $model;
 };
 
-$container['processOutput'] = function ($container) {
-    $model = new \M2MConnect\ProcessOutput();
+$container['processMessage'] = function ($container) {
+    $model = new \M2MConnect\ProcessMessage();
     return $model;
 };
 

@@ -33,8 +33,6 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
         ]
     );
 
-    $processed_output = processOutput($app, $html_output);
-
-    return $processed_output;
+    return $html_output;
 
 })->setName('sendMessage');
