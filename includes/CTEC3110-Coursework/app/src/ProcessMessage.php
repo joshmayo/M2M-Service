@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 11/12/2019
- * Time: 12:19
+ * ProcessMessage.php
+ *
+ * Business logic class for handling the messages.
  */
 
 namespace M2MConnect;
