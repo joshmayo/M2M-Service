@@ -14,3 +14,4 @@ require 'routes/homepage.php';
 require 'routes/sendMessage.php';
 require 'routes/analytics.php';
 require 'routes/processSendMessage.php';
+require 'routes/updateMessageTable.php';
