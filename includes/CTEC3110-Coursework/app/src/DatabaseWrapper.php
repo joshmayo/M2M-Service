@@ -40,11 +40,7 @@ class DatabaseWrapper
     public function __destruct()
     {
     }
-
-    public function setLogger()
-    {
-    }
-
+    
     public function setDatabaseConnectionSettings($database_connection_settings)
     {
         $this->database_connection_settings = $database_connection_settings;

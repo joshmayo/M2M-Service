@@ -305,3 +305,6 @@ BEGIN
 	WHERE user_id = user_id_to_update;
 END$$
 DELIMITER ;
+
+
+DROP TABLE IF EXISTS `error_log`;
