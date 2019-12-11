@@ -22,11 +22,13 @@ class MessageAnalyticsModel
         $this->output_chart_path_and_name = '';
 
         $this->log = new Logger('logger');
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics.log',Logger::INFO));
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics_error.log',Logger::ERROR));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics.log', Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics_error.log', Logger::ERROR));
     }
 
-    public function __destruct() {}
+    public function __destruct()
+    {
+    }
 
     public function setStoredMessageData(array $stored_message_data)
     {
@@ -53,8 +55,7 @@ class MessageAnalyticsModel
         $this->output_chart_path_and_name = LIB_CHART_FILE_PATH . $output_chart_location . $output_chart_name;
 
 
-        if (!is_dir($output_chart_location))
-        {
+        if (!is_dir($output_chart_location)) {
             mkdir($output_chart_location, 0755, true);
         }
     }
@@ -65,24 +66,22 @@ class MessageAnalyticsModel
 
         $series_data = $this->stored_message_data;
 
-        $this->log->info('Stored message data: ' . explode($series_data));
+        $chart = new \LineChart(1000, 500);
 
-        $this->log->info(explode($this->stored_message_data));
+        $chart->getPlot()->getPalette()->setLineColor(array(new \Color(240, 53, 160), new \Color(178, 69, 240)));
+        //$chart->getPlot()->getPalette()->setAxisColor(array(new \Color(255, 255, 255)));
+        //$chart->getPlot()->getPalette()->setBackgroundColor(array(new \Color(23, 28, 37)));
 
-        $chart = new \LineChart();
-
-        $chart->getPlot()->getPalette()->setLineColor(array(new \Color(255, 130, 0), new \Color(255, 255, 255)));
         $series1 = new \XYDataSet();
-        foreach ($series_data as $data_row)
-        {
-            $index = $data_row['date'];
-            $datum = $data_row['temperature'];
+        foreach ($series_data as $data_row) {
+            $index = $data_row['received_time'];
+            $datum = $data_row['heater'];
             $series1->addPoint(new \Point($index, $datum));
         }
 
         $dataSet = new \XYSeriesDataSet();
 
-        $chart->setDataSet($dataSet);
+        $chart->setDataSet($series1);
 
         $chart->setTitle('Temperature Over Time');
         $chart->getPlot()->setGraphCaptionRatio(0.75);

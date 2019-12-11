@@ -13,9 +13,13 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 $app->get('/analytics', function (Request $request, Response $response) use ($app) {
 
     $process_message = $app->getContainer()->get('processMessage');
+    $process_message->getMessages($app);
     $message_list = $process_message->returnMessages($app);
 
     $chart_location = createChart($app, $message_list);
