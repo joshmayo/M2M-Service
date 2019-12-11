@@ -33,13 +33,17 @@ class DatabaseWrapper
         $this->errors = [];
 
         $this->log = new Logger('logger');
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database.log',Logger::INFO));
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database_error.log',Logger::ERROR));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database.log', Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database_error.log', Logger::ERROR));
     }
 
-    public function __destruct() { }
+    public function __destruct()
+    {
+    }
 
-    public function setLogger(){ }
+    public function setLogger()
+    {
+    }
 
     public function setDatabaseConnectionSettings($database_connection_settings)
     {
@@ -59,14 +63,11 @@ class DatabaseWrapper
         $user_password = $database_settings['user_password'];
         $pdo_attributes = $database_settings['options'];
 
-        try
-        {
+        try {
             $this->log->info('Attempting to connect to database.');
             $pdo_handle = new \PDO($host_details, $user_name, $user_password, $pdo_attributes);
             $this->db_handle = $pdo_handle;
-        }
-        catch (\PDOException $exception_object)
-        {
+        } catch (\PDOException $exception_object) {
             trigger_error('error connecting to database');
             $this->log->error('Error occurred when attempting to connect to database.');
             $pdo_error = 'error connecting to database';
@@ -89,16 +90,13 @@ class DatabaseWrapper
         $this->errors['db_error'] = false;
         $query_parameters = $params;
 
-        try
-        {
+        try {
             $this->log->info('Attempting to execute query: ' . $query_string . $query_parameters);
             $this->prepared_statement = $this->db_handle->prepare($query_string);
             $execute_result = $this->prepared_statement->execute($query_parameters);
             $this->errors['execute-OK'] = $execute_result;
-        }
-        catch (PDOException $exception_object)
-        {
-            $error_message  = 'PDO Exception caught. ';
+        } catch (PDOException $exception_object) {
+            $error_message = 'PDO Exception caught. ';
             $error_message .= 'Error with the database access.' . "\n";
             $error_message .= 'SQL query: ' . $query_string . "\n";
             $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(), true) . "\n";
@@ -140,8 +138,7 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string, $query_parameters);
 
-        if ($this->countRows() > 0)
-        {
+        if ($this->countRows() > 0) {
             $metadata = $this->safeFetchRow();
         }
         return $metadata;
@@ -155,8 +152,7 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string);
 
-        if ($this->countRows() > 0)
-        {
+        if ($this->countRows() > 0) {
             $messages = $this->safeFetchArray();
         }
 
@@ -169,16 +165,16 @@ class DatabaseWrapper
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
 
-        $query_string = 'CALL AddMessage('.$message->getSourceMsisdn().','
-            .$message->getDestinationMsisn().','
-            .$message->getSwitch1() . ','
-            .$message->getSwitch2() . ','
-            .$message->getSwitch3() . ','
-            .$message->getSwitch4() . ','
-            .$message->getFan() . ','
-            .$message->getHeater().','
-            .$message->getKeypad().',\''
-            .$dateToBeInserted.'\')';
+        $query_string = 'CALL AddMessage(' . $message->getSourceMsisdn() . ','
+            . $message->getDestinationMsisn() . ','
+            . $message->getSwitch1() . ','
+            . $message->getSwitch2() . ','
+            . $message->getSwitch3() . ','
+            . $message->getSwitch4() . ','
+            . $message->getFan() . ','
+            . $message->getHeater() . ','
+            . $message->getKeypad() . ',\''
+            . $dateToBeInserted . '\')';
 
         $this->safeQuery($query_string);
     }
@@ -232,20 +228,19 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
-    public function unsetSessionVar($session_key){}
+    public function unsetSessionVar($session_key)
+    {
+    }
 
     public function setSessionVar($session_key, $session_value)
     {
-        if ($this->getSessionVar($session_key) === true)
-        {
+        if ($this->getSessionVar($session_key) === true) {
             $this->storeSessionVar($session_key, $session_value);
-        }
-        else
-        {
+        } else {
             $this->createSessionVar($session_key, $session_value);
         }
 
-        return($this->errors);
+        return ($this->errors);
     }
 
     public function getSessionVar($session_key)
@@ -260,8 +255,7 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string, $query_parameters);
 
-        if ($this->countRows() > 0)
-        {
+        if ($this->countRows() > 0) {
             $session_var_exists = true;
         }
         return $session_var_exists;
