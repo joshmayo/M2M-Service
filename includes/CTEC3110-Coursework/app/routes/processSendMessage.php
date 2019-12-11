@@ -129,8 +129,8 @@ function cleanupParameters($app, $tainted_parameters)
         $cleaned_parameters['switch']['3'] = $validated_switch_3;
         $cleaned_parameters['switch']['4'] = $validated_switch_4;
         $cleaned_parameters['fan'] = $validated_fan;
-        $cleaned_parameters['heater'] = $validated_keypad_code;
-        $cleaned_parameters['keypad'] = $validated_heater_code;
+        $cleaned_parameters['heater'] = $validated_heater_code;
+        $cleaned_parameters['keypad'] = $validated_keypad_code;
     }
     else{
         return false;
