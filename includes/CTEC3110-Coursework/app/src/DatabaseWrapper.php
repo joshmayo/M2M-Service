@@ -3,7 +3,7 @@
 /**
  * DatabaseWrapper.php
  *
- * Access the database
+ * Wrapper class for accessing the database.
  *
  * Date: 02/12/2019
  */
@@ -12,6 +12,8 @@ namespace M2MConnect;
 
 use PDO;
 use DateTime;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class DatabaseWrapper
 {
@@ -20,6 +22,7 @@ class DatabaseWrapper
     private $sql_queries;
     private $prepared_statement;
     private $errors;
+    private $log;
 
     public function __construct()
     {
@@ -28,6 +31,10 @@ class DatabaseWrapper
         $this->sql_queries = null;
         $this->prepared_statement = null;
         $this->errors = [];
+
+        $this->log = new Logger('logger');
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database.log',Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'database_error.log',Logger::ERROR));
     }
 
     public function __destruct() { }
@@ -41,7 +48,6 @@ class DatabaseWrapper
 
     public function makeDatabaseConnection()
     {
-        $pdo = false;
         $pdo_error = '';
 
         $database_settings = $this->database_connection_settings;
@@ -55,12 +61,14 @@ class DatabaseWrapper
 
         try
         {
+            $this->log->info('Attempting to connect to database.');
             $pdo_handle = new \PDO($host_details, $user_name, $user_password, $pdo_attributes);
             $this->db_handle = $pdo_handle;
         }
         catch (\PDOException $exception_object)
         {
             trigger_error('error connecting to database');
+            $this->log->error('Error occurred when attempting to connect to database.');
             $pdo_error = 'error connecting to database';
         }
 
@@ -83,6 +91,7 @@ class DatabaseWrapper
 
         try
         {
+            $this->log->info('Attempting to execute query: ' . $query_string . $query_parameters);
             $this->prepared_statement = $this->db_handle->prepare($query_string);
             $execute_result = $this->prepared_statement->execute($query_parameters);
             $this->errors['execute-OK'] = $execute_result;
@@ -93,6 +102,8 @@ class DatabaseWrapper
             $error_message .= 'Error with the database access.' . "\n";
             $error_message .= 'SQL query: ' . $query_string . "\n";
             $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(), true) . "\n";
+
+            $this->log->error('Error occurred when attempting to execute query: ' . $query_string . $query_parameters);
 
             $this->errors['db_error'] = true;
             $this->errors['sql_error'] = $error_message;
@@ -138,6 +149,7 @@ class DatabaseWrapper
 
     public function getMessages()
     {
+        $this->makeDatabaseConnection();
         $messages = [];
         $query_string = 'CALL GetMessages()';
 
@@ -153,6 +165,7 @@ class DatabaseWrapper
 
     public function addMessage(Message $message)
     {
+        $this->makeDatabaseConnection();
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
 

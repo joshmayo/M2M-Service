@@ -16,6 +16,7 @@ $url_root = $_SERVER['SCRIPT_NAME'];
 $url_root = implode('/', explode('/', $url_root, -1));
 $css_path = $url_root . '/css/standard.css';
 $js_path = $url_root . '/js/index.js';
+$logs_file_path = '/p3t/phpappfolder/logs/';
 
 define('CSS_PATH', $css_path);
 define('JS_PATH', $js_path);
@@ -25,6 +26,7 @@ define('M2M_USER', '19_KieranMcCrory');
 define('M2M_PASS', 'Kmccrory2019');
 define('MSISDN', '7817814149');
 define('COUNTRY_CODE', '44');
+define('LOGS_PATH', $logs_file_path);
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);

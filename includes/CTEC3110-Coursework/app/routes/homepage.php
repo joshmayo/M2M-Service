@@ -65,7 +65,6 @@ function getMessages($app)
     if(is_array($message_detail_result)) {
 
         $xml_parser = $app->getContainer()->get('xmlParser');
-        $messageDb_model = $app->getContainer()->get('messageDbModel');
         foreach ($message_detail_result as $key => $message_xml) {
             if (strpos($message_xml, '18-3110-AS') !== false && strpos($message_xml, 'invalid code') == false) {
                 $xml_parser->setXmlStringToParse($message_xml);
@@ -88,12 +87,11 @@ function getMessages($app)
 
                 $database = $app->getContainer()->get('databaseWrapper');
                 $db_conf = $app->getContainer()->get('settings');
-                $settings = $db_conf['pdo_settings'];
+                $database->setDatabaseConnectionSettings( $db_conf['pdo_settings']);
 
                 try {
-                    $messageDb_model->addMessage($message, $database, $settings);
-                }
-                catch (Exception $error) {
+                    $database->addMessage($message);
+                } catch (Exception $error) {
                     return $error->getMessage();
                 }
             }
@@ -108,14 +106,12 @@ function getMessages($app)
 
 function returnMessages($app)
 {
-
-    $messageDb_model = $app->getContainer()->get('messageDbModel');
     $database = $app->getContainer()->get('databaseWrapper');
     $db_conf = $app->getContainer()->get('settings');
-    $settings = $db_conf['pdo_settings'];
+    $database->setDatabaseConnectionSettings( $db_conf['pdo_settings']);
 
     try {
-        $message_list = $messageDb_model->getMessagesFromDatabase($database, $settings);
+        $message_list = $database->getMessages();
     }
     catch (Exception $error) {
         return $error->getMessage();
