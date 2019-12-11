@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 10/12/2019
- * Time: 15:31
+ * MessageDbModel.php
+ *
+ * Class for
  */
 
 namespace M2MConnect;

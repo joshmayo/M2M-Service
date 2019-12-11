@@ -1,27 +1,33 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: P16190097
- * Date: 10/11/19
- * Time: 10:05
+ * MessageDetailsModel.php
  *
- *  class for retreiving messages from the M2M service via SOAP
+ * Class for sending and retrieving messages from the M2M service via SOAP calls.
+ *
  * todo: add error handling to soap call
  */
 
 namespace M2MConnect;
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class MessageDetailsModel
 {
     private $result;
     private $xml_parser;
     private $soap_wrapper;
+    private $log;
 
     public function __construct()
     {
         $this->soap_wrapper = null;
         $this->xml_parser = null;
         $this->result = '';
+
+        $this->log = new Logger('logger');
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap.log',Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap_error.log',Logger::ERROR));
     }
 
     public function __destruct()
@@ -40,6 +46,8 @@ class MessageDetailsModel
 
     public function retrieveMessages()
     {
+        $this->log->info('Attempting to retrieve messages from API.');
+
         $soap_client_handle = $this->soap_wrapper->createSoapClient();
 
         if ($soap_client_handle !== false) {
@@ -51,6 +59,7 @@ class MessageDetailsModel
                 'deviceMsisdn' => '',
                 'countryCode' => '44'
             ];
+
             $webservice_value = 'peekMessagesResponse';
             $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
                 $webservice_call_parameters, $webservice_value);
@@ -61,7 +70,10 @@ class MessageDetailsModel
     
     public function sendMessage($message_body)
     {
+        $this->log->info('Attempting to send message to API: ' . $message_body);
+
         $soap_client_handle = $this->soap_wrapper->createSoapClient();
+
         if($soap_client_handle !== false) {
 
             $webservice_function = 'sendMessage';
@@ -74,6 +86,7 @@ class MessageDetailsModel
                 'mtBearer' => 'SMS',
             ];
             $webservice_value = 'sendMessageResponse';
+
             $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
                 $webservice_call_parameters, $webservice_value);
 
