@@ -18,6 +18,10 @@ $css_path = $url_root . '/css/standard.css';
 $js_path = $url_root . '/js/index.js';
 $logs_file_path = '/p3t/phpappfolder/logs/';
 
+$script_filename = $_SERVER["SCRIPT_FILENAME"];
+$arr_script_filename = explode('/' , $script_filename, '-1');
+$script_path = implode('/', $arr_script_filename) . '/';
+
 define('CSS_PATH', $css_path);
 define('JS_PATH', $js_path);
 define('APP_NAME', 'CTEC3110-Coursework');
@@ -27,6 +31,9 @@ define('M2M_PASS', 'Kmccrory2019');
 define('MSISDN', '7817814149');
 define('COUNTRY_CODE', '44');
 define('LOGS_PATH', $logs_file_path);
+define ('LIB_CHART_OUTPUT_PATH', 'media/charts/');
+define ('LIB_CHART_FILE_PATH', $script_path);
+define ('LIB_CHART_CLASS_PATH', 'libchart/classes/');
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);

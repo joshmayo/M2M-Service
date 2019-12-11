@@ -15,6 +15,11 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/analytics', function (Request $request, Response $response) use ($app) {
 
+    $process_message = $app->getContainer()->get('processMessage');
+    $message_list = $process_message->returnMessages($app);
+
+    $chart_location = createChart($app, $message_list);
+
     $html_output = $this->view->render($response,
         'charts.html.twig',
         [
@@ -28,9 +33,23 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
             'page_text' => 'M2M message Analytics', // no longer exists
+            'chart_location' => '../' . $chart_location
         ]
     );
 
     return $html_output;
 
 })->setName('analytics');
+
+function createChart($app, array $message_data)
+{
+    require_once 'libchart/classes/libchart.php';
+
+    $messageChartModel = $app->getContainer()->get('messageAnalytics');
+
+    $messageChartModel->setStoredMessageData($message_data);
+    $messageChartModel->createLineChart();
+    $chart_details = $messageChartModel->getLineChartDetails();
+
+    return $chart_details;
+}
