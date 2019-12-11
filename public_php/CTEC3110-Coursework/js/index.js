@@ -12,12 +12,12 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data)
             {
-                console.log("it Work");
+                console.log("Success: GET successful");
                 console.log(data);
                 insertData(data);
             },
             error: function () {
-              console.log("Failure: Ajax post failed");
+              console.log("Failure: GET failed");
             },
         });
     });

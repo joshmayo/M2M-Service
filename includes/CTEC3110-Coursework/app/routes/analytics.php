@@ -31,8 +31,6 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
         ]
     );
 
-    $processed_output = processOutput($app, $html_output);
-
-    return $processed_output;
+    return $html_output;
 
 })->setName('analytics');

@@ -11,9 +11,15 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/updateTable', function (Request $request, Response $response) use ($app) {
 
-    //$fetch_result = getMessages($app);
-    //$message_list = returnMessages($app);
+    $process_message = $app->getContainer()->get('processMessage');
 
-    //return json_encode($message_list);
-    return true;
-});
+    $fetch_result = $process_message->getMessages($app);
+    $message_list = $process_message->returnMessages($app);
+
+    if ($fetch_result || !is_array($message_list)) {
+        return false;
+    } else {
+        return json_encode($message_list);
+    }
+
+})->setName('updateTable');;
