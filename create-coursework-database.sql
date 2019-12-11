@@ -83,7 +83,7 @@ BEGIN
     FROM
         message_metadata md
 	join message_content c on md.metadata_id = c.metadata_id
-    ORDER BY received_time;    
+    ORDER BY received_time DESC;
 END$$
 DELIMITER ;
 
