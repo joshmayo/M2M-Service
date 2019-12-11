@@ -232,17 +232,6 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
-    public function logError($error_content)
-    {
-        $query_string = 'CALL LogError()';
-
-        $query_parameters = [
-            ':error_message_content' => $error_content
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
-    }
-
     public function unsetSessionVar($session_key){}
 
     public function setSessionVar($session_key, $session_value)

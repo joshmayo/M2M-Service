@@ -305,31 +305,3 @@ BEGIN
 	WHERE user_id = user_id_to_update;
 END$$
 DELIMITER ;
-
-
--- ----------------------------
--- Table structure for `error_log`
--- ----------------------------
-
-CREATE TABLE `error_log` (
-	`error_id` int(4) NOT NULL AUTO_INCREMENT,
-	`error_message` varchar(800) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`error_datetime` datetime DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (error_id)
-) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Stored procedures for `error_log`
--- ----------------------------
-
-DELIMITER $$
- 
-CREATE PROCEDURE LogError(
-	IN error_message_content varchar(800)
-)
-BEGIN
-	INSERT INTO `error_log` (error_message) 
-	VALUES (error_message_content);
-END$$
-DELIMITER ;
-
