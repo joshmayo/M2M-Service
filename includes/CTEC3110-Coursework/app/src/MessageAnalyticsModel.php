@@ -66,7 +66,7 @@ class MessageAnalyticsModel
 
         $series_data = $this->stored_message_data;
 
-        $chart = new \LineChart(1000, 500);
+        $chart = new \LineChart(1400, 700);
 
         $chart->getPlot()->getPalette()->setLineColor(array(new \Color(240, 53, 160), new \Color(178, 69, 240)));
 

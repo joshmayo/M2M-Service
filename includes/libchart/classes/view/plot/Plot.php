@@ -154,12 +154,12 @@
             
             // Default layout
             $this->outputArea = new Rectangle(0, 0, $width - 1, $height - 1);
-            $this->outerPadding = new Padding(5);
+            $this->outerPadding = new Padding(5, 50, 50, 0);
             $this->titleHeight = 26;
             $this->titlePadding = new Padding(5);
             $this->hasCaption = false;
             $this->graphCaptionRatio = 0.50;
-            $this->graphPadding = new Padding(50);
+            $this->graphPadding = new Padding(50, 0, 0, 0);
             $this->captionPadding = new Padding(15);
         }
 
