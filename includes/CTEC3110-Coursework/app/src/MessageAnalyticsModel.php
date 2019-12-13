@@ -69,8 +69,6 @@ class MessageAnalyticsModel
         $chart = new \LineChart(1000, 500);
 
         $chart->getPlot()->getPalette()->setLineColor(array(new \Color(240, 53, 160), new \Color(178, 69, 240)));
-        //$chart->getPlot()->getPalette()->setAxisColor(array(new \Color(255, 255, 255)));
-        //$chart->getPlot()->getPalette()->setBackgroundColor(array(new \Color(23, 28, 37)));
 
         $series1 = new \XYDataSet();
         foreach ($series_data as $data_row) {
