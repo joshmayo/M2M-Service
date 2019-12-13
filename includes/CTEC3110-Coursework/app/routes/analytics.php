@@ -22,7 +22,8 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
     $process_message->getMessages($app);
     $message_list = $process_message->returnMessages($app);
 
-    $chart_location = createChart($app, $message_list);
+    $line_chart = createChart($app, $message_list, 'line');
+    $pie_chart = createChart($app, $message_list, 'pie');
 
     $html_output = $this->view->render($response,
         'charts.html.twig',
@@ -37,7 +38,8 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
             'page_text' => 'M2M message Analytics', // no longer exists
-            'chart_location' => '../' . $chart_location
+            'line_chart' => '../' . $line_chart,
+            'pie_chart' => '../' . $pie_chart
         ]
     );
 
@@ -45,24 +47,24 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
 
 })->setName('analytics');
 
-function createChart($app, array $message_data)
+function createChart($app, array $message_data, $type)
 {
-    if (function_exists('xdebug_start_trace'))
-    {
-      xdebug_start_trace();
-    }
     require_once 'libchart/classes/libchart.php';
 
     $messageChartModel = $app->getContainer()->get('messageAnalytics');
 
     $messageChartModel->setStoredMessageData($message_data);
-    $messageChartModel->createLineChart();
-    $chart_details = $messageChartModel->getLineChartDetails();
 
-    if (function_exists('xdebug_stop_trace'))
+    if($type == 'line')
     {
-    xdebug_stop_trace();
+        $messageChartModel->createLineChart();
     }
+    else if($type == 'pie')
+    {
+        $messageChartModel->createPieChart();
+    }
+
+    $chart_details = $messageChartModel->getLineChartDetails();
 
     return $chart_details;
 }
