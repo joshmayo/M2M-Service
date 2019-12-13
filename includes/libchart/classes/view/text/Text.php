@@ -61,7 +61,7 @@
                 $align |= $this->VERTICAL_TOP_ALIGN;
             }
 
-            $fontSize = 10;
+            $fontSize = 11;
             $lineSpacing = 1;
 
              list ($llx, $lly, $lrx, $lry, $urx, $ury, $ulx, $uly) = imageftbbox($fontSize, 0, $fontFileName, $text, array("linespacing" => $lineSpacing));
@@ -113,7 +113,7 @@
          * @param string text value
          */
         public function printDiagonal($img, $px, $py, $color, $text) {
-            $fontSize = 8;
+            $fontSize = 9;
             $fontFileName = $this->fontCondensed;
 
             $lineSpacing = 1;
