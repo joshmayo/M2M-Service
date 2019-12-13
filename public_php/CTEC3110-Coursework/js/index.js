@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     var tableRefresh;
-    var rootURL = window.location.origin + '/CTEC3110-Coursework'
+    var rootURL = window.location.origin + '/CTEC3110-Coursework';
 
     $('#auto-refresh-switch').change(function (e) {
         if(this.checked) {
@@ -22,6 +22,7 @@ $(document).ready(function () {
     });
 
     function fetchMessages () {
+        $('#error-msg').empty();
         console.log('Fetching Messages...');
         $.ajax({
             url: rootURL + "/updateTable",
