@@ -2,7 +2,9 @@
 /**
  * ProcessMessage.php
  *
- * Business logic class for handling the messages.
+ * Business logic class for handling message input and output.
+ *
+ *
  */
 
 namespace M2MConnect;
