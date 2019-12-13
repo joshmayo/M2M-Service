@@ -55,7 +55,7 @@ class MessageDetailsModel
             $webservice_call_parameters = [
                 'username' => M2M_USER,
                 'password' => M2M_PASS,
-                'count' => 25,
+                'count' => 1000,
                 'deviceMsisdn' => '',
                 'countryCode' => '44'
             ];

@@ -85,6 +85,7 @@ class MessageAnalyticsModel
         foreach ($series_data as $data_row) {
             $index = $data_row['received_time'];
             $datum = $data_row['heater'];
+            $this->log->info('Attempting add point to line chart: ' . $index . ' ' . $datum);
             $series1->addPoint(new \Point($index, $datum));
         }
 
@@ -126,6 +127,7 @@ class MessageAnalyticsModel
 
         foreach(array_count_values($keypad_inputs) as $keypad => $keypad_value)
         {
+            $this->log->info('Attempting add point to pie chart: ' . $keypad . ' ' . $keypad_value);
             $series1->addPoint(new \Point($keypad, $keypad_value));
         }
 
