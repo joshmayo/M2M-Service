@@ -51,8 +51,8 @@ class MessageAnalyticsModel
         $output_chart_name = 'message-linechart.png';
 
         $output_chart_location = LIB_CHART_OUTPUT_PATH;
-        $this->output_chart_details = LANDING_PAGE . DIRSEP . $output_chart_location . $output_chart_name;
-        $this->output_chart_path_and_name = LIB_CHART_FILE_PATH . $output_chart_location . $output_chart_name;
+        $this->output_chart_details = $output_chart_location . $output_chart_name;
+        $this->output_chart_path_and_name = $output_chart_location . $output_chart_name;
 
 
         if (!is_dir($output_chart_location)) {
@@ -83,7 +83,7 @@ class MessageAnalyticsModel
 
         $chart->setDataSet($series1);
 
-        $chart->setTitle('Temperature Over Time');
+        $chart->setTitle('');
         $chart->getPlot()->setGraphCaptionRatio(0.75);
 
         $chart->render($this->output_chart_path_and_name);

@@ -47,6 +47,10 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
 
 function createChart($app, array $message_data)
 {
+    if (function_exists('xdebug_start_trace'))
+    {
+      xdebug_start_trace();
+    }
     require_once 'libchart/classes/libchart.php';
 
     $messageChartModel = $app->getContainer()->get('messageAnalytics');
@@ -54,6 +58,11 @@ function createChart($app, array $message_data)
     $messageChartModel->setStoredMessageData($message_data);
     $messageChartModel->createLineChart();
     $chart_details = $messageChartModel->getLineChartDetails();
+
+    if (function_exists('xdebug_stop_trace'))
+    {
+    xdebug_stop_trace();
+    }
 
     return $chart_details;
 }
