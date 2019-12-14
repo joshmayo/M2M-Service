@@ -10,6 +10,8 @@ ini_set('display_errors', 'On');
 ini_set('html_errors', 'On');
 ini_set('xdebug.trace_output_name', 'messaging_details.%t');
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 define('DIRSEP', DIRECTORY_SEPARATOR);
 
 $url_root = $_SERVER['SCRIPT_NAME'];
@@ -17,6 +19,7 @@ $url_root = implode('/', explode('/', $url_root, -1));
 $css_path = $url_root . '/css/standard.css';
 $js_path = $url_root . '/js/index.js';
 $logs_file_path = '/p3t/phpappfolder/logs/';
+
 
 define('CSS_PATH', $css_path);
 define('JS_PATH', $js_path);
@@ -27,6 +30,9 @@ define('M2M_PASS', 'Kmccrory2019');
 define('MSISDN', '7817814149');
 define('COUNTRY_CODE', '44');
 define('LOGS_PATH', $logs_file_path);
+define ('LIB_CHART_OUTPUT_PATH', 'media/charts/');
+define ('LIB_CHART_FILE_PATH', '/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/');
+define ('LIB_CHART_CLASS_PATH', 'libchart/classes/');
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);
