@@ -32,24 +32,13 @@ class ProcessMessage
             $xml_parser->parseTheXmlString();
             $parsed_xml = $xml_parser->getParsedData();
 
-            $validated_sourceMSISDN = $validator->validateMSISDN($parsed_xml['SOURCEMSISDN']);
-            $validated_destinationMSISDN = $validator->validateMSISDN($parsed_xml['DESTINATIONMSISDN']);
-            $validated_receivedTime = $validator->validateReceivedTime($parsed_xml['RECEIVEDTIME']);
-            $validated_bearer = $validator->validateBearer($parsed_xml['BEARER']);
-            $validated_messageRef = $validator->validateMessageRef($parsed_xml['MESSAGEREF']);
-            $validated_message = $validator->validateMessage($parsed_xml['MESSAGE']);
+            $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
 
-            if ($validated_sourceMSISDN === false ||
-                $validated_destinationMSISDN === false ||
-                $validated_receivedTime === false ||
-                $validated_bearer === false ||
-                $validated_messageRef === false ||
-                $validated_message === false) {
-
+            if ($safe_message === false) {
                 $valid_resp = false;
                 break;
             } else {
-                $valid_messages[] = $parsed_xml;
+                $valid_messages[] = $safe_message;
             }
         }
 
@@ -57,6 +46,28 @@ class ProcessMessage
             return $valid_messages;
         } else {
             return 'Failed api validation';
+        }
+    }
+
+    function sanitiseMessage($message, $validator)
+    {
+        $validated_sourceMSISDN = $validator->validateMSISDN($message['SOURCEMSISDN']);
+        $validated_destinationMSISDN = $validator->validateMSISDN($message['DESTINATIONMSISDN']);
+        $validated_receivedTime = $validator->validateReceivedTime($message['RECEIVEDTIME']);
+        $validated_bearer = $validator->validateBearer($message['BEARER']);
+        $validated_messageRef = $validator->validateMessageRef($message['MESSAGEREF']);
+        $validated_message = $validator->validateMessage($message['MESSAGE']);
+
+        if ($validated_sourceMSISDN === false ||
+            $validated_destinationMSISDN === false ||
+            $validated_receivedTime === false ||
+            $validated_bearer === false ||
+            $validated_messageRef === false ||
+            $validated_message === false) {
+
+            return false;
+        } else {
+            return $message;
         }
     }
 
