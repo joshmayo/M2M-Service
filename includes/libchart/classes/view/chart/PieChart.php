@@ -34,7 +34,7 @@
          */
         public function PieChart($width = 600, $height = 250) {
             parent::Chart($width, $height);
-            $this->plot->setGraphPadding(new Padding(15, 10, 30, 30));
+            $this->plot->setGraphPadding(new Padding(15, 10, 0, 30));
         }
 
         /**

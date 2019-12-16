@@ -24,6 +24,7 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
 
     $line_chart = createChart($app, $message_list, 'line');
     $pie_chart = createChart($app, $message_list, 'pie');
+    $bar_chart = createChart($app, $message_list, 'bar');
 
     $html_output = $this->view->render($response,
         'charts.html.twig',
@@ -39,7 +40,8 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_heading_2' => 'Analytics',
             'page_text' => 'M2M message Analytics', // no longer exists
             'line_chart' => '../' . $line_chart,
-            'pie_chart' => '../' . $pie_chart
+            'pie_chart' => '../' . $pie_chart,
+            'bar_chart' => '../' . $bar_chart
         ]
     );
 
@@ -62,6 +64,10 @@ function createChart($app, array $message_data, $type)
     else if($type == 'pie')
     {
         $messageChartModel->createPieChart();
+    }
+    else if($type == 'bar')
+    {
+        $messageChartModel->createBarChart();
     }
 
     $chart_details = $messageChartModel->getLineChartDetails();

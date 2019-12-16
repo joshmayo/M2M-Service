@@ -47,6 +47,12 @@ class MessageAnalyticsModel
         $this->makePieChart();
     }
 
+    public function createBarChart()
+    {
+        $this->createChartDetails('message-barchart.png');
+        $this->makeBarChart();
+    }
+
     public function getLineChartDetails()
     {
         return $this->output_chart_details;
@@ -99,11 +105,11 @@ class MessageAnalyticsModel
 
     private function makePieChart()
     {
-        $this->log->info('Attempting to create line chart.');
+        $this->log->info('Attempting to create pie chart.');
 
         $series_data = $this->stored_message_data;
 
-        $chart = new \PieChart(1400, 700);
+        $chart = new \PieChart(1400, 600);
 
         $chart->getPlot()->getPalette()->setPieColor(array(
             new \Color(239, 52, 160),
@@ -129,6 +135,40 @@ class MessageAnalyticsModel
         {
             $this->log->info('Attempting add point to pie chart: ' . $keypad . ' ' . $keypad_value);
             $series1->addPoint(new \Point($keypad, $keypad_value));
+        }
+
+        $chart->setDataSet($series1);
+
+        $chart->setTitle('');
+        $chart->getPlot()->setGraphCaptionRatio(0.75);
+
+        $chart->render($this->output_chart_path_and_name);
+    }
+
+    private function makeBarChart()
+    {
+        $this->log->info('Attempting to create bar chart.');
+
+        $series_data = $this->stored_message_data;
+
+        $chart = new \VerticalBarChart(1400, 700);
+
+        $series1 = new \XYDataSet();
+        $fan_inputs = [];
+
+        $chart->getPlot()->getPalette()->setBarColor(array(
+            new \Color(240, 53, 160),
+            new \Color(178, 69, 240)));
+
+        foreach ($series_data as $data_row) {
+            array_push($fan_inputs, $data_row['fan']);
+        }
+
+        foreach(array_count_values($fan_inputs) as $fan => $fan_value)
+        {
+            $fan = $fan == '0' ? 'Backwards' : 'Forwards';
+            $this->log->info('Attempting add point to bar chart: ' . $fan . ' ' . $fan_value);
+            $series1->addPoint(new \Point($fan, $fan_value));
         }
 
         $chart->setDataSet($series1);
