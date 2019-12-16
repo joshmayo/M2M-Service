@@ -76,7 +76,8 @@ class ProcessMessage
      *
      * @param $validator
      *
-     * @return string
+     * @return string|boolean - Returns the message if validation is successful. Returns a false statement if any
+     * validation fails.
      */
 
     function sanitiseMessage($message, $validator)

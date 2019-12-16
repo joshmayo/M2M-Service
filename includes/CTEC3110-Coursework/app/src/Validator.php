@@ -1,6 +1,20 @@
 <?php
+/**
+ * Validator.php
+ *
+ * Message Validation check class
+ *
+ * All Validations have a default failsafe boolean value as false. If for a reason validation does not occur,
+ * a false value with be supplied as a security feature.
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
+ */
+
 
 namespace M2MConnect;
+
+use PHPUnit\Util\Filter;
 
 class Validator
 {
@@ -8,6 +22,16 @@ class Validator
 
     public function __destruct() { }
 
+    /**
+     * Function for validating the heater setting field.
+     *
+     * Validates the heater setting, ensuring that the parameter is numeric and within accepted values
+     *
+     * @param $heater_code_to_check
+     *
+     * @return bool|int|string - Returns false if value is unset. Returns the setting as int type if
+     * validated successfully. Returns a string if validation fails if the parameter is set.
+     */
     public function validateHeaterCode($heater_code_to_check)
     {
         $checked_heater_code = false;
@@ -24,6 +48,18 @@ class Validator
         return $checked_heater_code;
     }
 
+    /**
+     * Function for validating the keypad  field.
+     *
+     * Validates the keypad button setting, ensuring that the  parameter is
+     * numeric and within accepted values.
+     *
+     * @param $keypad_to_check
+     *
+     * @return bool|int|string - Returns false if value is unset. Returns the setting as int type if
+     * validated successfully. Returns a string if validation fails if the parameter is set.
+     */
+
     public function validateKeypadCode($keypad_to_check)
     {
         $checked_keypad_code = false;
@@ -39,6 +75,16 @@ class Validator
         }
         return $checked_keypad_code;
     }
+
+    /**
+     * Function for validating a switch  field.
+     *
+     * Validates the inputted switch setting, ensuring that the  parameter is boolean or a string value of 'on'.
+     *
+     * @param $switch_to_check
+     *
+     * @return bool - Returns the boolean value of the switch.
+     */
 
     public function validateSwitch($switch_to_check)
     {
@@ -57,6 +103,18 @@ class Validator
         return $checked_switch;
     }
 
+
+    /**
+     * Function for validating the MSISDN  field.
+     *
+     * Validates the inputted MSISDN parameter, ensuring that the parameter is
+     * numeric and within accepted values.
+     *
+     * @param $tainted_param
+     *
+     * @return bool|string - Returns false if value is unset or illegal. Returns the MSISDN value if it meets the rules.
+     */
+
     public function validateMSISDN($tainted_param)
     {
         $checked_MSISDN = false;
@@ -68,6 +126,17 @@ class Validator
 
         return $checked_MSISDN;
     }
+
+    /**
+     * Function for validating the Received Time Field.
+     *
+     * Ensures the field meets the length and format required. Removes any malicious input.
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field is empty or illegal. Returns the time field if correct as
+     * as an array.
+     */
 
     public function validateReceivedTime($tainted_param)
     {
@@ -82,6 +151,17 @@ class Validator
         return $checked_time;
     }
 
+    /**
+     * Function for validating the Bearer field.
+     *
+     * Ensures the bearer value is the required length of fields and not illegal. Removes any malicious input.
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field is empty or illegal. Returns the value with sanitised characters
+     * if validation is successful.
+     */
+
     public function validateBearer($tainted_param)
     {
         $checked_Bearer = false;
@@ -93,16 +173,46 @@ class Validator
         return $checked_Bearer;
     }
 
+    /**
+     * Function for validating the Message Reference field.
+     *
+     * Ensures the Reference value is numerical and is within specified parameters.
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field is empty or illegal. Returns the field if validation successful.
+     */
+
     public function validateMessageRef($tainted_param)
     {
         $checked_ref = false;
 
-        if (is_numeric($tainted_param))
+        if (is_numeric($tainted_param) && strlen($tainted_param) <= 6)
         {
-            $checked_ref = $tainted_param;
+            if(strpos($tainted_param, '.') == false)
+            {
+                (int)$tainted_param;
+
+                if($tainted_param >= 0 && $tainted_param <= 65535)
+                {
+                    $checked_ref = $tainted_param;
+                }
+            }
+
         }
         return $checked_ref;
     }
+
+    /**
+     * Function for validating the Message Reference field.
+     *
+     * Ensures the Reference value is
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field is empty. Returns the value with sanitised characters
+     * if validation is successful.
+     */
 
     public function validateMessage($tainted_param)
     {
