@@ -1,13 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 06/12/2019
- * Time: 14:00
+ * processSendMessage.php
+ *
+ * Handles and controls sending of created messages on the page.
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+
+/**
+ * Handles the addition of cleaned parameters and ensures only cleaned params are sent to the server.
+ */
 
 $app->post('/processSendMessage',  function (Request $request, Response $response) use ($app) {
 
@@ -35,13 +40,25 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message Result',
-            'page_text' => 'Send a message to M2M Service', // no longer exists
             'message' => $message_detail_result,
         ]
     );
 
     return $html_output;
 })->setName('processSendMessage');
+
+/**
+ * Sends the message to the server.
+ *
+ * @uses \M2MConnect\SoapWrapper
+ * @uses \M2MConnect\MessageDetailsModel
+ *
+ * @param $app
+ *
+ * @param $payload
+ *
+ * @return string - Returns a message if sending succeeds. Returns an error message if unsuccessful.
+ */
 
 function send($app, $payload)
 {
@@ -58,6 +75,20 @@ function send($app, $payload)
     }
     return $result;
 }
+
+/**
+ * Sanitises all inputted parameters before sending.
+ *
+ * By default will fail if any values are not set.
+ *
+ * @uses \M2MConnect\Validator
+ *
+ * @param $app
+ *
+ * @param $tainted_parameters
+ *
+ * @return array|bool
+ */
 
 function cleanupParameters($app, $tainted_parameters)
 {

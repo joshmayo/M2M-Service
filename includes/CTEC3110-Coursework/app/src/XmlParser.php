@@ -87,7 +87,7 @@ class XmlParser
      * Converts each element's data to a the temporary_attributes
      *
      * @param $parser
-     * 
+     *
      * @param $element_data
      */
 
