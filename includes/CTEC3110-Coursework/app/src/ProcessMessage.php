@@ -39,17 +39,16 @@ class ProcessMessage
             $validated_messageRef = $validator->validateMessageRef($parsed_xml['MESSAGEREF']);
             $validated_message = $validator->validateMessage($parsed_xml['MESSAGE']);
 
-            if (!$validated_sourceMSISDN ||
-                !$validated_destinationMSISDN ||
-                !$validated_receivedTime ||
-                !$validated_bearer ||
-                !$validated_messageRef ||
-                !$validated_message) {
+            if ($validated_sourceMSISDN === false ||
+                $validated_destinationMSISDN === false ||
+                $validated_receivedTime === false ||
+                $validated_bearer === false ||
+                $validated_messageRef === false ||
+                $validated_message === false) {
 
                 $valid_resp = false;
                 break;
-            }
-            else {
+            } else {
                 $valid_messages[] = $parsed_xml;
             }
         }

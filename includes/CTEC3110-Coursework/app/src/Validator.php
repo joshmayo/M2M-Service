@@ -73,9 +73,9 @@ class Validator
     {
         $checked_time = false;
 
-        $dateTimeRegex = '[/^[0-9\/]{10}+ [0-9:]{8}/]';
+        $dateTimeRegex = '/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/';
 
-        if (!empty($tainted_param) && preg_match('[/^[0-9\/]{10}+ [0-9:]{8}/]', $tainted_param))
+        if (!empty($tainted_param) && preg_match($dateTimeRegex, $tainted_param))
         {
             $checked_time = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
@@ -97,7 +97,7 @@ class Validator
     {
         $checked_ref = false;
 
-        if (is_int($tainted_param))
+        if (is_numeric($tainted_param))
         {
             $checked_ref = $tainted_param;
         }
