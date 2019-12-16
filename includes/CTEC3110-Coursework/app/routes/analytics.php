@@ -38,7 +38,6 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'page_text' => 'M2M message Analytics', // no longer exists
             'line_chart' => '../' . $line_chart,
             'pie_chart' => '../' . $pie_chart,
             'bar_chart' => '../' . $bar_chart

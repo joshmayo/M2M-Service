@@ -28,8 +28,7 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Send Message',
-            'page_text' => 'Send a message to M2M Service', // no longer exists
+            'page_heading_2' => 'Send Message'
         ]
     );
 

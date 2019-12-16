@@ -35,7 +35,6 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message Result',
-            'page_text' => 'Send a message to M2M Service', // no longer exists
             'message' => $message_detail_result,
         ]
     );
