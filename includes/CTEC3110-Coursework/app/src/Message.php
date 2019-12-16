@@ -3,6 +3,10 @@
  * class Message
  *
  * An object to represent the messages that are sent and retrieved by the application.
+ *
+ * Object is constructed with a set of default values.
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  */
 
 namespace M2MConnect;

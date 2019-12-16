@@ -2,7 +2,13 @@
 /**
  * MessageAnalyticsModel.php
  *
+ * Processes and handles message analytics output.
+
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  */
+
 
 namespace M2MConnect;
 
@@ -63,6 +69,15 @@ class MessageAnalyticsModel
         return $this->output_chart_details;
     }
 
+    /**
+     * Creates chart details object for chart creation.
+     *
+     * Will also create a chart output directory if it does not exist.
+     *
+     * @param $chart_name
+     *
+     */
+
     private function createChartDetails($chart_name)
     {
         $output_chart_location = LIB_CHART_OUTPUT_PATH;
@@ -74,6 +89,17 @@ class MessageAnalyticsModel
             mkdir($output_chart_location, 0755, true);
         }
     }
+
+    /**
+     * Creates and populates a line chart
+     *
+     * Will render the completed chart to the output path with specified name.
+     *
+     * @uses LineChart
+     *
+     * Stored_message_data is the object where the information is parsed to the makeLineChart function.
+     *
+     */
 
     private function makeLineChart()
     {
@@ -102,6 +128,17 @@ class MessageAnalyticsModel
 
         $chart->render($this->output_chart_path_and_name);
     }
+
+    /**
+     * Creates and populates a pie chart
+     *
+     * Will render the completed chart to the output path with specified name.
+     *
+     * @uses PieChart
+     *
+     * Stored_message_data is the object where the information is parsed to the makePieChart function.
+     *
+     */
 
     private function makePieChart()
     {
