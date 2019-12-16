@@ -3,10 +3,10 @@
 /**
  * analytics.php
  *
- * page for dispaying message analytics
+ * Page for displaying message analytics
  *
- * Author: Josh Mayo
- * Date: 02/12/2019
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  *
  */
 
@@ -38,7 +38,6 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'page_text' => 'M2M message Analytics', // no longer exists
             'line_chart' => '../' . $line_chart,
             'pie_chart' => '../' . $pie_chart,
             'bar_chart' => '../' . $bar_chart
@@ -48,6 +47,20 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
     return $html_output;
 
 })->setName('analytics');
+
+/**
+ *
+ * Creates charts ready for display.
+ *
+ * @uses \M2MConnect\MessageAnalyticsModel
+ *
+ * @param $app
+ * @param array $message_data
+ * @param $type
+ *
+ * @return mixed - Returns chart details for display
+ *
+ */
 
 function createChart($app, array $message_data, $type)
 {

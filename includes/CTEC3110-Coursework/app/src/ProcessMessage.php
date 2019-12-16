@@ -2,7 +2,10 @@
 /**
  * ProcessMessage.php
  *
- * Business logic class for handling the messages.
+ * Business logic class for handling message input and output.
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  */
 
 namespace M2MConnect;
@@ -10,6 +13,22 @@ namespace M2MConnect;
 
 class ProcessMessage
 {
+
+    /**
+     * @uses MessageDetailsModel
+     * @uses Validator
+     * @uses XmlParser
+     *
+     * @param $app
+     *
+     * Calls the retreiveMessage function in MessageDetailsModel and validates against message rules
+     * with Validator and finally transforms to JSON via XmlParser.
+     *
+     *
+     * @return array|string - Returns a list of validated and JSON formatted messages.
+     *
+     * Will return an error if the messages fail to validate.
+     */
     function fetchMessages($app)
     {
         $soap_wrapper = $app->getContainer()->get('soapWrapper');
@@ -49,6 +68,18 @@ class ProcessMessage
         }
     }
 
+    /**
+     *
+     * Function to sanitise each message for malicious content or illegal parameter removal.
+     *
+     * @param $message
+     *
+     * @param $validator
+     *
+     * @return string|boolean - Returns the message if validation is successful. Returns a false statement if any
+     * validation fails.
+     */
+
     function sanitiseMessage($message, $validator)
     {
         $validated_sourceMSISDN = $validator->validateMSISDN($message['SOURCEMSISDN']);
@@ -71,6 +102,17 @@ class ProcessMessage
         }
     }
 
+    /**
+     * Function to get all messages and add each one to the database.
+     *
+     * @uses DatabaseWrapper#
+     *
+     * @param $app
+     *
+     * @return array|bool|string - Will Return the array of messages if successful. Will Return false if no messages
+     * are found. Will return any database error if database interactions fail.
+     *
+     */
     function getMessages($app)
     {
         $message_detail_result = $this->fetchMessages($app);
@@ -117,6 +159,16 @@ class ProcessMessage
         }
 
     }
+
+    /**
+     * Returns all messages stored in the database
+     *
+     * @uses DatabaseWrapper
+     *
+     * @param $app
+     *
+     * @return string
+     */
 
     function returnMessages($app)
     {

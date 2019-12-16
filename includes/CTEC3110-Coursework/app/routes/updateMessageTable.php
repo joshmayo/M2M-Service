@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 11/12/2019
- * Time: 09:24
+ * updateMessageTable.php
+ *
+ * Handles and controls the display and refresh of the sent messages table.
+ *
+ * @uses \M2MConnect\ProcessMessage
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  */
-
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 

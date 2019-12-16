@@ -2,15 +2,17 @@
 /**
  * homepage.php
  *
- * display the Message application homepage
+ * Display the Message application homepage
  *
- * Author: Josh Mayo
- * Date: 02/12/2019
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+
+
+
 
 $app->get('/', function (Request $request, Response $response) use ($app) {
 

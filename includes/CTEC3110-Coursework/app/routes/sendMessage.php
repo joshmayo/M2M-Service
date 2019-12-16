@@ -5,8 +5,7 @@
  *
  * Form for sending messages to SOAP M2M API
  *
- * Author: Josh Mayo
- * Date: 02/12/2019
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
  */
 
@@ -29,7 +28,6 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message',
-            'page_text' => 'Send a message to M2M Service', // no longer exists
         ]
     );
 

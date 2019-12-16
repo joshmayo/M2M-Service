@@ -3,9 +3,11 @@
 /**
  * DatabaseWrapper.php
  *
- * Wrapper class for accessing the database.
+ * Wrapper class for accessing the database and performing all db activities.
  *
- * Date: 02/12/2019
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  */
 
 namespace M2MConnect;
@@ -46,6 +48,14 @@ class DatabaseWrapper
         $this->database_connection_settings = $database_connection_settings;
     }
 
+
+    /**
+     * Function that creates and executes a PDO object to connect to the database.
+     *
+     * @return string - Only returned when a PDO call encounters an error, will contain multiple errors.
+     *
+     * Connection settings are stored as hard variables
+     */
     public function makeDatabaseConnection()
     {
         $pdo_error = '';
@@ -124,6 +134,13 @@ class DatabaseWrapper
         return $row;
     }
 
+    /**
+     * Find message Meta Data associated with the Message ID
+     *
+     * @param $metadata_id
+     *
+     * @return mixed
+     */
     public function getMessageMetaData($metadata_id)
     {
         $query_string = 'CALL GetMessageMetadata()';
@@ -140,6 +157,11 @@ class DatabaseWrapper
         return $metadata;
     }
 
+    /**
+     * Retrieves all stored messages on the database
+     *
+     * @return array|mixed - All stored messages will be returned via this array.
+     */
     public function getMessages()
     {
         $this->makeDatabaseConnection();
@@ -154,6 +176,13 @@ class DatabaseWrapper
 
         return $messages;
     }
+
+    /**
+     * Adds a new message to the database.
+     *
+     * @param Message $message - Message object passed to the function from the Message.php class.
+     *
+     */
 
     public function addMessage(Message $message)
     {
@@ -175,6 +204,14 @@ class DatabaseWrapper
         $this->safeQuery($query_string);
     }
 
+    /**
+     * Adds a Database User
+     *
+     * @param $name
+     * @param $hashed_pw
+     * @param $privs
+     */
+
     public function addUser($name, $hashed_pw, $privs)
     {
         $query_string = 'CALL AddUser()';
@@ -188,6 +225,12 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
+    /**
+     * Removes a Database User
+     *
+     * @param $user_id
+     */
+
     public function deleteUser($user_id)
     {
         $query_string = 'CALL DeleteUser()';
@@ -199,6 +242,10 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
+    /**
+     * @param $user_id
+     */
+
     public function togglePrivilege($user_id)
     {
         $query_string = 'CALL TogglePrivilege()';
@@ -209,6 +256,15 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string, $query_parameters);
     }
+
+    /**
+     * Changes Database User data.
+     *
+     * @param $user_id
+     * @param $name
+     * @param $hashed_pw
+     * @param $privs
+     */
 
     public function updateUser($user_id, $name, $hashed_pw, $privs)
     {
@@ -224,9 +280,23 @@ class DatabaseWrapper
         $this->safeQuery($query_string, $query_parameters);
     }
 
+    /**
+     * Invalidates the specified session key.
+     *
+     * @param $session_key
+     */
+
     public function unsetSessionVar($session_key)
     {
     }
+
+    /**
+     * Sets variables associated with the passed session key.
+     *
+     * @param $session_key
+     * @param $session_value
+     * @return array
+     */
 
     public function setSessionVar($session_key, $session_value)
     {
@@ -238,6 +308,13 @@ class DatabaseWrapper
 
         return ($this->errors);
     }
+
+    /**
+     * Returns a confirmation if the supplied session variables exist.
+     *
+     * @param $session_key
+     * @return bool
+     */
 
     public function getSessionVar($session_key)
     {
@@ -257,6 +334,13 @@ class DatabaseWrapper
         return $session_var_exists;
     }
 
+    /**
+     * Creates session variables for setting with the associated session key.
+     *
+     * @param $session_key
+     * @param $session_value
+     */
+
     private function createSessionVar($session_key, $session_value)
     {
         $query_string = 'CALL CreateSessionVar()';
@@ -269,6 +353,13 @@ class DatabaseWrapper
 
         $this->safeQuery($query_string, $query_parameters);
     }
+
+    /**
+     * Stores the session key and value into the database.
+     *
+     * @param $session_key
+     * @param $session_value
+     */
 
     private function storeSessionVar($session_key, $session_value)
     {
