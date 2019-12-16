@@ -52,7 +52,7 @@
          * @param string font file name
          * @param bitfield text alignment
          */
-        public function printText($img, $px, $py, $color, $text, $fontFileName, $align = 0) {
+        public function printText($img, $px, $py, $color, $text, $fontFileName, $align = 0, $text_size = 11) {
             if (!($align & $this->HORIZONTAL_CENTER_ALIGN) && !($align & $this->HORIZONTAL_RIGHT_ALIGN)) {
                 $align |= $this->HORIZONTAL_LEFT_ALIGN;
             }
@@ -61,7 +61,7 @@
                 $align |= $this->VERTICAL_TOP_ALIGN;
             }
 
-            $fontSize = 11;
+            $fontSize = $text_size;
             $lineSpacing = 1;
 
              list ($llx, $lly, $lrx, $lry, $urx, $ury, $ulx, $uly) = imageftbbox($fontSize, 0, $fontFileName, $text, array("linespacing" => $lineSpacing));

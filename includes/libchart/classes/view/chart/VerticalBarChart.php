@@ -1,6 +1,6 @@
 <?php
     /* Libchart - PHP chart library
-     * Copyright (C) 2005-2011 Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
+     * Copyright (C) 2005-2011 Jean-Marc Trï¿½meaux (jm.tremeaux at gmail.com)
      * 
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
     /**
      * Chart composed of vertical bars.
      *
-     * @author Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
+     * @author Jean-Marc Trï¿½meaux (jm.tremeaux at gmail.com)
      */
     class VerticalBarChart extends BarChart {
         /**
@@ -96,7 +96,7 @@
     
                     $label = $point->getX();
 
-                    $text->printDiagonal($img, $x + $columnWidth * 1 / 3, $graphArea->y2 + 10, $this->plot->getTextColor(), $label);
+                    $text->printText($img, $x + $columnWidth / 2 , $graphArea->y2 + 20, $this->plot->getTextColor(), $label, $text->fontCondensed, $text->HORIZONTAL_CENTER_ALIGN | $text->VERTICAL_BOTTOM_ALIGN);
                 }
             }
         }
@@ -166,7 +166,7 @@
                         
                     // Draw caption text on bar
                     if ($this->config->getShowPointCaption()) {
-                        $text->printText($img, $x1 + $barWidth / 2 , $ymin - 5, $this->plot->getTextColor(), $value, $text->fontCondensed, $text->HORIZONTAL_CENTER_ALIGN | $text->VERTICAL_BOTTOM_ALIGN);
+                        $text->printText($img, $x1 + $barWidth / 2 , $ymin - 5, $color, $value, $text->fontCondensed, $text->HORIZONTAL_CENTER_ALIGN | $text->VERTICAL_BOTTOM_ALIGN);
                     }
 
                     // Draw the vertical bar
