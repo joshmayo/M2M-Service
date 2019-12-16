@@ -3,8 +3,10 @@
 /**
  * DatabaseWrapper.php
  *
- * Wrapper class for accessing the database.
+ * Wrapper class for accessing the database and performing all db activities.
  *
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  * Date: 02/12/2019
  */
 
@@ -46,6 +48,14 @@ class DatabaseWrapper
         $this->database_connection_settings = $database_connection_settings;
     }
 
+
+    /**
+     * Function that creates and executes a PDO object to connect to the database.
+     *
+     * @return string - Only returned when a PDO call encounters an error, will contain multiple errors.
+     *
+     * Connection settings are stored as hard variables
+     */
     public function makeDatabaseConnection()
     {
         $pdo_error = '';
@@ -124,6 +134,13 @@ class DatabaseWrapper
         return $row;
     }
 
+    /**
+     * Find message Meta Data associated with the Message ID
+     *
+     * @param $metadata_id
+     *
+     * @return mixed
+     */
     public function getMessageMetaData($metadata_id)
     {
         $query_string = 'CALL GetMessageMetadata()';
@@ -140,6 +157,11 @@ class DatabaseWrapper
         return $metadata;
     }
 
+    /**
+     * Retrieves all stored messages on the database
+     *
+     * @return array|mixed - All stored messages will be returned via this array.
+     */
     public function getMessages()
     {
         $this->makeDatabaseConnection();
