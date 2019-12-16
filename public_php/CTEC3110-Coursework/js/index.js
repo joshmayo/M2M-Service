@@ -3,25 +3,26 @@ $(document).ready(function () {
     var tableRefresh;
     var rootURL = window.location.origin + '/CTEC3110-Coursework';
 
+    var table = $('#message-table').DataTable();
+
     $('#auto-refresh-switch').change(function (e) {
-        if(this.checked) {
-            tableRefresh = setInterval(function () {fetchMessages();}, 30000);
-            console.log('timer started');
+        if (this.checked) {
+            tableRefresh = setInterval(function () {
+                fetchMessages();
+            }, 30000);
         }
         else {
             clearInterval(tableRefresh);
-            console.log('timer stopped');
         }
     });
 
     $('#update-table-btn').on('click', function (e) {
         e.preventDefault();
-        $('#error-msg').empty();
         $('#load-spinner').css('display', 'inline-block');
         fetchMessages();
     });
 
-    function fetchMessages () {
+    function fetchMessages() {
         $('#error-msg').empty();
         console.log('Fetching Messages...');
         $.ajax({
@@ -48,7 +49,7 @@ $(document).ready(function () {
     };
 
     function insertData(data) {
-        $('#homepage-message-tbl-body').empty();
+        table.clear().draw().destroy();
 
         $.each(data, function (index, message) {
             $('#homepage-message-tbl-body').append(`
@@ -67,5 +68,6 @@ $(document).ready(function () {
             `);
         });
 
+        table = $('#message-table').DataTable();
     };
 });
