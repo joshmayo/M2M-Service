@@ -4,6 +4,8 @@
  *
  * Class for sending and retrieving messages from the M2M service via SOAP calls.
  *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  * todo: add error handling to soap call
  */
 
@@ -67,7 +69,13 @@ class MessageDetailsModel
             $this->result = $soapcall_result;
         }
     }
-    
+
+    /**
+     * Calls the M2M API to send the supplied message body.
+     *
+     *
+     * @param $message_body
+     */
     public function sendMessage($message_body)
     {
         $this->log->info('Attempting to send message to API: ' . $message_body);
