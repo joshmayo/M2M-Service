@@ -21,8 +21,18 @@ class Message
     private $keypad;
     private $received_time;
 
-    public function __construct($source_msisdn = "", $destination_msisdn = "", $switch_1 = null, $switch_2 = null, $switch_3 = null, $switch_4 = null, $fan = null, $heater = 0, $keypad = 0, $received_time = null)
-    {
+    public function __construct(
+        $source_msisdn = "",
+        $destination_msisdn = "",
+        $switch_1 = null,
+        $switch_2 = null,
+        $switch_3 = null,
+        $switch_4 = null,
+        $fan = null,
+        $heater = 0,
+        $keypad = 0,
+        $received_time = null
+    ) {
         $this->source_msisdn = $source_msisdn;
         $this->destination_msisdn = $destination_msisdn;
         $this->switch_1 = $switch_1;
