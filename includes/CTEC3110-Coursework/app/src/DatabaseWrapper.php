@@ -7,7 +7,7 @@
  *
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
- * Date: 02/12/2019
+ *
  */
 
 namespace M2MConnect;
