@@ -40,10 +40,8 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
         ]
     );
 
-    $processed_output = processOutput($app, $html_output);
-
-    return $processed_output;
-});
+    return $html_output;
+})->setName('processSendMessage');
 
 function send($app, $payload)
 {

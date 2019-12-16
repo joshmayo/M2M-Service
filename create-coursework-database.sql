@@ -83,7 +83,7 @@ BEGIN
     FROM
         message_metadata md
 	join message_content c on md.metadata_id = c.metadata_id
-    ORDER BY received_time;    
+    ORDER BY received_time DESC;
 END$$
 DELIMITER ;
 
@@ -307,29 +307,4 @@ END$$
 DELIMITER ;
 
 
--- ----------------------------
--- Table structure for `error_log`
--- ----------------------------
-
-CREATE TABLE `error_log` (
-	`error_id` int(4) NOT NULL AUTO_INCREMENT,
-	`error_message` varchar(800) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`error_datetime` datetime DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (error_id)
-) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Stored procedures for `error_log`
--- ----------------------------
-
-DELIMITER $$
- 
-CREATE PROCEDURE LogError(
-	IN error_message_content varchar(800)
-)
-BEGIN
-	INSERT INTO `error_log` (error_message) 
-	VALUES (error_message_content);
-END$$
-DELIMITER ;
-
+DROP TABLE IF EXISTS `error_log`;

@@ -3,6 +3,7 @@
 !/includes
 /includes/*
 !/includes/CTEC3110-Coursework
+!/includes/libchart
 !/includes/composer.json
 !/includes/composer.lock
 !/includes/composer.phar
