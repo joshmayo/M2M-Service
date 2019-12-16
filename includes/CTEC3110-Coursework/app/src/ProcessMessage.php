@@ -7,7 +7,6 @@
 
 namespace M2MConnect;
 
-
 class ProcessMessage
 {
     function fetchMessages($app)
@@ -23,7 +22,6 @@ class ProcessMessage
 
         $validator = $app->getContainer()->get('validator');
         $xml_parser = $app->getContainer()->get('xmlParser');
-        $valid_resp = true;
 
         $valid_messages = [];
 
@@ -35,18 +33,13 @@ class ProcessMessage
             $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
 
             if ($safe_message === false) {
-                $valid_resp = false;
-                break;
+                return 'Failed api validation';
             } else {
                 $valid_messages[] = $safe_message;
             }
         }
 
-        if ($valid_resp) {
-            return $valid_messages;
-        } else {
-            return 'Failed api validation';
-        }
+        return $valid_messages;
     }
 
     function sanitiseMessage($message, $validator)
