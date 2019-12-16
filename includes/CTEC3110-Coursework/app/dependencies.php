@@ -52,6 +52,11 @@ $container['processMessage'] = function ($container) {
     return $model;
 };
 
+$container['messageAnalytics'] = function ($container) {
+    $model = new \M2MConnect\MessageAnalyticsModel();
+    return $model;
+};
+
 $container['xmlParser'] = function ($container) {
     $model = new \M2MConnect\XmlParser();
     return $model;

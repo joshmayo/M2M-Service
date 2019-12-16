@@ -20,7 +20,57 @@ class ProcessMessage
         $messagedetails_model->setSoapWrapper($soap_wrapper);
 
         $messagedetails_model->retrieveMessages();
-        return $messagedetails_model->getResult();
+
+        $messages = $messagedetails_model->getResult();
+
+        $validator = $app->getContainer()->get('validator');
+        $xml_parser = $app->getContainer()->get('xmlParser');
+        $valid_resp = true;
+
+        $valid_messages = [];
+
+        foreach ($messages as $key => $message_xml) {
+            $xml_parser->setXmlStringToParse($message_xml);
+            $xml_parser->parseTheXmlString();
+            $parsed_xml = $xml_parser->getParsedData();
+
+            $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
+
+            if ($safe_message === false) {
+                $valid_resp = false;
+                break;
+            } else {
+                $valid_messages[] = $safe_message;
+            }
+        }
+
+        if ($valid_resp) {
+            return $valid_messages;
+        } else {
+            return 'Failed api validation';
+        }
+    }
+
+    function sanitiseMessage($message, $validator)
+    {
+        $validated_sourceMSISDN = $validator->validateMSISDN($message['SOURCEMSISDN']);
+        $validated_destinationMSISDN = $validator->validateMSISDN($message['DESTINATIONMSISDN']);
+        $validated_receivedTime = $validator->validateReceivedTime($message['RECEIVEDTIME']);
+        $validated_bearer = $validator->validateBearer($message['BEARER']);
+        $validated_messageRef = $validator->validateMessageRef($message['MESSAGEREF']);
+        $validated_message = $validator->validateMessage($message['MESSAGE']);
+
+        if ($validated_sourceMSISDN === false ||
+            $validated_destinationMSISDN === false ||
+            $validated_receivedTime === false ||
+            $validated_bearer === false ||
+            $validated_messageRef === false ||
+            $validated_message === false) {
+
+            return false;
+        } else {
+            return $message;
+        }
     }
 
     function getMessages($app)
@@ -29,20 +79,17 @@ class ProcessMessage
 
         if (is_array($message_detail_result)) {
 
-            $xml_parser = $app->getContainer()->get('xmlParser');
+            foreach ($message_detail_result as $key => $message) {
 
-            foreach ($message_detail_result as $key => $message_xml) {
+                if (strpos($message['MESSAGE'], '18-3110-AS') !== false && strpos($message['MESSAGE'], 'invalid code')
+                    ==
+                    false) {
 
-                if (strpos($message_xml, '18-3110-AS') !== false && strpos($message_xml, 'invalid code') == false) {
-
-                    $xml_parser->setXmlStringToParse($message_xml);
-                    $xml_parser->parseTheXmlString();
-                    $parsed_xml = $xml_parser->getParsedData();
-                    $parsed_json = json_decode($parsed_xml['MESSAGE'], true);
+                    $parsed_json = json_decode($message['MESSAGE'], true);
 
                     $message = new \M2MConnect\Message(
-                        $parsed_xml['SOURCEMSISDN'],
-                        $parsed_xml['DESTINATIONMSISDN'],
+                        $message['SOURCEMSISDN'],
+                        $message['DESTINATIONMSISDN'],
                         $parsed_json['switch']['1'] == '' ? 0 : 1,
                         $parsed_json['switch']['2'] == '' ? 0 : 1,
                         $parsed_json['switch']['3'] == '' ? 0 : 1,
@@ -50,7 +97,7 @@ class ProcessMessage
                         $parsed_json['fan'] == '' ? 0 : 1,
                         $parsed_json['heater'],
                         $parsed_json['keypad'],
-                        $parsed_xml['RECEIVEDTIME']
+                        $message['RECEIVEDTIME']
                     );
 
                     $database = $app->getContainer()->get('databaseWrapper');

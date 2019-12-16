@@ -57,4 +57,62 @@ class Validator
         return $checked_switch;
     }
 
+    public function validateMSISDN($tainted_param)
+    {
+        $checked_MSISDN = false;
+
+        if(is_numeric($tainted_param) && strlen($tainted_param) == 12)
+        {
+            $checked_MSISDN = $tainted_param;
+        }
+
+        return $checked_MSISDN;
+    }
+
+    public function validateReceivedTime($tainted_param)
+    {
+        $checked_time = false;
+
+        $dateTimeRegex = '/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/';
+
+        if (!empty($tainted_param) && preg_match($dateTimeRegex, $tainted_param))
+        {
+            $checked_time = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+        return $checked_time;
+    }
+
+    public function validateBearer($tainted_param)
+    {
+        $checked_Bearer = false;
+
+        if (!empty($tainted_param) && strlen($tainted_param) >= 3 && strlen($tainted_param) <= 5)
+        {
+            $checked_Bearer = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+        return $checked_Bearer;
+    }
+
+    public function validateMessageRef($tainted_param)
+    {
+        $checked_ref = false;
+
+        if (is_numeric($tainted_param))
+        {
+            $checked_ref = $tainted_param;
+        }
+        return $checked_ref;
+    }
+
+    public function validateMessage($tainted_param)
+    {
+        $checked_Message = false;
+
+        if (!empty($tainted_param))
+        {
+            $checked_Message = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+        return $checked_Message;
+    }
+
 }
