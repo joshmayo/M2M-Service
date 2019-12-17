@@ -39,11 +39,9 @@ class ProcessMessage
 
         $messages = $messagedetails_model->getResult();
 
-        $valid_resp = true;
-
         $valid_messages = [];
 
-        if(!empty($messages)) {
+        if (!empty($messages)) {
             $validator = $app->getContainer()->get('validator');
             $xml_parser = $app->getContainer()->get('xmlParser');
 
@@ -52,14 +50,17 @@ class ProcessMessage
                 $xml_parser->parseTheXmlString();
                 $parsed_xml = $xml_parser->getParsedData();
 
-            if ($safe_message === false) {
-                return 'Failed api validation';
-            } else {
-                $valid_messages[] = $safe_message;
-            }
-        }
+                $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
 
-        return $valid_messages;
+                if ($safe_message === false) {
+                    return 'Failed api validation';
+                } else {
+                    $valid_messages[] = $safe_message;
+                }
+            }
+
+            return $valid_messages;
+        }
     }
 
     /**
