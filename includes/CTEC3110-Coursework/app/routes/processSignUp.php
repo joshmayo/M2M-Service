@@ -44,7 +44,8 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
             'page_heading_2' => 'Sign Up',
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
-            'signUp_page' => 'signUp',
+            'login_page' => 'login',
+            'SignUp_page' => 'signUp',
             'username' => $tainted_parameters['username'],
             'password' => $tainted_parameters['password'],
             'sanitised_username' => $cleaned_parameters['sanitised_username'],
@@ -82,9 +83,10 @@ function cleanupSignupParameters($app, $tainted_parameters)
     $validator = $app->getContainer()->get('validator');
 
     $tainted_username = $tainted_parameters['username'];
+    $taited_password = $tainted_parameters['password'];
 
-    $cleaned_parameters['password'] = $tainted_parameters['password'];
-    $cleaned_parameters['sanitised_username'] = $validator->sanitiseString($tainted_username);
+    $cleaned_parameters['password'] = $validator->validateUsername($taited_password);
+    $cleaned_parameters['sanitised_username'] = $validator->validateUsername($tainted_username);
     return $cleaned_parameters;
 }
 

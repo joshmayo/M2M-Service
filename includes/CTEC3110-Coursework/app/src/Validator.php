@@ -251,5 +251,4 @@ class Validator
 
         return $checked_Password;
     }
-
 }
