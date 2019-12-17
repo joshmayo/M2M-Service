@@ -27,6 +27,7 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
             'signUp_page' => 'signUp',
+            'login_page' => 'login',
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Messages',

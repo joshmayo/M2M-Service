@@ -17,3 +17,5 @@ require 'routes/processSendMessage.php';
 require 'routes/updateMessageTable.php';
 require 'routes/signUp.php';
 require 'routes/processSignUp.php';
+require 'routes/loginForm.php';
+require 'routes/performLogin.php';

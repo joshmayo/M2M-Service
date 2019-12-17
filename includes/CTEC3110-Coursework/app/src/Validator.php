@@ -224,24 +224,32 @@ class Validator
         return $checked_Message;
     }
 
-    /**
-     * Function for sanitising a string.
-     *
-     * @param $tainted_param
-     *
-     * @return bool|mixed - Returns false if the field is empty. Returns the value with sanitised characters
-     * if validation is successful.
-     */
-
-    public function sanitiseString(string $string_to_sanitise): string
+    public function validateUsername($tainted_param)
     {
-        $sanitised_string = false;
+        $checked_Username = false;
 
-        if (!empty($string_to_sanitise))
+        $usernameRegex = '/[A-Za-z0-9]{5,29}$/';
+
+        if(preg_match($usernameRegex, $tainted_param))
         {
-            $sanitised_string = filter_var($string_to_sanitise, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
-        return $sanitised_string;
+
+        return $checked_Username;
+    }
+
+    public function validatePassword($tainted_param)
+    {
+        $checked_Password = false;
+
+        $passwordRegex = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/';
+
+        if(preg_match($passwordRegex, $tainted_param))
+        {
+            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+
+        return $checked_Password;
     }
 
 }
