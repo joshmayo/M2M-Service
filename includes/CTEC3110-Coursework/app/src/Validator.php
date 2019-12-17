@@ -148,6 +148,7 @@ class Validator
         {
             $checked_time = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
+
         return $checked_time;
     }
 
@@ -166,7 +167,7 @@ class Validator
     {
         $checked_Bearer = false;
 
-        if (!empty($tainted_param) && strlen($tainted_param) >= 3 && strlen($tainted_param) <= 5)
+        if (!empty($tainted_param) && $tainted_param === "SMS" || $tainted_param === "GPRS" || $tainted_param === "BEEP")
         {
             $checked_Bearer = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
@@ -187,12 +188,10 @@ class Validator
     {
         $checked_ref = false;
 
-        if (is_numeric($tainted_param) && strlen($tainted_param) <= 6)
+        if (is_numeric($tainted_param) && strlen($tainted_param) <= 5)
         {
-            if(strpos($tainted_param, '.') == false)
+            if(strpos($tainted_param, '.') === false)
             {
-                (int)$tainted_param;
-
                 if($tainted_param >= 0 && $tainted_param <= 65535)
                 {
                     $checked_ref = $tainted_param;
