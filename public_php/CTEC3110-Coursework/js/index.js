@@ -18,17 +18,17 @@ $(document).ready(function () {
 
     $('#update-table-btn').on('click', function (e) {
         e.preventDefault();
-        $('#load-spinner').css('display', 'inline-block');
         fetchMessages();
     });
 
     function fetchMessages() {
         $('#error-msg').empty();
+        $('#load-spinner').css('display', 'inline-block');
         console.log('Fetching Messages...');
         $.ajax({
             url: rootURL + "/updateTable",
             type: 'GET',
-            dataType: "json",
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 console.log("Success: GET successful");
                 $('#load-spinner').hide();

@@ -39,17 +39,18 @@ class ProcessMessage
 
         $messages = $messagedetails_model->getResult();
 
-        $validator = $app->getContainer()->get('validator');
-        $xml_parser = $app->getContainer()->get('xmlParser');
+        $valid_resp = true;
 
         $valid_messages = [];
 
-        foreach ($messages as $key => $message_xml) {
-            $xml_parser->setXmlStringToParse($message_xml);
-            $xml_parser->parseTheXmlString();
-            $parsed_xml = $xml_parser->getParsedData();
+        if(!empty($messages)) {
+            $validator = $app->getContainer()->get('validator');
+            $xml_parser = $app->getContainer()->get('xmlParser');
 
-            $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
+            foreach ($messages as $key => $message_xml) {
+                $xml_parser->setXmlStringToParse($message_xml);
+                $xml_parser->parseTheXmlString();
+                $parsed_xml = $xml_parser->getParsedData();
 
             if ($safe_message === false) {
                 return 'Failed api validation';
@@ -110,7 +111,7 @@ class ProcessMessage
     {
         $message_detail_result = $this->fetchMessages($app);
 
-        if (is_array($message_detail_result)) {
+        if (is_array($message_detail_result) && !empty($message_detail_result)) {
 
             foreach ($message_detail_result as $key => $message) {
 
