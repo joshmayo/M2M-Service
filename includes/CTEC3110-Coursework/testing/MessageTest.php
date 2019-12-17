@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class MessageTest extends TestCase
 {
-
+//https://symfonycasts.com/screencast/phpunit/full-mock-example
 
     public function test__construct()
     {
@@ -35,60 +35,101 @@ class MessageTest extends TestCase
        var_dump($testMessage);
 
     }
-    public function test__destruct()
+    public function testGetSourceMsisdn()
     {
+         $testMessage = new Message("447817814149","447817814149",1,0,
+             1,0,1,60,1,"2019-12-16 15:00:10" );
 
+         $this->assertEquals("447817814149",$testMessage->getSourceMsisdn());
+         var_dump($testMessage);
+
+
+    }
+    public function testGetDestinationMsisn()
+    {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
+
+        $this->assertEquals("447817814149",$testMessage->getDestinationMsisn());
+        var_dump($testMessage);
     }
     public function testGetFan()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
+        $this->assertEquals(1,$testMessage->getFan());
 
+        var_dump($testMessage);
     }
 
 
     public function testGetHeater()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
 
-    }
+        $this->assertEquals(60,$testMessage->getHeater());
 
-    public function testGetSwitch2()
-    {
-
-    }
-
-    public function testGetSwitch3()
-    {
-
-    }
-
-    public function testGetReceivedTime()
-    {
-
+        var_dump($testMessage);
     }
 
     public function testGetSwitch1()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
 
+        $this->assertEquals(1,$testMessage->getSwitch1());
+
+        var_dump($testMessage);
     }
-
-    public function testGetSourceMsisdn()
+    public function testGetSwitch2()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
 
+        $this->assertEquals(0,$testMessage->getSwitch2());
+
+        var_dump($testMessage);
     }
 
+    public function testGetSwitch3()
+    {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
+
+        $this->assertEquals(1,$testMessage->getSwitch3());
+
+
+        var_dump($testMessage);
+    }
     public function testGetSwitch4()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
 
+        $this->assertEquals(0,$testMessage->getSwitch4());
+
+        var_dump($testMessage);
     }
-    public function testGetDestinationMsisn()
+    public function testGetReceivedTime()
     {
-        $messageTest = new Message();
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
+        $this->assertEquals("2019-12-16 15:00:10", $testMessage->getReceivedTime());
 
-
+        var_dump($testMessage);
 
     }
+
 
     public function testGetKeypad()
     {
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"2019-12-16 15:00:10" );
+
+        $this->assertEquals(1, $testMessage->getKeypad());
+        var_dump($testMessage);
+
 
     }
 }
