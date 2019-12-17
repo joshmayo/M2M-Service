@@ -36,6 +36,13 @@ class MessageAnalyticsModel
     {
     }
 
+    public function getVars()
+    {
+        $vars = [$this->output_chart_details,$this->output_chart_path_and_name, $this->stored_message_data];
+
+        return $vars;
+    }
+
     public function setStoredMessageData(array $stored_message_data)
     {
         $this->stored_message_data = $stored_message_data;

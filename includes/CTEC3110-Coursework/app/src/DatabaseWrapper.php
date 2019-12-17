@@ -43,6 +43,14 @@ class DatabaseWrapper
     {
     }
 
+    public function getVars()
+    {
+        $vars = [$this->database_connection_settings,$this->db_handle,$this->sql_queries,
+            $this->prepared_statement,$this->errors,$this->log];
+
+        return $vars;
+    }
+
     public function setDatabaseConnectionSettings($database_connection_settings)
     {
         $this->database_connection_settings = $database_connection_settings;
