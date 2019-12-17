@@ -75,8 +75,9 @@ class MessageDetailsModel
      *
      *
      * @param $message_body
+     * @param $device_msisdn
      */
-    public function sendMessage($message_body)
+    public function sendMessage($message_body, $device_msisdn = COUNTRY_CODE . MSISDN)
     {
         $this->log->info('Attempting to send message to API: ' . $message_body);
 
@@ -88,7 +89,7 @@ class MessageDetailsModel
             $webservice_call_parameters = [
                 'username' => M2M_USER,
                 'password' => M2M_PASS,
-                'deviceMsisdn' => COUNTRY_CODE . MSISDN,
+                'deviceMsisdn' => $device_msisdn,
                 'message' => $message_body,
                 'deliveryReport' => true,
                 'mtBearer' => 'SMS',

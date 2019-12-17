@@ -139,9 +139,17 @@ class ProcessMessage
                     $db_conf = $app->getContainer()->get('settings');
                     $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-                    try {
-                        $database->addMessage($message);
-                    } catch (Exception $error) {
+                    try
+                    {
+                        $new_message = $database->addMessage($message);
+
+                        if($new_message[0]['@new_message'] != 0)
+                        {
+                            $this->sendSmsReceipt($app, $new_message[0]['@new_message']);
+                        }
+                    }
+                    catch (Exception $error)
+                    {
                         return $error->getMessage();
                     }
                 }
@@ -178,5 +186,13 @@ class ProcessMessage
         }
 
         return $message_list;
+    }
+
+    function sendSmsReceipt($app, $msisdn)
+    {
+        $messagedetails_model = $app->getContainer()->get('messageDetailsModel');
+
+        $messagedetails_model->sendMessage('Message received! Group 18_3110_AS', $msisdn);
+
     }
 }

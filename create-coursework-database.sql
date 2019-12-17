@@ -103,7 +103,6 @@ CREATE PROCEDURE AddMessage(
 	IN received_time_to_add datetime
 )
 BEGIN
-  SELECT @existing_time;
 
 	SELECT received_time
 	FROM message_content
@@ -112,7 +111,7 @@ BEGIN
 
 	IF @existing_time IS NULL THEN
 
-    SELECT @existing_metadata;
+    SET @new_message = source_msisdn_to_add;
 
     SELECT DISTINCT metadata_id
     FROM message_metadata
@@ -152,7 +151,11 @@ BEGIN
       keypad_to_add,
       received_time_to_add
     );
+  ELSE
+    SET @new_message = 0;
 	END IF ;
+
+	SELECT @new_message;
 
 END$$
 DELIMITER ;

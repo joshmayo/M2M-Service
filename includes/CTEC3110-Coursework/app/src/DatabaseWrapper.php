@@ -182,10 +182,12 @@ class DatabaseWrapper
      *
      * @param Message $message - Message object passed to the function from the Message.php class.
      *
+     * @return array|mixed - Whether or not the message is new.
      */
 
     public function addMessage(Message $message)
     {
+        $new_message = [];
         $this->makeDatabaseConnection();
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
@@ -202,6 +204,12 @@ class DatabaseWrapper
             . $dateToBeInserted . '\')';
 
         $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $new_message = $this->safeFetchArray();
+        }
+
+        return $new_message;
     }
 
     /**
