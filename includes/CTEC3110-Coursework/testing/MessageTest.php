@@ -2,7 +2,7 @@
 /**
  * MessageTest.php
  *
- * Unit Test for Message class
+ * Unit Tests for Message class
  *
  * @uses \M2MConnect\Message
  *
