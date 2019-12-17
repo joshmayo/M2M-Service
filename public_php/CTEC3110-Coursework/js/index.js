@@ -18,12 +18,12 @@ $(document).ready(function () {
 
     $('#update-table-btn').on('click', function (e) {
         e.preventDefault();
-        $('#load-spinner').css('display', 'inline-block');
         fetchMessages();
     });
 
     function fetchMessages() {
         $('#error-msg').empty();
+        $('#load-spinner').css('display', 'inline-block');
         console.log('Fetching Messages...');
         $.ajax({
             url: rootURL + "/updateTable",
