@@ -11,9 +11,6 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-
-
-
 $app->get('/', function (Request $request, Response $response) use ($app) {
 
     $process_message = $app->getContainer()->get('processMessage');
@@ -29,6 +26,7 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
+            'signUp_page' => 'signUp',
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Messages',

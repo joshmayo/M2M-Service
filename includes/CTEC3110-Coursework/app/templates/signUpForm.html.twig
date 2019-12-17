@@ -1,0 +1,49 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <main>
+        <div class="header-container">
+            <h2 class="display-4">
+                {{ page_heading_2 }}
+                <small class="text-muted">{{ page_heading_1 }}</small>
+            </h2>
+        </div>
+        <div class="form-container">
+            <form action="{{ action }}" method="{{ method }}">
+                <div class="column">
+                    <div class="form-group">
+                        <label class="secondary-color" for="username">Username</label>
+                        <input name="username" type="text"
+                               class="form-control signup-form"
+                               id="username"
+                               aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted signup-form">Please enter a username
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label class="secondary-color" for="password">Password</label>
+                        <input name="password" type="password"
+                               class="form-control signup-form"
+                               id="password"
+                               aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted signup-form">Please enter a password
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label class="secondary-color" for="passwordConfirm">Confirm Password</label>
+                        <input name="password" type="password"
+                               class="form-control signup-form"
+                               id="passwordConfirm"
+                               aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted signup-form">Please confirm your password
+                        </small>
+                    </div>
+                    <div class="sendMessage-btn-container">
+                        <button type="submit" class="btn btn-primary primary-color button"
+                                id="sendMessage-btn">Send
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

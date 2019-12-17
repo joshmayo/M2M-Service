@@ -37,6 +37,7 @@ $app->post('/processSendMessage',  function (Request $request, Response $respons
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
+            'signUp_page' => 'signUp',
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Send Message Result',

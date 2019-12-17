@@ -34,6 +34,7 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
+            'signUp_page' => 'signUp',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,

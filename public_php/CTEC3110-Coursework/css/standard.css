@@ -258,3 +258,11 @@ hr {width:100%;height:1px;}
 .page-link:focus {
     box-shadow: none;
 }
+
+/***********************************************/
+/* signup form styles                          */
+/***********************************************/
+
+.signup-form {
+    width: 200%;
+}

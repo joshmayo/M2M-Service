@@ -1,9 +1,9 @@
 <?php
 
 /**
- * sendMessage.php
+ * signUp.php
  *
- * Form for sending messages to SOAP M2M API
+ * Display a form to allow the user to create an account.
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
@@ -12,10 +12,11 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/sendMessage', function (Request $request, Response $response) use ($app) {
+$app->get('/signUp', function (Request $request, Response $response) use ($app) {
+
 
     $html_output = $this->view->render($response,
-        'sendMessageForm.html.twig',
+        'signUpForm.html.twig',
         [
             'css_path' => CSS_PATH,
             'js_path' => JS_PATH,
@@ -24,14 +25,13 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
             'analytics_page' => 'analytics',
             'signUp_page' => 'signUp',
             'method' => 'post',
-            'action' => 'processSendMessage',
-            'initial_input_box_value' => null,
+            'action' => 'processSignUp',
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Send Message',
+            'page_heading_2' => 'Sign Up',
         ]
     );
 
     return $html_output;
 
-})->setName('sendMessage');
+})->setName('signUp');
