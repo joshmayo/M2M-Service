@@ -28,7 +28,7 @@ $(document).ready(function () {
         $.ajax({
             url: rootURL + "/updateTable",
             type: 'GET',
-            dataType: "json",
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 console.log("Success: GET successful");
                 $('#load-spinner').hide();
