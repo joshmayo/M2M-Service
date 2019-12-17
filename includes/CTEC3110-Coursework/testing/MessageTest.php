@@ -129,7 +129,5 @@ class MessageTest extends TestCase
 
         $this->assertEquals(1, $testMessage->getKeypad());
         var_dump($testMessage);
-
-
     }
 }
