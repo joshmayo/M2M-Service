@@ -214,15 +214,11 @@ class DatabaseWrapper
 
     public function addUser($name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL AddUser()';
+        $query_string = 'CALL AddUser(' . $name . ','
+            . $hashed_pw . ','
+            . $privs . ')';
 
-        $query_parameters = [
-            ':name' => $name,
-            ':hashed_pw' => $hashed_pw,
-            ':privs' => $privs
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     /**
@@ -233,13 +229,9 @@ class DatabaseWrapper
 
     public function deleteUser($user_id)
     {
-        $query_string = 'CALL DeleteUser()';
+        $query_string = 'CALL DeleteUser(' . $user_id . ')';
 
-        $query_parameters = [
-            ':user_id_to_delete' => $user_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     /**
@@ -248,13 +240,9 @@ class DatabaseWrapper
 
     public function togglePrivilege($user_id)
     {
-        $query_string = 'CALL TogglePrivilege()';
+        $query_string = 'CALL TogglePrivilege(' . $user_id . ')';
 
-        $query_parameters = [
-            ':user_id_to_toggle' => $user_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     /**
@@ -268,16 +256,12 @@ class DatabaseWrapper
 
     public function updateUser($user_id, $name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL UpdateUser()';
+        $query_string = 'CALL UpdateUser(' . $user_id . ','
+            . $name . ','
+            . $hashed_pw . ','
+            . $privs . ')';
 
-        $query_parameters = [
-            ':user_id_to_update' => $user_id,
-            ':name' => $name,
-            ':hashed_pw' => $hashed_pw,
-            ':privs' => $privs
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     /**
@@ -319,14 +303,10 @@ class DatabaseWrapper
     public function getSessionVar($session_key)
     {
         $session_var_exists = false;
-        $query_string = 'CALL CheckSessionVar()';
+        $query_string = 'CALL CheckSessionVar(' . session_id() . ','
+            . $session_key. ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
             $session_var_exists = true;
@@ -343,15 +323,11 @@ class DatabaseWrapper
 
     private function createSessionVar($session_key, $session_value)
     {
-        $query_string = 'CALL CreateSessionVar()';
+        $query_string = 'CALL CreateSessionVar(' . session_id() . ','
+            . $session_key . ','
+            . $session_value . ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key,
-            ':session_var_value' => $session_value
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 
     /**
@@ -363,14 +339,10 @@ class DatabaseWrapper
 
     private function storeSessionVar($session_key, $session_value)
     {
-        $query_string = 'CALL SetSessionVar';
+        $query_string = 'CALL SetSessionVar(' . session_id() . ','
+            . $session_key . ','
+            . $session_value . ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key,
-            ':session_var_value' => $session_value
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 }
