@@ -9,7 +9,8 @@
         "ext-sodium": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8"
+        "phpunit/phpunit": "^8",
+        "phpunit/dbunit": "*"
     },
     "autoload": {
         "psr-4": {
