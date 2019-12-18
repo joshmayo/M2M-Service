@@ -21,13 +21,13 @@ $app->get('/login', function (Request $request, Response $response) use ($app) {
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
             'login_page' => 'login',
-            'SignUp_page' => 'login',
+            'SignUp_page' => 'signUp',
             'method' => 'post',
             'action' => 'performLogin',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Sign in',
+            'page_heading_2' => 'Sign In',
         ]
     );
 
