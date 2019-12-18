@@ -24,19 +24,20 @@
                         <input name="password" type="password"
                                class="form-control signup-form"
                                id="password"
-                               aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted signup-form">Please enter a password
+                               aria-describedby="passwordHelp">
+                        <small id="passwordHelp" class="form-text text-muted signup-form">Please enter a password
                         </small>
                     </div>
                     <div class="form-group">
                         <label class="secondary-color" for="passwordConfirm">Confirm Password</label>
-                        <input name="password" type="password"
+                        <input name="passwordConfirm" type="password"
                                class="form-control signup-form"
                                id="passwordConfirm"
-                               aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted signup-form">Please confirm your password
+                               aria-describedby="passwordConfHelp">
+                        <small id="passwordConfHelp" class="form-text text-muted signup-form">Please confirm your password
                         </small>
                     </div>
+                    <label class="secondary-color" for="passwordConfirm">{{ message }}</label>
                     <div class="sendMessage-btn-container">
                         <button type="submit" class="btn btn-primary primary-color button"
                                 id="sendMessage-btn">Send

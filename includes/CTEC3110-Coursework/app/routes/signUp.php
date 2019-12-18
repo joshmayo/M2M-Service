@@ -30,6 +30,7 @@ $app->get('/signUp', function (Request $request, Response $response) use ($app) 
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Sign Up',
+            'message' => null,
         ]
     );
 

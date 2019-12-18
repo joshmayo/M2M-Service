@@ -244,7 +244,7 @@ DELIMITER ;
 
 CREATE TABLE `users` (
 	`user_id` int(4) NOT NULL AUTO_INCREMENT,
-	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE,
 	`hashed_password` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 	`privilege` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY (user_id)

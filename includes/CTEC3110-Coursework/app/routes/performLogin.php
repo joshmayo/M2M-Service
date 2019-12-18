@@ -35,12 +35,12 @@ function cleanupLoginParameters($app, $tainted_parameters)
     if (isset($tainted_parameters['username']))
     {
         $tainted_username = $tainted_parameters['username'];
-        //$validated_username = $validator->validateKeypadCode($tainted_username);
+        $validated_username = $validator->validateKeypadCode($tainted_username);
     }
     if (isset($tainted_parameters['password']))
     {
         $tainted_password = $tainted_parameters['password'];
-        //$validated_password = $validator->validateHeaterCode($tainted_password);
+        $validated_password = $validator->validateHeaterCode($tainted_password);
     }
 
     if (!$validated_username === false &&

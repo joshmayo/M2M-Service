@@ -17,46 +17,61 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->post('/processSignUp', function (Request $request, Response $response) use ($app) {
 
     $tainted_parameters = $request->getParsedBody();
-
     $cleaned_parameters = cleanupSignupParameters($app, $tainted_parameters);
-
-    $encrypted = encrypt($app, $cleaned_parameters);
     $hashed_password = hash_password($app, $cleaned_parameters['password']);
-    $encoded = encode($app, $encrypted);
-    $decrypted = decrypt($app, $encoded);
+    $hashed_confirm = hash_password($app, $cleaned_parameters['passwordConfirm']);
 
-    $database = $app->getContainer()->get('databaseWrapper');
-    $db_conf = $app->getContainer()->get('settings');
-    $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
+    if ($hashed_password != null &&
+        $hashed_confirm != null &&
+        $cleaned_parameters['sanitised_username'] != false &&
+        $cleaned_parameters['password'] == $cleaned_parameters['passwordConfirm']) {
+        try {
+            $database = $app->getContainer()->get('databaseWrapper');
+            $db_conf = $app->getContainer()->get('settings');
+            $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-    $insertion_successful = $database->addUser($cleaned_parameters['sanitised_username'], $hashed_password, 'user');
+            $database->addUser($cleaned_parameters['sanitised_username'], $hashed_password, 'user');
 
-    var_dump($insertion_successful);
+            return $html_output = $this->view->render($response,
+                'signUpResult.html.twig',
+                [
+                    'landing_page' => LANDING_PAGE,
+                    'css_path' => CSS_PATH,
+                    'js_path' => JS_PATH,
+                    'page_title' => APP_NAME,
+                    'page_heading_1' => APP_NAME,
+                    'page_heading_2' => 'Sign Up',
+                    'sendMessage_page' => 'sendMessage',
+                    'analytics_page' => 'analytics',
+                    'login_page' => 'login',
+                    'SignUp_page' => 'signUp',
+                    'result' => 'Welcome, ' . $cleaned_parameters['sanitised_username'] . '!',
+                ]);
+        } catch (Exception $e) {
+            $refused_message = 'That username is already taken, please try again.';
+        }
+    } else {
+        $refused_message = 'Something was wrong with your details.';
+    }
 
-    $html_output =  $this->view->render($response,
-        'signUpResult.html.twig',
+    $html_output = $this->view->render($response,
+        'signUpForm.html.twig',
         [
-            'landing_page' => LANDING_PAGE,
             'css_path' => CSS_PATH,
             'js_path' => JS_PATH,
-            'page_title' => APP_NAME,
-            'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Sign Up',
+            'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
             'login_page' => 'login',
             'SignUp_page' => 'signUp',
-            'username' => $tainted_parameters['username'],
-            'password' => $tainted_parameters['password'],
-            'sanitised_username' => $cleaned_parameters['sanitised_username'],
-            'cleaned_password' => $cleaned_parameters['password'],
-            'hashed_password' => $hashed_password,
-            'libsodium_version' => SODIUM_LIBRARY_VERSION,
-            'nonce_value_username' => $encrypted['encrypted_username_and_nonce']['nonce'],
-            'encrypted_username' => $encrypted['encrypted_username_and_nonce']['encrypted_string'],
-            'encoded_username' => $encoded['encoded_username'],
-            'decrypted_username' => $decrypted['username'],
-        ]);
+            'method' => 'post',
+            'action' => 'processSignUp',
+            'page_title' => APP_NAME,
+            'page_heading_1' => APP_NAME,
+            'page_heading_2' => 'Sign Up',
+            'message' => $refused_message,
+        ]
+    );
 
     return $html_output;
 
@@ -83,9 +98,11 @@ function cleanupSignupParameters($app, $tainted_parameters)
     $validator = $app->getContainer()->get('validator');
 
     $tainted_username = $tainted_parameters['username'];
-    $taited_password = $tainted_parameters['password'];
+    $tainted_password = $tainted_parameters['password'];
+    $tainted_confirm = $tainted_parameters['passwordConfirm'];
 
-    $cleaned_parameters['password'] = $validator->validateUsername($taited_password);
+    $cleaned_parameters['password'] = $validator->validatePassword($tainted_password);
+    $cleaned_parameters['passwordConfirm'] = $validator->validatePassword($tainted_confirm);
     $cleaned_parameters['sanitised_username'] = $validator->validateUsername($tainted_username);
     return $cleaned_parameters;
 }
@@ -121,6 +138,13 @@ function hash_password($app, $password_to_hash): string
     $bcrypt_wrapper = $app->getContainer()->get('bcryptWrapper');
     $hashed_password = $bcrypt_wrapper->createHashedPassword($password_to_hash);
     return $hashed_password;
+}
+
+function auth_password($app, $password_to_check, $password_check_against)
+{
+    $bcrypt_wrapper = $app->getContainer()->get('bcryptWrapper');
+    $match = $bcrypt_wrapper->authenticatePassword($password_to_check, $password_check_against);
+    return $match;
 }
 
 /**
