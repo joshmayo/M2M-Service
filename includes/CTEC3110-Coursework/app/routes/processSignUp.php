@@ -140,13 +140,6 @@ function hash_password($app, $password_to_hash): string
     return $hashed_password;
 }
 
-function auth_password($app, $password_to_check, $password_check_against)
-{
-    $bcrypt_wrapper = $app->getContainer()->get('bcryptWrapper');
-    $match = $bcrypt_wrapper->authenticatePassword($password_to_check, $password_check_against);
-    return $match;
-}
-
 /**
  * function both decodes base64 then decrypts the extracted cipher code
  *

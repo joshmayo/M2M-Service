@@ -276,6 +276,17 @@ SELECT @success;
 END$$
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE PROCEDURE GetHash(
+  IN uname varchar(30)
+)
+BEGIN
+  SELECT hashed_password
+  FROM `users`
+  WHERE username = uname;
+END$$
+DELIMITER ;
 
 DELIMITER $$
  

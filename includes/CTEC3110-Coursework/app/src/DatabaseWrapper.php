@@ -292,6 +292,27 @@ class DatabaseWrapper
     }
 
     /**
+     * Gets the password hash for a given user
+     *
+     * @param $username
+     * @return hash
+     */
+
+    public function getHash($username)
+    {
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL GetHash(\'' . $username . '\')';
+
+        $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $hash = $this->safeFetchArray();
+        }
+
+        return $hash[0]['hashed_password'];
+    }
+
+    /**
      * Invalidates the specified session key.
      *
      * @param $session_key
