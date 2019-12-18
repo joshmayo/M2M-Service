@@ -17,11 +17,15 @@ use PHPUnit\Framework\TestCase;
 class DatabaseWrapperTest extends TestCase
 {
     protected $config;
+    protected $test_db_config;
+
 
 
     protected function setUp(): void
     {
         $this->config = require("../app/settings.php");
+        $this->test_db_config = (TEST_DB_SETTINGS['pdo_test_settings']);
+
 
     }
 
@@ -44,27 +48,26 @@ class DatabaseWrapperTest extends TestCase
     {
         $testDbWrapper = new DatabaseWrapper();
 
-        $this->assertNull($testDbWrapper->setDatabaseConnectionSettings(true));
-
-        var_dump($testDbWrapper->getVars()[0]);
+        $this->assertNull($testDbWrapper->setDatabaseConnectionSettings($this->test_db_config));
 
     }
     public function testMakeDatabaseConnection()
     {
         $testDbWrapper = new DatabaseWrapper();
 
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
-
-    }
-
-    public function testSafeQuery ()
-    {
-
+        $this->assertEmpty($testDbWrapper->makeDatabaseConnection());
     }
 
     public function testGetMessages()
     {
+        $testDbWrapper = new DatabaseWrapper();
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
+        $this->assertIsArray($testDbWrapper->getMessages());
+
+        var_dump($testDbWrapper->getMessages());
 
     }
 

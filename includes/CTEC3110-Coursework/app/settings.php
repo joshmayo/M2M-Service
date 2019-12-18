@@ -66,7 +66,43 @@ $settings = [
               PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
               PDO::ATTR_EMULATE_PREPARES   => true,
           ]],
+
+
   ],
+    "pdo_test_settings" => [
+        'rdbms' => 'mysql',
+        'host' => 'localhost',
+        'db_name' => 'coursework_db_test',
+        'port' => '3306',
+        'user_name' => 'coursework_user',
+        'user_password' => 'coursework_user_pass',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'options' => [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => true,
+        ]],
 ];
 
+$test_db_settings =[
+    "pdo_test_settings" => [
+        'rdbms' => 'mysql',
+        'host' => 'localhost',
+        'db_name' => 'coursework_db_test',
+        'port' => '3306',
+        'user_name' => 'coursework_user',
+        'user_password' => 'coursework_user_pass',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'options' => [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => true,
+        ]],
+];
+define('TEST_DB_SETTINGS', $test_db_settings);
+
 return $settings;
+
+
