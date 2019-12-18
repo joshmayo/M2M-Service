@@ -68,61 +68,27 @@ class DatabaseWrapperTest extends TestCase
         $this->assertIsArray($testDbWrapper->getMessages());
 
         var_dump($testDbWrapper->getMessages());
-
-    }
-
-
-    public function testSafeFetchArray()
-    {
-
-    }
-
-    public function testDeleteUser()
-    {
-
-    }
-
-    public function testUpdateUser()
-    {
-
-    }
-
-    public function testAddUser()
-    {
-
-    }
-
-
-
-    public function testAddMessage()
-    {
-
-    }
-
-    public function testSetSessionVar()
-    {
-
-    }
-
-    public function testSafeFetchRow()
-    {
-
-    }
-
-    public function testCountRows()
-    {
-
-    }
-
-    public function testTogglePrivilege()
-    {
-
     }
 
     public function testGetMessageMetaData()
     {
+        $testDbWrapper = new DatabaseWrapper();
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
+
+
 
     }
 
+    public function testAddMessage()
+    {
+        $testDbWrapper = new DatabaseWrapper();
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"01/01/2019 15:00:10" );
+
+        var_dump($testDbWrapper->addMessage($testMessage));
+
+        $this->assertIsArray($testDbWrapper->addMessage($testMessage));
+    }
 }
