@@ -27,6 +27,11 @@ class SoapWrapper
     {
     }
 
+    public function getLog()
+    {
+        return $this->log;
+    }
+
     /**
      *
      * @return \SoapClient|string

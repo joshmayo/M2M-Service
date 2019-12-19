@@ -1,6 +1,6 @@
 <?php
 /**
-* MessageTest.php
+* MessageAnalyticsModelTest.php
 *
  * Unit Tests for MessageAnalyticsModel class
  *
