@@ -20,7 +20,8 @@ $app->get('/login', function (Request $request, Response $response) use ($app) {
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
-            'login_page' => 'login',
+            'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
+            'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
             'SignUp_page' => 'signUp',
             'method' => 'post',
             'action' => 'performLogin',
@@ -28,7 +29,8 @@ $app->get('/login', function (Request $request, Response $response) use ($app) {
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Sign In',
-            'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png'
+            'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
+            'error_text' => '',
         ]
     );
 

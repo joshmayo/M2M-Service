@@ -19,10 +19,10 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanupSignupParameters($app, $tainted_parameters);
     $hashed_password = hash_password($app, $cleaned_parameters['password']);
-    $hashed_confirm = hash_password($app, $cleaned_parameters['passwordConfirm']);
+    //$hashed_confirm = hash_password($app, $cleaned_parameters['passwordConfirm']);
 
     if ($hashed_password != null &&
-        $hashed_confirm != null &&
+        //$hashed_confirm != null &&
         $cleaned_parameters['sanitised_username'] != false &&
         $cleaned_parameters['password'] == $cleaned_parameters['passwordConfirm']) {
         try {
@@ -43,9 +43,10 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
                     'page_heading_2' => 'Sign Up',
                     'sendMessage_page' => 'sendMessage',
                     'analytics_page' => 'analytics',
-                    'login_page' => 'login',
+                    'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
+                    'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
                     'SignUp_page' => 'signUp',
-                    'result' => 'Welcome, ' . $cleaned_parameters['sanitised_username'] . '!',
+                    'result' => 'Sign up successful!',
                 ]);
         } catch (Exception $e) {
             $refused_message = 'That username is already taken, please try again.';
@@ -62,7 +63,8 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
-            'login_page' => 'login',
+            'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
+            'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
             'SignUp_page' => 'signUp',
             'method' => 'post',
             'action' => 'processSignUp',

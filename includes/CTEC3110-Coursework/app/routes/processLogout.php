@@ -1,5 +1,4 @@
 <?php
-
 /**
  * sendMessage.php
  *
@@ -12,12 +11,15 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/sendMessage', function (Request $request, Response $response) use ($app) {
+$app->get('/processLogout', function (Request $request, Response $response) use ($app) {
 
     if (isset($_SESSION['user']))
     {
+        session_unset();
+        session_destroy();
+
         $html_output = $this->view->render($response,
-            'sendMessageForm.html.twig',
+            'logoutResult.html.twig',
             [
                 'css_path' => CSS_PATH,
                 'js_path' => JS_PATH,
@@ -27,20 +29,18 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
                 'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                 'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
                 'SignUp_page' => 'signUp',
-                'method' => 'post',
-                'action' => 'processSendMessage',
-                'initial_input_box_value' => null,
                 'page_title' => APP_NAME,
                 'page_heading_1' => APP_NAME,
-                'page_heading_2' => 'Send Message',
+                'page_heading_2' => 'Sign Out',
+                'result' => 'Successfully signed out',
             ]
         );
 
         return $html_output;
     }
     else {
-        return $response->withRedirect('login');
+        return $response->withRedirect('homepage');
     }
 
 
-})->setName('sendMessage');
+})->setName('processLogout');
