@@ -11,7 +11,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/homepage', function (Request $request, Response $response) use ($app) {
+$app->get('/', function (Request $request, Response $response) use ($app) {
 
     $process_message = $app->getContainer()->get('processMessage');
 

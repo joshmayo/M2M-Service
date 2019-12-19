@@ -39,7 +39,7 @@ $app->get('/processLogout', function (Request $request, Response $response) use 
         return $html_output;
     }
     else {
-        return $response->withRedirect('homepage');
+        return $response->withRedirect(LANDING_PAGE);
     }
 
 

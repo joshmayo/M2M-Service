@@ -26,7 +26,7 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
 
         $encrypted_user = $ecryption->encrypt($cleaned_parameters['username']);
         $_SESSION['user'] = $encrypted_user['encrypted_string'];
-        return $response->withRedirect('homepage');
+        return $response->withRedirect(LANDING_PAGE);
     }
     else {
         $html_output = $this->view->render($response,

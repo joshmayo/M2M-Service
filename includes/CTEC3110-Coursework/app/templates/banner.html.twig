@@ -21,7 +21,7 @@
             </ul>
             <span class="navbar-text">
                 <a href="{{ path_for(auth_page) }}" class="btn btn-sm primary-color">{{ auth_text }}</a>
-                {% if auth_text == 'Sign in' %}
+                {% if auth_page == 'login' %}
                     <a href="{{ path_for(SignUp_page) }}" class="btn btn-sm primary-color">Sign up</a>
                 {% endif %}
             </span>
