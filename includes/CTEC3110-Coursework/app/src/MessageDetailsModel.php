@@ -46,6 +46,22 @@ class MessageDetailsModel
         return $this->result;
     }
 
+    /**
+     * @return null
+     */
+    public function getSoapWrapper()
+    {
+        return $this->soap_wrapper;
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLog(): Logger
+    {
+        return $this->log;
+    }
+
     public function retrieveMessages()
     {
         $this->log->info('Attempting to retrieve messages from API.');

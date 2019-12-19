@@ -1,6 +1,6 @@
 <?php
 /**
- * DatabaseWrapper.php
+ * DatabaseWrapperTest.php
  *
  * Unit Tests for DatabaseWrapper class
  *

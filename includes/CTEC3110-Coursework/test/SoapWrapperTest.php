@@ -22,8 +22,9 @@ class SoapWrapperTest extends TestCase
     public function test__construct()
     {
         $testSoapWrapper = new SoapWrapper();
-
+        $this->assertIsObject($testSoapWrapper);
         $this->assertNotEmpty($testSoapWrapper->getLog());
+
 
     }
     public function testCreateSoapClient()
