@@ -7,43 +7,34 @@
                 <small class="text-muted">{{ page_heading_1 }}</small>
             </h2>
         </div>
-        <div class="form-container">
+        <div class="text-center form-signin">
+            <h4>{{ error_text }}</h4>
             <form action="{{ action }}" method="{{ method }}">
-                <div class="column">
-                    <div class="form-group">
-                        <label class="secondary-color" for="username">Username</label>
-                        <input name="username" type="text"
-                               class="form-control signup-form"
-                               id="username"
-                               aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted signup-form">Please enter a username
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-color" for="password">Password</label>
-                        <input name="password" type="password"
-                               class="form-control signup-form"
-                               id="password"
-                               aria-describedby="passwordHelp">
-                        <small id="passwordHelp" class="form-text text-muted signup-form">Please enter a password
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label class="secondary-color" for="passwordConfirm">Confirm Password</label>
-                        <input name="passwordConfirm" type="password"
-                               class="form-control signup-form"
-                               id="passwordConfirm"
-                               aria-describedby="passwordConfHelp">
-                        <small id="passwordConfHelp" class="form-text text-muted signup-form">Please confirm your password
-                        </small>
-                    </div>
-                    <label class="secondary-color" for="passwordConfirm">{{ message }}</label>
-                    <div class="sendMessage-btn-container">
-                        <button type="submit" class="btn btn-primary primary-color button"
-                                id="sendMessage-btn">Send
-                        </button>
-                    </div>
+                <img class="mb-4" src="{{ logo_path }}" alt=""
+                     width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal secondary-color">Sign up</h1>
+                <div class="form-group login-field">
+                    <label for="inputUsername" class="sr-only">Username</label>
+                    <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username"
+                           required
+                           autofocus>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please enter a username</small>
                 </div>
+                <div class="form-group login-field">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input name="password" type="password" id="inputPassword" class="form-control"
+                           placeholder="Password"
+                           required>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please enter a password</small>
+                </div>
+                <div class="form-group login-field">
+                    <label for="inputPasswordConfirm" class="sr-only">Confirm Password</label>
+                    <input name="passwordConfirm" type="password" id="inputPasswordConfirm" class="form-control"
+                           placeholder="Confirm Password"
+                           required>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please confirm your password</small>
+                </div>
+                <button class="btn btn-primary btn-block primary-color" type="submit">Sign up</button>
             </form>
         </div>
     </main>
