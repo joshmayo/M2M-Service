@@ -23,7 +23,7 @@ class DatabaseWrapperTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->config = require("../app/settings.php");
+        $this->config = require_once("../app/settings.php");
         $this->test_db_config = (TEST_DB_SETTINGS['pdo_test_settings']);
 
 
@@ -68,15 +68,6 @@ class DatabaseWrapperTest extends TestCase
         $this->assertIsArray($testDbWrapper->getMessages());
 
         var_dump($testDbWrapper->getMessages());
-    }
-
-    public function testGetMessageMetaData()
-    {
-        $testDbWrapper = new DatabaseWrapper();
-        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
-
-
-
     }
 
     public function testAddMessage()
