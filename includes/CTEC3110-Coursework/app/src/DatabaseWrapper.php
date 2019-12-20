@@ -152,13 +152,9 @@ class DatabaseWrapper
      */
     public function getMessageMetaData($metadata_id)
     {
-        $query_string = 'CALL GetMessageMetadata()';
+        $query_string = 'CALL GetMessageMetadata(' .  $metadata_id . ')';
 
-        $query_parameters = [
-            ':metadata_id_to_get' => $metadata_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
             $metadata = $this->safeFetchRow();

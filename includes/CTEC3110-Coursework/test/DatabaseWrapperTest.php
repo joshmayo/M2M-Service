@@ -1,6 +1,6 @@
 <?php
 /**
- * DatabaseWrapper.php
+ * DatabaseWrapperTest.php
  *
  * Unit Tests for DatabaseWrapper class
  *
@@ -17,11 +17,15 @@ use PHPUnit\Framework\TestCase;
 class DatabaseWrapperTest extends TestCase
 {
     protected $config;
+    protected $test_db_config;
+
 
 
     protected function setUp(): void
     {
-        $this->config = require("../app/settings.php");
+        $this->config = require_once("../app/settings.php");
+        $this->test_db_config = (TEST_DB_SETTINGS['pdo_test_settings']);
+
 
     }
 
@@ -44,82 +48,38 @@ class DatabaseWrapperTest extends TestCase
     {
         $testDbWrapper = new DatabaseWrapper();
 
-        $this->assertNull($testDbWrapper->setDatabaseConnectionSettings(true));
-
-        var_dump($testDbWrapper->getVars()[0]);
+        $this->assertNull($testDbWrapper->setDatabaseConnectionSettings($this->test_db_config));
 
     }
     public function testMakeDatabaseConnection()
     {
         $testDbWrapper = new DatabaseWrapper();
 
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
-
-    }
-
-    public function testSafeQuery ()
-    {
-
+        $this->assertEmpty($testDbWrapper->makeDatabaseConnection());
     }
 
     public function testGetMessages()
     {
+        $testDbWrapper = new DatabaseWrapper();
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
+        $this->assertIsArray($testDbWrapper->getMessages());
 
+        var_dump($testDbWrapper->getMessages());
     }
-
-
-    public function testSafeFetchArray()
-    {
-
-    }
-
-    public function testDeleteUser()
-    {
-
-    }
-
-    public function testUpdateUser()
-    {
-
-    }
-
-    public function testAddUser()
-    {
-
-    }
-
-
 
     public function testAddMessage()
     {
+        $testDbWrapper = new DatabaseWrapper();
+        $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
+        $testMessage = new Message("447817814149","447817814149",1,0,
+            1,0,1,60,1,"01/01/2019 15:00:10" );
+
+        var_dump($testDbWrapper->addMessage($testMessage));
+
+        $this->assertIsArray($testDbWrapper->addMessage($testMessage));
     }
-
-    public function testSetSessionVar()
-    {
-
-    }
-
-    public function testSafeFetchRow()
-    {
-
-    }
-
-    public function testCountRows()
-    {
-
-    }
-
-    public function testTogglePrivilege()
-    {
-
-    }
-
-    public function testGetMessageMetaData()
-    {
-
-    }
-
-
 }

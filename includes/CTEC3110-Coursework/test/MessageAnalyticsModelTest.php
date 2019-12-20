@@ -1,6 +1,6 @@
 <?php
 /**
-* MessageTest.php
+* MessageAnalyticsModelTest.php
 *
  * Unit Tests for MessageAnalyticsModel class
  *
@@ -12,54 +12,110 @@
 namespace M2MConnect;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\DbUnit\TestCaseTrait;
-
 
 class MessageAnalyticsModelTest extends TestCase
+
 {
 
     protected $config;
+    protected $test_db_config;
+    protected $libchartPath;
 
     protected function setUp(): void
     {
-        $this->config = require("../app/settings.php");
+        $this->config = require_once("../app/settings.php");
+        $this->test_db_config = (TEST_DB_SETTINGS['pdo_test_settings']);
+       include '../../libchart/classes/libchart.php';
+
+
 
     }
     public function test__construct()
     {
-        $TestAnalytics = new MessageAnalyticsModel();
+        $testAnalytics = new MessageAnalyticsModel();
 
-        $this->assertInstanceOf(MessageAnalyticsModel::class,$TestAnalytics);
-        $this->assertEmpty($TestAnalytics->getVars()[0]);
-        $this->assertEmpty($TestAnalytics->getVars()[1]);
-        $this->assertEmpty($TestAnalytics->getVars()[2]);
+        $this->assertInstanceOf(MessageAnalyticsModel::class,$testAnalytics);
+        $this->assertEmpty($testAnalytics->getVars()[0]);
+        $this->assertEmpty($testAnalytics->getVars()[1]);
+        $this->assertEmpty($testAnalytics->getVars()[2]);
     }
 
     public function testSetStoredMessageData()
     {
-        $TestAnalytics = new MessageAnalyticsModel();
+        $testAnalytics = new MessageAnalyticsModel();
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
 
-        $this->assertSame([23,21],$TestAnalytics->setStoredMessageData([23,21]));
+        $this->assertNull($testAnalytics->setStoredMessageData($testMessages));
 
 
     }
+
     public function testCreateBarChart()
     {
 
+        $testAnalytics = new MessageAnalyticsModel();
+
+
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createBarChart();
+
+        $this->assertDirectoryExists("/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/");
+        $this->assertFileExists("media/charts/message-barchart.png");
     }
 
     public function testCreatePieChart()
     {
+        $testAnalytics = new MessageAnalyticsModel();
+
+
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createPieChart();
+
+        $this->assertDirectoryExists("/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/");
+        $this->assertFileExists("media/charts/message-piechart.png");
 
     }
 
+
+
     public function testCreateLineChart()
     {
+        $testAnalytics = new MessageAnalyticsModel();
 
+
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createLineChart();
+
+        $this->assertDirectoryExists("/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/");
+        $this->assertFileExists("media/charts/message-linechart.png");
     }
 
     public function testGetPieChartDetails()
     {
+
+        $testAnalytics = new MessageAnalyticsModel();
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createPieChart();
+
+        $this->assertStringContainsString('media/charts/message-piechart.png', $testAnalytics->getPieChartDetails());
 
     }
 
@@ -69,6 +125,28 @@ class MessageAnalyticsModelTest extends TestCase
 
     public function testGetLineChartDetails()
     {
+        $testAnalytics = new MessageAnalyticsModel();
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createLineChart();
+
+        $this->assertStringContainsString('media/charts/message-linechart.png', $testAnalytics->getLineChartDetails());
+    }
+
+    public function testGetBarChartDetails()
+    {
+        $testAnalytics = new MessageAnalyticsModel();
+        $testMessageWrapper = new DatabaseWrapper();
+        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
+        $testMessages = $testMessageWrapper->getMessages();
+        $testAnalytics->setStoredMessageData($testMessages);
+
+        $testAnalytics->createBarChart();
+
+        $this->assertStringContainsString('media/charts/message-barchart.png', $testAnalytics->getBarChartDetails());
 
     }
 }
