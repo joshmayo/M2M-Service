@@ -14,8 +14,6 @@
 
 namespace M2MConnect;
 
-use PHPUnit\Util\Filter;
-
 class Validator
 {
     public function __construct() { }
@@ -205,7 +203,7 @@ class Validator
     /**
      * Function for validating the Message Reference field.
      *
-     * Ensures the Reference value is
+     * Ensures the Reference value is not empty and sanitises the string of any unwanted tags
      *
      * @param $tainted_param
      *
@@ -224,6 +222,17 @@ class Validator
         return $checked_Message;
     }
 
+    /**
+     * Function for validating username.
+     *
+     * Ensures the Reference value matches the given regex and sanitises the string of any unwanted tags
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field does not match regex. Returns the value of sanitised string
+     * if validation is successful.
+     */
+
     public function validateUsername($tainted_param)
     {
         $checked_Username = false;
@@ -232,11 +241,22 @@ class Validator
 
         if(preg_match($usernameRegex, $tainted_param))
         {
-            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         }
 
         return $checked_Username;
     }
+
+    /**
+     * Function for validating password.
+     *
+     * Ensures the Reference value matches the given regex and sanitises the string of any unwanted tags
+     *
+     * @param $tainted_param
+     *
+     * @return bool|mixed - Returns false if the field does not match regex. Returns the value of sanitised string
+     * if validation is successful.
+     */
 
     public function validatePassword($tainted_param)
     {
@@ -246,7 +266,7 @@ class Validator
 
         if(preg_match($passwordRegex, $tainted_param))
         {
-            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
         }
 
         return $checked_Password;
