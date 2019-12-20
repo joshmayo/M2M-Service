@@ -1,4 +1,5 @@
 {% extends 'banner.html.twig' %}
+{% block title %}Send Message{% endblock %}
 {% block content %}
     <main>
         <div class="header-container">
@@ -64,14 +65,14 @@
                             <input name="heater" type="number" min="0" max="99" value="0" class="form-control"
                                    id="heater"
                                    aria-describedby="emailHelp">
-                            <small id="emailHelp" class="form-text text-muted">Enter heater value here</small>
+                            <small class="form-text text-muted">Enter heater value here</small>
                         </div>
                         <div class="form-group">
                             <label class="secondary-color" for="keypad">Keypad</label>
                             <input name="keypad" type="number" min="0" max="9" value="0" class="form-control"
                                    id="keypad"
                                    aria-describedby="emailHelp">
-                            <small id="emailHelp" class="form-text text-muted">Enter keypad value here</small>
+                            <small class="form-text text-muted">Enter keypad value here</small>
                         </div>
                     </div>
                 </div>

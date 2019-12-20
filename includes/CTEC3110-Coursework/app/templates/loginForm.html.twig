@@ -1,4 +1,5 @@
 {% extends 'banner.html.twig' %}
+{% block title %}Login{% endblock %}
 {% block content %}
     <main>
         <div class="header-container">
@@ -18,14 +19,14 @@
                     <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username"
                            required
                            autofocus>
-                    <small id="emailHelp" class="form-text text-muted helper-text">Enter Username here</small>
+                    <small class="form-text text-muted helper-text">Enter Username here</small>
                 </div>
                 <div class="form-group login-field">
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input name="password" type="password" id="inputPassword" class="form-control"
                            placeholder="Password"
                            required>
-                    <small id="emailHelp" class="form-text text-muted helper-text">Enter Password here</small>
+                    <small class="form-text text-muted helper-text">Enter Password here</small>
                 </div>
                 <button class="btn btn-primary btn-block primary-color" type="submit">Sign in</button>
             </form>

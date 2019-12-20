@@ -1,4 +1,5 @@
 {% extends 'banner.html.twig' %}
+{% block title %}M2M 2 Electric Boogaloo{% endblock %}
 {% block content %}
     <main>
         <div class="header-container">
@@ -26,16 +27,18 @@
         </div>
         <table id="message-table" class="table table-sm table-dark">
             <thead>
-            <th scope="col">Heater</th>
-            <th scope="col">Keypad</th>
-            <th scope="col">Fan</th>
-            <th scope="col">Switch 1</th>
-            <th scope="col">Switch 2</th>
-            <th scope="col">Switch 3</th>
-            <th scope="col">Switch 4</th>
-            <th scope="col">Received time</th>
-            <th scope="col">Source MSISDN</th>
-            <th scope="col">Destination MSISDN</th>
+                <tr>
+                    <th scope="col">Heater</th>
+                    <th scope="col">Keypad</th>
+                    <th scope="col">Fan</th>
+                    <th scope="col">Switch 1</th>
+                    <th scope="col">Switch 2</th>
+                    <th scope="col">Switch 3</th>
+                    <th scope="col">Switch 4</th>
+                    <th scope="col">Received time</th>
+                    <th scope="col">Source MSISDN</th>
+                    <th scope="col">Destination MSISDN</th>
+                </tr>
             </thead>
             <tbody id="homepage-message-tbl-body">
             {% for message in message_list %}
