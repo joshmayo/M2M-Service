@@ -46,7 +46,8 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
                     'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                     'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
                     'SignUp_page' => 'signUp',
-                    'result' => 'Sign up successful!',
+                    'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
+                    'result' => 'Account successfully created!',
                 ]);
         } catch (Exception $e) {
             $refused_message = 'That username is already taken, please try again.';
