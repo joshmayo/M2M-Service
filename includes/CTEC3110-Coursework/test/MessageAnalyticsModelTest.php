@@ -135,18 +135,4 @@ class MessageAnalyticsModelTest extends TestCase
 
         $this->assertStringContainsString('media/charts/message-linechart.png', $testAnalytics->getLineChartDetails());
     }
-
-    public function testGetBarChartDetails()
-    {
-        $testAnalytics = new MessageAnalyticsModel();
-        $testMessageWrapper = new DatabaseWrapper();
-        $testMessageWrapper->setDatabaseConnectionSettings($this->test_db_config);
-        $testMessages = $testMessageWrapper->getMessages();
-        $testAnalytics->setStoredMessageData($testMessages);
-
-        $testAnalytics->createBarChart();
-
-        $this->assertStringContainsString('media/charts/message-barchart.png', $testAnalytics->getBarChartDetails());
-
-    }
 }
