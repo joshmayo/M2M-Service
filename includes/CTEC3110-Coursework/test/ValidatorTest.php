@@ -127,7 +127,7 @@ class ValidatorTest extends TestCase
 
         $this->assertFalse($testValidator->validateUsername($badUN));
         $this->assertSame($goodUN, $testValidator->validateUsername($goodUN));
-        $this->assertFalse($testValidator->validateUsername("Test"));
+        $this->assertFalse($testValidator->validateUsername("Te"));
         $this->assertFalse($testValidator->validateUsername("TestusernameThatIsfarTooLongForThisField"));
 
     }
