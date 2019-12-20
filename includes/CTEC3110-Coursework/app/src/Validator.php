@@ -237,7 +237,7 @@ class Validator
     {
         $checked_Username = false;
 
-        $usernameRegex = '/^[A-Za-z0-9].{5,29}$/';
+        $usernameRegex = '/^[A-Za-z0-9].{3,19}$/';
 
         if(preg_match($usernameRegex, $tainted_param))
         {
