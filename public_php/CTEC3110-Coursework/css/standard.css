@@ -40,6 +40,10 @@ body {
     overflow: auto;
 }
 
+.helper-text {
+    text-align: left;
+}
+
 /***********************************************/
 /* heading styles                              */
 /***********************************************/
@@ -69,6 +73,10 @@ h4 {
 /*}*/
 .navbar-item:hover .navbar-link {
     color: #f035a0 !important;
+}
+
+.navbar-text {
+    padding: 0;
 }
 
 /***********************************************/
@@ -186,6 +194,17 @@ hr {width:100%;height:1px;}
     clear: both;
 }
 
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.login-field {
+    margin-bottom: 30px;
+}
+
 /*
 @media (max-width: ) {
 
@@ -257,4 +276,12 @@ hr {width:100%;height:1px;}
 
 .page-link:focus {
     box-shadow: none;
+}
+
+/***********************************************/
+/* signup form styles                          */
+/***********************************************/
+
+.signup-form {
+    width: 200%;
 }

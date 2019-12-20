@@ -33,6 +33,8 @@ define('LOGS_PATH', $logs_file_path);
 define ('LIB_CHART_OUTPUT_PATH', 'media/charts/');
 define ('LIB_CHART_FILE_PATH', '/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/');
 define ('LIB_CHART_CLASS_PATH', 'libchart/classes/');
+define ('BCRYPT_ALGO', PASSWORD_DEFAULT);
+define ('BCRYPT_COST', 12);
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);

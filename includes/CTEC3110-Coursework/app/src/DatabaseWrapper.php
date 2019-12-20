@@ -113,7 +113,8 @@ class DatabaseWrapper
             $error_message = 'PDO Exception caught. ';
             $error_message .= 'Error with the database access.' . "\n";
             $error_message .= 'SQL query: ' . $query_string . "\n";
-            $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(), true) . "\n";
+            $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(),
+                    true) . "\n";
 
             $this->log->error('Error occurred when attempting to execute query: ' . $query_string . $query_parameters);
 
@@ -226,15 +227,25 @@ class DatabaseWrapper
      * @param $name
      * @param $hashed_pw
      * @param $privs
+     *
+     * @return array|mixed - Whether or not the insertion was successful
      */
 
     public function addUser($name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL AddUser(' . $name . ','
-            . $hashed_pw . ','
-            . $privs . ')';
+        $success = [];
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL AddUser(\'' . $name . '\',' .
+            '\'' . $hashed_pw . '\',' .
+            '\'' . $privs . '\')';
 
         $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $success = $this->safeFetchArray();
+        }
+
+        return $success;
     }
 
     /**
@@ -281,6 +292,27 @@ class DatabaseWrapper
     }
 
     /**
+     * Gets the password hash for a given user
+     *
+     * @param $username
+     * @return hash
+     */
+
+    public function getHash($username)
+    {
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL GetHash(\'' . $username . '\')';
+
+        $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $hash = $this->safeFetchArray();
+        }
+
+        return $hash[0]['hashed_password'];
+    }
+
+    /**
      * Invalidates the specified session key.
      *
      * @param $session_key
@@ -320,7 +352,7 @@ class DatabaseWrapper
     {
         $session_var_exists = false;
         $query_string = 'CALL CheckSessionVar(' . session_id() . ','
-            . $session_key. ')';
+            . $session_key . ')';
 
         $this->safeQuery($query_string);
 

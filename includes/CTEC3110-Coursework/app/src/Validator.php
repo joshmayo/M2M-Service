@@ -224,4 +224,31 @@ class Validator
         return $checked_Message;
     }
 
+    public function validateUsername($tainted_param)
+    {
+        $checked_Username = false;
+
+        $usernameRegex = '/[A-Za-z0-9]{5,29}$/';
+
+        if(preg_match($usernameRegex, $tainted_param))
+        {
+            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+
+        return $checked_Username;
+    }
+
+    public function validatePassword($tainted_param)
+    {
+        $checked_Password = false;
+
+        $passwordRegex = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,20}$/';
+
+        if(preg_match($passwordRegex, $tainted_param))
+        {
+            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING);
+        }
+
+        return $checked_Password;
+    }
 }

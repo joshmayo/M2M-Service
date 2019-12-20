@@ -66,3 +66,19 @@ $container['loggerWrapper'] = function ($container) {
     $logging_wrapper = new Monolog\Logger('logger');
     return $logging_wrapper;
 };
+
+$container['libSodiumWrapper'] = function ($container)
+{
+    $wrapper = new \M2MConnect\LibSodiumWrapper();
+    return $wrapper;
+};
+
+$container['base64Wrapper'] = function ($container) {
+    $wrapper = new \M2MConnect\Base64Wrapper();
+    return $wrapper;
+};
+
+$container['bcryptWrapper'] = function ($container) {
+    $wrapper = new \M2MConnect\BcryptWrapper();
+    return $wrapper;
+};

@@ -1,0 +1,41 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <main>
+        <div class="header-container">
+            <h2 class="display-4">
+                {{ page_heading_2 }}
+                <small class="text-muted">{{ page_heading_1 }}</small>
+            </h2>
+        </div>
+        <div class="text-center form-signin">
+            <h4>{{ error_text }}</h4>
+            <form action="{{ action }}" method="{{ method }}">
+                <img class="mb-4" src="{{ logo_path }}" alt=""
+                     width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal secondary-color">Sign up</h1>
+                <div class="form-group login-field">
+                    <label for="inputUsername" class="sr-only">Username</label>
+                    <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username"
+                           required
+                           autofocus>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please enter a username</small>
+                </div>
+                <div class="form-group login-field">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input name="password" type="password" id="inputPassword" class="form-control"
+                           placeholder="Password"
+                           required>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please enter a password</small>
+                </div>
+                <div class="form-group login-field">
+                    <label for="inputPasswordConfirm" class="sr-only">Confirm Password</label>
+                    <input name="passwordConfirm" type="password" id="inputPasswordConfirm" class="form-control"
+                           placeholder="Confirm Password"
+                           required>
+                    <small id="emailHelp" class="form-text text-muted helper-text">Please confirm your password</small>
+                </div>
+                <button class="btn btn-primary btn-block primary-color" type="submit">Sign up</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}

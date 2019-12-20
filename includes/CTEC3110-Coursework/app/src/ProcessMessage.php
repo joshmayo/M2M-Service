@@ -143,7 +143,7 @@ class ProcessMessage
                     {
                         $new_message = $database->addMessage($message);
 
-                        if($new_message[0]['@new_message'] != 0)
+                        if(isset($new_message[0]['@new_message']) && $new_message[0]['@new_message'] != 0)
                         {
                             $this->sendSmsReceipt($app, $new_message[0]['@new_message']);
                         }
