@@ -46,6 +46,7 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
                     'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                     'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
                     'SignUp_page' => 'signUp',
+                    'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
                     'result' => 'Sign up successful!',
                 ]);
         } catch (Exception $e) {
