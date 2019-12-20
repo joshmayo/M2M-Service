@@ -107,6 +107,31 @@ class ValidatorTest extends TestCase
 
     }
 
+    public function testValidatePassword()
+    {
+        $testValidator = new Validator();
+        $badPw = "Password01";
+        $goodPw = "!Password_01";
+
+        $this->assertFalse($testValidator->validatePassword($badPw));
+        $this->assertSame($goodPw, $testValidator->validatePassword($goodPw));
+        $this->assertFalse($testValidator->validatePassword("!Password_01000000000000000000000000000000"));
+        $this->assertFalse($testValidator->validatePassword("!Pa_01"));
+    }
+
+    public function testValidateUsername()
+    {
+        $testValidator = new Validator();
+        $goodUN = "Testusername1";
+        $badUN = "!!!!!!!!!!!!!!!";
+
+        $this->assertFalse($testValidator->validateUsername($badUN));
+        $this->assertSame($goodUN, $testValidator->validateUsername($goodUN));
+        $this->assertFalse($testValidator->validateUsername("Test"));
+        $this->assertFalse($testValidator->validateUsername("TestusernameThatIsfarTooLongForThisField"));
+
+    }
+
 
 
 
