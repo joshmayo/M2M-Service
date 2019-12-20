@@ -54,6 +54,17 @@ class MessageDetailsModelTest extends TestCase
     public function testSendMessage()
     {
 
+        $testMessageModel = new MessageDetailsModel();
+
+        $testSoapWrapper = $this->createMock(SoapWrapper::class);
+
+
+        $testMessageModel->setSoapWrapper($testSoapWrapper);
+
+        $this->assertNull($testMessageModel->sendMessage());
+
+
+
     }
 
 
