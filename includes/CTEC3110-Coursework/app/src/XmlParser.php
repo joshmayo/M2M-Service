@@ -39,6 +39,14 @@ class XmlParser
         $this->xml_string_to_parse = $xml_string_to_parse;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getXmlStringToParse()
+    {
+        return $this->xml_string_to_parse;
+    }
+
     public function getParsedData()
     {
         return $this->parsed_data;
