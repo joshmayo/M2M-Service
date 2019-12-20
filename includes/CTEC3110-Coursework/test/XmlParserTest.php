@@ -11,7 +11,6 @@
 namespace M2MConnect;
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Xml;
 
 class XmlParserTest extends TestCase
 {
