@@ -1,6 +1,8 @@
 <?php
 /**
- *  creates and initialises soap client for calling M2M service
+ * Creates and initialises soap client for calling M2M service
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
  * todo: possibly remove soapCall magic function for appropriate alternative
  */
@@ -25,6 +27,21 @@ class SoapWrapper
     {
     }
 
+    public function getLog()
+    {
+        return $this->log;
+    }
+
+    /**
+     *
+     * @return \SoapClient|string
+     *
+     * @uses WSDl endpoint specified in settings.php for request.
+     *
+     * Intialises and handles a new soap client instance.
+     *
+     *
+     */
     public function createSoapClient()
     {
         $wsdl = WSDL;
@@ -40,6 +57,18 @@ class SoapWrapper
         }
         return $soap_client_handle;
     }
+
+    /**
+     * @param $soap_client
+     * @param $webservice_function
+     * @param $webservice_call_parameters
+     * @param $webservice_value
+     *
+     *
+     * Soap call is performed with stucture provided by MessageDetailsModel
+     *
+     * @return null|string by default empty for $soap_call_result
+     */
 
     public function performSoapCall($soap_client, $webservice_function, $webservice_call_parameters, $webservice_value)
     {

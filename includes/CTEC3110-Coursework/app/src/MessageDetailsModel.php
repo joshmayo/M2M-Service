@@ -4,6 +4,8 @@
  *
  * Class for sending and retrieving messages from the M2M service via SOAP calls.
  *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  * todo: add error handling to soap call
  */
 
@@ -44,6 +46,22 @@ class MessageDetailsModel
         return $this->result;
     }
 
+    /**
+     * @return null
+     */
+    public function getSoapWrapper()
+    {
+        return $this->soap_wrapper;
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLog(): Logger
+    {
+        return $this->log;
+    }
+
     public function retrieveMessages()
     {
         $this->log->info('Attempting to retrieve messages from API.');
@@ -67,8 +85,15 @@ class MessageDetailsModel
             $this->result = $soapcall_result;
         }
     }
-    
-    public function sendMessage($message_body)
+
+    /**
+     * Calls the M2M API to send the supplied message body.
+     *
+     *
+     * @param $message_body
+     * @param $device_msisdn
+     */
+    public function sendMessage($message_body, $device_msisdn = COUNTRY_CODE . MSISDN)
     {
         $this->log->info('Attempting to send message to API: ' . $message_body);
 
@@ -80,7 +105,7 @@ class MessageDetailsModel
             $webservice_call_parameters = [
                 'username' => M2M_USER,
                 'password' => M2M_PASS,
-                'deviceMsisdn' => COUNTRY_CODE . MSISDN,
+                'deviceMsisdn' => $device_msisdn,
                 'message' => $message_body,
                 'deliveryReport' => true,
                 'mtBearer' => 'SMS',

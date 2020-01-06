@@ -3,10 +3,10 @@
 /**
  * analytics.php
  *
- * page for dispaying message analytics
+ * Page for displaying message analytics
  *
- * Author: Josh Mayo
- * Date: 02/12/2019
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  *
  */
 
@@ -34,20 +34,36 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'landing_page' => LANDING_PAGE,
             'sendMessage_page' => 'sendMessage',
             'analytics_page' => 'analytics',
+            'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
+            'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
+            'SignUp_page' => 'signUp',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'page_text' => 'M2M message Analytics', // no longer exists
-            'line_chart' => '../' . $line_chart,
-            'pie_chart' => '../' . $pie_chart,
-            'bar_chart' => '../' . $bar_chart
+            'line_chart' => '/CTEC3110-Coursework/' . $line_chart,
+            'pie_chart' => '/CTEC3110-Coursework/' . $pie_chart,
+            'bar_chart' => '/CTEC3110-Coursework/' . $bar_chart
         ]
     );
 
     return $html_output;
 
 })->setName('analytics');
+
+/**
+ *
+ * Creates charts ready for display.
+ *
+ * @uses \M2MConnect\MessageAnalyticsModel
+ *
+ * @param $app
+ * @param array $message_data
+ * @param $type
+ *
+ * @return mixed - Returns chart details for display
+ *
+ */
 
 function createChart($app, array $message_data, $type)
 {

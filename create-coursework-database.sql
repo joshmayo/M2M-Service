@@ -103,7 +103,6 @@ CREATE PROCEDURE AddMessage(
 	IN received_time_to_add datetime
 )
 BEGIN
-  SELECT @existing_time;
 
 	SELECT received_time
 	FROM message_content
@@ -112,7 +111,7 @@ BEGIN
 
 	IF @existing_time IS NULL THEN
 
-    SELECT @existing_metadata;
+    SET @new_message = source_msisdn_to_add;
 
     SELECT DISTINCT metadata_id
     FROM message_metadata
@@ -152,7 +151,11 @@ BEGIN
       keypad_to_add,
       received_time_to_add
     );
+  ELSE
+    SET @new_message = 0;
 	END IF ;
+
+	SELECT @new_message;
 
 END$$
 DELIMITER ;
@@ -241,7 +244,7 @@ DELIMITER ;
 
 CREATE TABLE `users` (
 	`user_id` int(4) NOT NULL AUTO_INCREMENT,
-	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE,
 	`hashed_password` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 	`privilege` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY (user_id)
@@ -254,16 +257,36 @@ CREATE TABLE `users` (
 DELIMITER $$
  
 CREATE PROCEDURE AddUser(
-	IN name varchar(30),
+	IN username varchar(30),
 	IN hashed_pw varchar(500),
 	IN privs varchar(10)
 )
 BEGIN
-	INSERT INTO `users` (username, hashed_password, privilege) 
-	VALUES (name, hashed_pw, privs);
+	INSERT INTO `users` (username, hashed_password, privilege)
+	VALUES (username, hashed_pw, privs);
+
+  SELECT @success;
+	IF (ROW_COUNT() = 1) THEN
+    SET @success = 1;
+  ELSE
+    SET @success = 0;
+  END IF;
+SELECT @success;
+
 END$$
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE PROCEDURE GetHash(
+  IN uname varchar(30)
+)
+BEGIN
+  SELECT hashed_password
+  FROM `users`
+  WHERE username = uname;
+END$$
+DELIMITER ;
 
 DELIMITER $$
  

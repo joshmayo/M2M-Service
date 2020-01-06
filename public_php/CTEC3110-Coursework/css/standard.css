@@ -1,10 +1,23 @@
-html {margin:0;padding:0;border:0;}
+html {
+    margin:0;
+    padding:0;
+    border:0;
+    height: 100%;
+}
 
 body {
+    min-height: 100%;
+    padding:0;
+    margin:0;
+    position:relative;
     color:#fff;
     background-color:#171c25;
     font-family:arial, sans-serif;
     /*font-size:12pt;*/
+}
+
+.body-container {
+    padding-bottom: 70px;
 }
 
 .container-override {
@@ -36,6 +49,14 @@ body {
     float: right;
 }
 
+.refresh-container {
+    overflow: auto;
+}
+
+.helper-text {
+    text-align: left;
+}
+
 /***********************************************/
 /* heading styles                              */
 /***********************************************/
@@ -65,6 +86,10 @@ h4 {
 /*}*/
 .navbar-item:hover .navbar-link {
     color: #f035a0 !important;
+}
+
+.navbar-text {
+    padding: 0;
 }
 
 /***********************************************/
@@ -138,7 +163,7 @@ hr {width:100%;height:1px;}
 }
 
 /***********************************************/
-/* button switch styles                        */
+/* button styles                        */
 /***********************************************/
 
 .btn.primary-color {
@@ -155,8 +180,13 @@ hr {width:100%;height:1px;}
     margin: 0px 20px 20px 20px;
 }
 
+.signup-btn {
+    margin: 0px 10px 0px 10px;
+}
+
 .primary-color {
     background-color: #f035a0;
+    color: #fff;
 }
 
 /*.sendMessage-btn-container {
@@ -180,6 +210,17 @@ hr {width:100%;height:1px;}
     content: "";
     display: table;
     clear: both;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.login-field {
+    margin-bottom: 30px;
 }
 
 /*
@@ -213,7 +254,7 @@ hr {width:100%;height:1px;}
 }
 
 /***********************************************/
-/* img styles                              */
+/* img styles                                  */
 /***********************************************/
 
 .chart {
@@ -221,3 +262,59 @@ hr {width:100%;height:1px;}
     height: auto;
     margin-bottom: 3%;
 }
+
+/***********************************************/
+/* table overrides                             */
+/***********************************************/
+
+/*#message-table_filter {*/
+    /*display: none;*/
+/*}*/
+
+.paginate_button.page-item a {
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.paginate_button.page-item.active a {
+    background-color: #f035a0;
+    color: #fff;
+    border: none;
+}
+
+.paginate_button.page-item.disabled a {
+    background-color: #000;
+    color: #6a6a6a;
+}
+
+.page-link:hover {
+    z-index: unset;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+/***********************************************/
+/* signup form styles                          */
+/***********************************************/
+
+.signup-form {
+    width: 200%;
+}
+
+/***********************************************/
+/* footer styles                               */
+/***********************************************/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #000;
+    color: #fff;
+}
+

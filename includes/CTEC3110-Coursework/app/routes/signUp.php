@@ -1,8 +1,9 @@
 <?php
+
 /**
- * homepage.php
+ * signUp.php
  *
- * Display the Message application homepage
+ * Display a form to allow the user to create an account.
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
@@ -11,15 +12,11 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/', function (Request $request, Response $response) use ($app) {
+$app->get('/signUp', function (Request $request, Response $response) use ($app) {
 
-    $process_message = $app->getContainer()->get('processMessage');
-
-    $fetch_result = $process_message->getMessages($app);
-    $message_list = $process_message->returnMessages($app);
 
     $html_output = $this->view->render($response,
-        'homepagetable.html.twig',
+        'signUpForm.html.twig',
         [
             'css_path' => CSS_PATH,
             'js_path' => JS_PATH,
@@ -29,14 +26,16 @@ $app->get('/', function (Request $request, Response $response) use ($app) {
             'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
             'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
             'SignUp_page' => 'signUp',
+            'method' => 'post',
+            'action' => 'processSignUp',
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
-            'page_heading_2' => 'Messages',
-            'message_list' => $message_list,
-            'message' => is_string($message_list) ? $message_list : $fetch_result ? $fetch_result : '',
+            'page_heading_2' => 'Sign Up',
+            'message' => null,
+            'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
         ]
     );
 
     return $html_output;
 
-})->setName('homepage');
+})->setName('signUp');

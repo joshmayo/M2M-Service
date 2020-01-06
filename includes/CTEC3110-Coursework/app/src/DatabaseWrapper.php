@@ -3,9 +3,11 @@
 /**
  * DatabaseWrapper.php
  *
- * Wrapper class for accessing the database.
+ * Wrapper class for accessing the database and performing all db activities.
  *
- * Date: 02/12/2019
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
+ *
  */
 
 namespace M2MConnect;
@@ -41,11 +43,27 @@ class DatabaseWrapper
     {
     }
 
+    public function getVars()
+    {
+        $vars = [$this->database_connection_settings,$this->db_handle,$this->sql_queries,
+            $this->prepared_statement,$this->errors,$this->log];
+
+        return $vars;
+    }
+
     public function setDatabaseConnectionSettings($database_connection_settings)
     {
         $this->database_connection_settings = $database_connection_settings;
     }
 
+
+    /**
+     * Function that creates and executes a PDO object to connect to the database.
+     *
+     * @return string - Only returned when a PDO call encounters an error, will contain multiple errors.
+     *
+     * Connection settings are stored as hard variables
+     */
     public function makeDatabaseConnection()
     {
         $pdo_error = '';
@@ -95,7 +113,8 @@ class DatabaseWrapper
             $error_message = 'PDO Exception caught. ';
             $error_message .= 'Error with the database access.' . "\n";
             $error_message .= 'SQL query: ' . $query_string . "\n";
-            $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(), true) . "\n";
+            $error_message .= 'Error: ' . var_dump($this->prepared_statement->errorInfo(),
+                    true) . "\n";
 
             $this->log->error('Error occurred when attempting to execute query: ' . $query_string . $query_parameters);
 
@@ -124,15 +143,18 @@ class DatabaseWrapper
         return $row;
     }
 
+    /**
+     * Find message Meta Data associated with the Message ID
+     *
+     * @param $metadata_id
+     *
+     * @return mixed
+     */
     public function getMessageMetaData($metadata_id)
     {
-        $query_string = 'CALL GetMessageMetadata()';
+        $query_string = 'CALL GetMessageMetadata(' .  $metadata_id . ')';
 
-        $query_parameters = [
-            ':metadata_id_to_get' => $metadata_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
             $metadata = $this->safeFetchRow();
@@ -140,6 +162,11 @@ class DatabaseWrapper
         return $metadata;
     }
 
+    /**
+     * Retrieves all stored messages on the database
+     *
+     * @return array|mixed - All stored messages will be returned via this array.
+     */
     public function getMessages()
     {
         $this->makeDatabaseConnection();
@@ -155,8 +182,17 @@ class DatabaseWrapper
         return $messages;
     }
 
+    /**
+     * Adds a new message to the database.
+     *
+     * @param Message $message - Message object passed to the function from the Message.php class.
+     *
+     * @return array|mixed - Whether or not the message is new.
+     */
+
     public function addMessage(Message $message)
     {
+        $new_message = [];
         $this->makeDatabaseConnection();
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
@@ -173,60 +209,122 @@ class DatabaseWrapper
             . $dateToBeInserted . '\')';
 
         $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $new_message = $this->safeFetchArray();
+        }
+
+        return $new_message;
     }
+
+    /**
+     * Adds a Database User
+     *
+     * @param $name
+     * @param $hashed_pw
+     * @param $privs
+     *
+     * @return array|mixed - Whether or not the insertion was successful
+     */
 
     public function addUser($name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL AddUser()';
+        $success = [];
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL AddUser(\'' . $name . '\',' .
+            '\'' . $hashed_pw . '\',' .
+            '\'' . $privs . '\')';
 
-        $query_parameters = [
-            ':name' => $name,
-            ':hashed_pw' => $hashed_pw,
-            ':privs' => $privs
-        ];
+        $this->safeQuery($query_string);
 
-        $this->safeQuery($query_string, $query_parameters);
+        if ($this->countRows() > 0) {
+            $success = $this->safeFetchArray();
+        }
+
+        return $success;
     }
+
+    /**
+     * Removes a Database User
+     *
+     * @param $user_id
+     */
 
     public function deleteUser($user_id)
     {
-        $query_string = 'CALL DeleteUser()';
+        $query_string = 'CALL DeleteUser(' . $user_id . ')';
 
-        $query_parameters = [
-            ':user_id_to_delete' => $user_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
+
+    /**
+     * @param $user_id
+     */
 
     public function togglePrivilege($user_id)
     {
-        $query_string = 'CALL TogglePrivilege()';
+        $query_string = 'CALL TogglePrivilege(' . $user_id . ')';
 
-        $query_parameters = [
-            ':user_id_to_toggle' => $user_id
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
+
+    /**
+     * Changes Database User data.
+     *
+     * @param $user_id
+     * @param $name
+     * @param $hashed_pw
+     * @param $privs
+     */
 
     public function updateUser($user_id, $name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL UpdateUser()';
+        $query_string = 'CALL UpdateUser(' . $user_id . ','
+            . $name . ','
+            . $hashed_pw . ','
+            . $privs . ')';
 
-        $query_parameters = [
-            ':user_id_to_update' => $user_id,
-            ':name' => $name,
-            ':hashed_pw' => $hashed_pw,
-            ':privs' => $privs
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
+
+    /**
+     * Gets the password hash for a given user
+     *
+     * @param $username
+     * @return hash
+     */
+
+    public function getHash($username)
+    {
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL GetHash(\'' . $username . '\')';
+
+        $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $hash = $this->safeFetchArray();
+        }
+
+        return $hash[0]['hashed_password'];
+    }
+
+    /**
+     * Invalidates the specified session key.
+     *
+     * @param $session_key
+     */
 
     public function unsetSessionVar($session_key)
     {
     }
+
+    /**
+     * Sets variables associated with the passed session key.
+     *
+     * @param $session_key
+     * @param $session_value
+     * @return array
+     */
 
     public function setSessionVar($session_key, $session_value)
     {
@@ -239,17 +337,20 @@ class DatabaseWrapper
         return ($this->errors);
     }
 
+    /**
+     * Returns a confirmation if the supplied session variables exist.
+     *
+     * @param $session_key
+     * @return bool
+     */
+
     public function getSessionVar($session_key)
     {
         $session_var_exists = false;
-        $query_string = 'CALL CheckSessionVar()';
+        $query_string = 'CALL CheckSessionVar(' . session_id() . ','
+            . $session_key . ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
             $session_var_exists = true;
@@ -257,29 +358,35 @@ class DatabaseWrapper
         return $session_var_exists;
     }
 
+    /**
+     * Creates session variables for setting with the associated session key.
+     *
+     * @param $session_key
+     * @param $session_value
+     */
+
     private function createSessionVar($session_key, $session_value)
     {
-        $query_string = 'CALL CreateSessionVar()';
+        $query_string = 'CALL CreateSessionVar(' . session_id() . ','
+            . $session_key . ','
+            . $session_value . ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key,
-            ':session_var_value' => $session_value
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
+
+    /**
+     * Stores the session key and value into the database.
+     *
+     * @param $session_key
+     * @param $session_value
+     */
 
     private function storeSessionVar($session_key, $session_value)
     {
-        $query_string = 'CALL SetSessionVar';
+        $query_string = 'CALL SetSessionVar(' . session_id() . ','
+            . $session_key . ','
+            . $session_value . ')';
 
-        $query_parameters = [
-            ':local_session_id' => session_id(),
-            ':session_var_name' => $session_key,
-            ':session_var_value' => $session_value
-        ];
-
-        $this->safeQuery($query_string, $query_parameters);
+        $this->safeQuery($query_string);
     }
 }
