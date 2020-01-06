@@ -7,10 +7,18 @@
 
 namespace M2MConnect;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class BcryptWrapper
 {
 
-    public function __construct(){}
+    public function __construct()
+    {
+        $this->log = new Logger('logger');
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'login.log', Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'login_error.log', Logger::ERROR));
+    }
 
     public function __destruct(){}
 
@@ -29,6 +37,8 @@ class BcryptWrapper
 
     public function authenticatePassword($string_to_check, $stored_user_password_hash)
     {
+        $this->log->info('User attempting to login.');
+
         $user_authenticated = false;
         $current_user_password = $string_to_check;
 
@@ -37,6 +47,12 @@ class BcryptWrapper
             if (password_verify($current_user_password, $stored_user_password_hash))
             {
                 $user_authenticated = true;
+
+                $this->log->info('User login successful.');
+            }
+            else
+            {
+                $this->log->info('User login failed.');
             }
         }
         return $user_authenticated;
