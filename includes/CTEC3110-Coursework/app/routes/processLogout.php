@@ -1,8 +1,8 @@
 <?php
 /**
- * sendMessage.php
+ * processLogout.php
  *
- * Form for sending messages to SOAP M2M API
+ * Route for processing user logging out.
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
