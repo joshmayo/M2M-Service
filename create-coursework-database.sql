@@ -246,7 +246,7 @@ CREATE TABLE `users` (
 	`user_id` int(4) NOT NULL AUTO_INCREMENT,
 	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE,
 	`hashed_password` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`privilege` int(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`privilege` int(1) DEFAULT NULL,
 	PRIMARY KEY (user_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
