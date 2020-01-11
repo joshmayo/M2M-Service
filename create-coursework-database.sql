@@ -250,6 +250,8 @@ CREATE TABLE `users` (
 	PRIMARY KEY (user_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
+INSERT INTO `users`(username, hashed_password, privilege) VALUES ('admin', '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 0);
+
 -- ----------------------------
 -- Stored procedures for `users`
 -- ----------------------------
