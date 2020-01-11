@@ -1,8 +1,8 @@
 <?php
 /**
- * processLogout.php
+ * adminDash.php
  *
- * Route for processing user logging out.
+ * Route for displaying admin dashboard.
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
@@ -11,15 +11,11 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->get('/processLogout', function (Request $request, Response $response) use ($app) {
+$app->get('/adminDash', function (Request $request, Response $response) use ($app) {
 
-    if (isset($_SESSION['user']))
-    {
-        session_unset();
-        session_destroy();
-
+    if (isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0') {
         $html_output = $this->view->render($response,
-            'logoutResult.html.twig',
+            'adminDash.html.twig',
             [
                 'css_path' => CSS_PATH,
                 'js_path' => JS_PATH,
@@ -32,16 +28,13 @@ $app->get('/processLogout', function (Request $request, Response $response) use 
                 'SignUp_page' => 'signUp',
                 'page_title' => APP_NAME,
                 'page_heading_1' => APP_NAME,
-                'page_heading_2' => 'Sign Out',
-                'result' => 'Successfully signed out',
+                'page_heading_2' => 'Administrator Dashboard',
             ]
         );
 
         return $html_output;
-    }
-    else {
+    } else {
         return $response->withRedirect(LANDING_PAGE);
     }
 
-
-})->setName('processLogout');
+})->setName('adminDash');

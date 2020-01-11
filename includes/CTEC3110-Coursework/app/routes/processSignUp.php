@@ -30,7 +30,7 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
             $db_conf = $app->getContainer()->get('settings');
             $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-            $database->addUser($cleaned_parameters['sanitised_username'], $hashed_password, 'user');
+            $database->addUser($cleaned_parameters['sanitised_username'], $hashed_password, 1);
 
             return $html_output = $this->view->render($response,
                 'signUpResult.html.twig',
@@ -45,6 +45,7 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
                     'analytics_page' => 'analytics',
                     'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                     'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
+                    'admin_dash' => isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0' ? 'adminDash' : null,
                     'SignUp_page' => 'signUp',
                     'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
                     'result' => 'Account successfully created!',
@@ -66,6 +67,7 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
             'analytics_page' => 'analytics',
             'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
             'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
+            'admin_dash' => isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0' ? 'adminDash' : null,
             'SignUp_page' => 'signUp',
             'method' => 'post',
             'action' => 'processSignUp',
