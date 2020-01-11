@@ -302,6 +302,18 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+
+CREATE PROCEDURE GetUser(
+  IN uname varchar(30)
+)
+BEGIN
+  SELECT username, hashed_password, privilege
+  FROM `users`
+  WHERE username = uname;
+END$$
+DELIMITER ;
+
+DELIMITER $$
  
 CREATE PROCEDURE DeleteUser(
 	IN username_to_delete int(4)

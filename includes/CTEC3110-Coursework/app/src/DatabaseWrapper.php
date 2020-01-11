@@ -220,6 +220,9 @@ class DatabaseWrapper
     /**
      * Adds a Database User
      *
+     * priv '0' = admin
+     * priv '1' = user
+     *
      * @param $name
      * @param $hashed_pw
      * @param $privs
@@ -233,7 +236,7 @@ class DatabaseWrapper
         $this->makeDatabaseConnection();
         $query_string = 'CALL AddUser(\'' . $name . '\',' .
             '\'' . $hashed_pw . '\',' .
-            '\'' . $privs . '\')';
+            $privs . ')';
 
         $this->safeQuery($query_string);
 
@@ -307,6 +310,29 @@ class DatabaseWrapper
 
         return $hash[0]['hashed_password'];
     }
+
+
+    /**
+     * Gets the user details of a given user
+     *
+     * @param $username
+     * @return array
+     */
+
+    public function getUser($username)
+    {
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL GetUser(\'' . $username . '\')';
+
+        $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $user = $this->safeFetchArray();
+        }
+
+        return $user['0'];
+    }
+
 
     /**
      * Invalidates the specified session key.
