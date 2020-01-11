@@ -257,6 +257,17 @@ INSERT INTO `users`(username, hashed_password, privilege) VALUES ('admin', '$2y$
 -- ----------------------------
 
 DELIMITER $$
+
+CREATE PROCEDURE GetUsers()
+BEGIN
+
+  SELECT username, privilege
+  FROM `users`;
+
+END$$
+DELIMITER ;
+
+DELIMITER $$
  
 CREATE PROCEDURE AddUser(
 	IN username varchar(30),
@@ -293,28 +304,27 @@ DELIMITER ;
 DELIMITER $$
  
 CREATE PROCEDURE DeleteUser(
-	IN user_id_to_delete int(4)
+	IN username_to_delete int(4)
 )
 BEGIN
 	DELETE FROM users
-	WHERE user_id = user_id_to_delete;
+	WHERE username = username_to_delete;
 END$$
 DELIMITER ;
 
 DELIMITER $$
  
 CREATE PROCEDURE UpdateUser(
-	IN user_id_to_update int(4),
 	IN name varchar(30),
 	IN hashed_pw varchar(500),
 	IN privs int(1)
 )
 BEGIN
 	UPDATE users 
-	SET username = name,
+	SET
 	hashed_password = hashed_pw,
 	privilege = privs 
-	WHERE user_id = user_id_to_update;
+	WHERE username = name;
 END$$
 DELIMITER ;
 
