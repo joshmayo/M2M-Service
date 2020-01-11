@@ -246,7 +246,7 @@ CREATE TABLE `users` (
 	`user_id` int(4) NOT NULL AUTO_INCREMENT,
 	`username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE,
 	`hashed_password` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-	`privilege` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+	`privilege` int(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 	PRIMARY KEY (user_id)
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
@@ -259,7 +259,7 @@ DELIMITER $$
 CREATE PROCEDURE AddUser(
 	IN username varchar(30),
 	IN hashed_pw varchar(500),
-	IN privs varchar(10)
+	IN privs int(1)
 )
 BEGIN
 	INSERT INTO `users` (username, hashed_password, privilege)
@@ -299,26 +299,13 @@ BEGIN
 END$$
 DELIMITER ;
 
-
-DELIMITER $$
- 
-CREATE PROCEDURE TogglePrivilege(
-	IN user_id_to_toggle int(4)
-)
-BEGIN
-	UPDATE users
-	SET privilege = !privilege
-	WHERE user_id = user_id_to_toggle;
-END$$
-DELIMITER ;
-
 DELIMITER $$
  
 CREATE PROCEDURE UpdateUser(
 	IN user_id_to_update int(4),
 	IN name varchar(30),
 	IN hashed_pw varchar(500),
-	IN privs varchar(10)
+	IN privs int(1)
 )
 BEGIN
 	UPDATE users 
