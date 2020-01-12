@@ -20,3 +20,6 @@ require 'routes/processSignUp.php';
 require 'routes/loginForm.php';
 require 'routes/processLogin.php';
 require 'routes/processLogout.php';
+require 'routes/adminDash.php';
+require 'routes/deleteUsers.php';
+require 'routes/togglePermissions.php';

@@ -18,6 +18,13 @@
                 <li class="nav-item navbar-item">
                     <a class="nav-link navbar-link" href="{{ path_for(analytics_page) }}">Analytics</a>
                 </li>
+
+                {% if admin_dash != null %}
+                    <li class="nav-item navbar-item">
+                        <a class="nav-link navbar-link" href="{{ path_for(admin_dash) }}">Admin Dashboard</a>
+                    </li>
+                {% endif %}
+
             </ul>
             <span class="navbar-text">
                 <a href="{{ path_for(auth_page) }}" class="btn btn-sm primary-color">{{ auth_text }}</a>
