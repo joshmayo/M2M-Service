@@ -152,7 +152,9 @@ class DatabaseWrapper
      */
     public function getMessageMetaData($metadata_id)
     {
-        $query_string = 'CALL GetMessageMetadata(' .  $metadata_id . ')';
+        $query_string = 'SELECT *
+	                    FROM message_metadata
+	                    WHERE metadata_id =' . $metadata_id;
 
         $this->safeQuery($query_string);
 
@@ -171,7 +173,23 @@ class DatabaseWrapper
     {
         $this->makeDatabaseConnection();
         $messages = [];
-        $query_string = 'CALL GetMessages()';
+        $query_string = 'SELECT 
+        md.metadata_id,
+		message_content_id,
+		source_msisdn,
+		destination_msisdn,
+		received_time,
+		switch_1,
+		switch_2,
+		switch_3,
+		switch_4,
+		fan,
+		heater,
+		keypad
+        FROM
+            message_metadata md
+	    join message_content c on md.metadata_id = c.metadata_id
+        ORDER BY received_time DESC';
 
         $this->safeQuery($query_string);
 
@@ -197,16 +215,59 @@ class DatabaseWrapper
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
 
-        $query_string = 'CALL AddMessage(' . $message->getSourceMsisdn() . ','
-            . $message->getDestinationMsisn() . ','
-            . $message->getSwitch1() . ','
-            . $message->getSwitch2() . ','
-            . $message->getSwitch3() . ','
-            . $message->getSwitch4() . ','
-            . $message->getFan() . ','
-            . $message->getHeater() . ','
-            . $message->getKeypad() . ',\''
-            . $dateToBeInserted . '\')';
+        $query_string = 'SELECT received_time
+	    FROM message_content
+    	WHERE received_time = \'' . $dateToBeInserted . '\'
+      	INTO @existing_time;
+
+	    IF @existing_time IS NULL THEN
+
+        SET @new_message = ' . $message->getSourceMsisdn() . '
+
+        SELECT DISTINCT metadata_id
+        FROM message_metadata
+        WHERE source_msisdn = ' . $message->getSourceMsisdn() . '
+        and destination_msisdn = ' . $message->getDestinationMsisn() . '
+        INTO @existing_metadata;
+
+        IF @existing_metadata IS null THEN
+
+        INSERT INTO message_metadata (source_msisdn, destination_msisdn)
+        VALUES (' . $message->getSourceMsisdn() . ', ' . $message->getDestinationMsisn() . ');
+        SELECT LAST_INSERT_ID() INTO @existing_metadata;
+
+        END IF	;
+
+        INSERT INTO message_content
+        (
+        metadata_id,
+        switch_1,
+        switch_2,
+        switch_3,
+        switch_4,
+        fan,
+        heater,
+        keypad,
+        received_time
+        )
+        VALUES
+        (
+        @existing_metadata,
+        ' . $message->getSwitch1() . ',
+        ' . $message->getSwitch2() . ',
+        ' . $message->getSwitch3() . ',
+        ' . $message->getSwitch4() . ',
+        ' . $message->getFan() . ',
+        ' . $message->getHeater() . ',
+        ' . $message->getKeypad() . ',
+        \'' . $dateToBeInserted . '\'
+        );
+        ELSE
+        SET @new_message = 0;
+	    END IF ;
+
+	    SELECT @new_message';
+
 
         $this->safeQuery($query_string);
 
@@ -222,6 +283,7 @@ class DatabaseWrapper
      *
      * priv '0' = admin
      * priv '1' = user
+     * priv '2' = superAdmin
      *
      * @param $name
      * @param $hashed_pw
@@ -232,19 +294,13 @@ class DatabaseWrapper
 
     public function addUser($name, $hashed_pw, $privs)
     {
-        $success = [];
         $this->makeDatabaseConnection();
-        $query_string = 'CALL AddUser(\'' . $name . '\',' .
-            '\'' . $hashed_pw . '\',' .
-            $privs . ')';
+        $query_string = 'INSERT INTO users (username, hashed_password, privilege)
+	    VALUES (\'' . $name . '\', \'' . $hashed_pw . '\', \'' . $privs . '\')';
 
-        $this->safeQuery($query_string);
+        $result = $this->safeQuery($query_string);
 
-        if ($this->countRows() > 0) {
-            $success = $this->safeFetchArray();
-        }
-
-        return $success;
+        return $result;
     }
 
     /**
@@ -255,9 +311,8 @@ class DatabaseWrapper
 
     public function deleteUser($user_id)
     {
-        $this->log->info('Attempting to delete user ' . $user_id);
-        $this->makeDatabaseConnection();
-        $query_string = 'CALL DeleteUser(' . $user_id . ')';
+        $query_string = 'DELETE FROM users
+	    WHERE user_id =' . $user_id;
 
         $this->safeQuery($query_string);
     }
@@ -268,8 +323,21 @@ class DatabaseWrapper
 
     public function togglePrivilege($user_id)
     {
-        $this->makeDatabaseConnection();
-        $query_string = 'CALL TogglePrivilege(' . $user_id . ')';
+        $query_string = 'SELECT privilege
+	    FROM users
+	    WHERE user_id = ' . $user_id . '
+	    INTO @current_privilege;
+
+	    IF @current_privilege = 0 THEN
+	    UPDATE users
+	    SET privilege = 1
+	    WHERE user_id = ' . $user_id . ';
+
+	    ELSE
+	    UPDATE users
+	    SET privilege = 0
+	    WHERE user_id = ' . $user_id . '
+	    END IF;';
 
         $this->safeQuery($query_string);
     }
@@ -285,10 +353,11 @@ class DatabaseWrapper
 
     public function updateUser($user_id, $name, $hashed_pw, $privs)
     {
-        $query_string = 'CALL UpdateUser(' . $user_id . ','
-            . $name . ','
-            . $hashed_pw . ','
-            . $privs . ')';
+        $query_string = 'UPDATE users 
+	    SET username = '. $name . ',
+	    hashed_password = ' . $hashed_pw . ',
+	    privilege = '. $privs . ' 
+	    WHERE user_id = ' . $user_id;
 
         $this->safeQuery($query_string);
     }
@@ -303,7 +372,9 @@ class DatabaseWrapper
     public function getHash($username)
     {
         $this->makeDatabaseConnection();
-        $query_string = 'CALL GetHash(\'' . $username . '\')';
+        $query_string = 'SELECT hashed_password
+        FROM `users`
+        WHERE username = \'' . $username . '\'';
 
         $this->safeQuery($query_string);
 
@@ -325,7 +396,9 @@ class DatabaseWrapper
     public function getUser($username)
     {
         $this->makeDatabaseConnection();
-        $query_string = 'CALL GetUser(\'' . $username . '\')';
+        $query_string = 'SELECT username, hashed_password, privilege  
+	    FROM `users`
+        WHERE username = ' . $username;
 
         $this->safeQuery($query_string);
 
@@ -345,7 +418,8 @@ class DatabaseWrapper
     public function getAllUsers()
     {
         $this->makeDatabaseConnection();
-        $query_string = 'CALL GetUsers()';
+        $query_string = 'SELECT username, privilege, user_id
+        FROM `users`';
 
         $this->safeQuery($query_string);
 
@@ -354,88 +428,5 @@ class DatabaseWrapper
         }
 
         return $users;
-    }
-
-
-    /**
-     * Invalidates the specified session key.
-     *
-     * @param $session_key
-     */
-
-    public function unsetSessionVar($session_key)
-    {
-    }
-
-    /**
-     * Sets variables associated with the passed session key.
-     *
-     * @param $session_key
-     * @param $session_value
-     * @return array
-     */
-
-    public function setSessionVar($session_key, $session_value)
-    {
-        if ($this->getSessionVar($session_key) === true) {
-            $this->storeSessionVar($session_key, $session_value);
-        } else {
-            $this->createSessionVar($session_key, $session_value);
-        }
-
-        return ($this->errors);
-    }
-
-    /**
-     * Returns a confirmation if the supplied session variables exist.
-     *
-     * @param $session_key
-     * @return bool
-     */
-
-    public function getSessionVar($session_key)
-    {
-        $session_var_exists = false;
-        $query_string = 'CALL CheckSessionVar(' . session_id() . ','
-            . $session_key . ')';
-
-        $this->safeQuery($query_string);
-
-        if ($this->countRows() > 0) {
-            $session_var_exists = true;
-        }
-        return $session_var_exists;
-    }
-
-    /**
-     * Creates session variables for setting with the associated session key.
-     *
-     * @param $session_key
-     * @param $session_value
-     */
-
-    private function createSessionVar($session_key, $session_value)
-    {
-        $query_string = 'CALL CreateSessionVar(' . session_id() . ','
-            . $session_key . ','
-            . $session_value . ')';
-
-        $this->safeQuery($query_string);
-    }
-
-    /**
-     * Stores the session key and value into the database.
-     *
-     * @param $session_key
-     * @param $session_value
-     */
-
-    private function storeSessionVar($session_key, $session_value)
-    {
-        $query_string = 'CALL SetSessionVar(' . session_id() . ','
-            . $session_key . ','
-            . $session_value . ')';
-
-        $this->safeQuery($query_string);
     }
 }
