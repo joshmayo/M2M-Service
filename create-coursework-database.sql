@@ -70,11 +70,19 @@ CREATE TABLE `users` (
 INSERT INTO `users`(username, hashed_password, privilege) VALUES ('admin', '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 0);
 INSERT INTO `users`(username, hashed_password, privilege) VALUES ('demo2',
 '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 1);
-
 INSERT INTO `users`(username, hashed_password, privilege) VALUES ('demo1',
 '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 1);
-
 INSERT INTO `users`(username, hashed_password, privilege) VALUES ('superAdmin', '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 2);
 
 
-DROP TABLE IF EXISTS `error_log`;
+INSERT INTO message_metadata(metadata_id,source_msisdn,destination_msisdn)
+VALUES ('100','447817814149','447817814149');
+
+INSERT INTO message_content(message_content_id, metadata_id, switch_1, switch_2, switch_3, switch_4, fan, heater, keypad, received_time)
+VALUES ('100','100','false','false','false','false','false','1','0','2019-12-10 00:00:00.0');
+
+INSERT INTO message_content(message_content_id, metadata_id, switch_1, switch_2, switch_3, switch_4, fan, heater, keypad, received_time)
+VALUES ('101','100','true','true','true','true','true','50','9','2019-12-10 00:00:01.0');
+
+INSERT INTO message_content(message_content_id, metadata_id, switch_1, switch_2, switch_3, switch_4, fan, heater, keypad, received_time)
+VALUES ('101','100','true','false','true','false','true','34','3','2019-12-10 00:00:01.0');
