@@ -74,17 +74,16 @@ function createChart($app, array $message_data, $type)
 
     $messageChartModel->setStoredMessageData($message_data);
 
-    if($type == 'line')
-    {
+    if ($type == 'line') {
         $messageChartModel->createLineChart();
-    }
-    else if($type == 'pie')
-    {
-        $messageChartModel->createPieChart();
-    }
-    else if($type == 'bar')
-    {
-        $messageChartModel->createBarChart();
+    } else {
+        if ($type == 'pie') {
+            $messageChartModel->createPieChart();
+        } else {
+            if ($type == 'bar') {
+                $messageChartModel->createBarChart();
+            }
+        }
     }
 
     $chart_details = $messageChartModel->getLineChartDetails();

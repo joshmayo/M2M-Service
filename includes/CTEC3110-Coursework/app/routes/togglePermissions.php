@@ -23,12 +23,11 @@ $app->post('/togglePermissions', function (Request $request, Response $response)
 
         try {
             $database->togglePrivilege($user_id['user']);
-        }
-        catch (exception $exception) {
+        } catch (exception $exception) {
             $error = $exception->getMessage();
         }
 
-        if($error !== null) {
+        if ($error !== null) {
             $html_output = $this->view->render($response,
                 'responseView.html.twig',
                 [

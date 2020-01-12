@@ -19,6 +19,7 @@ class SoapWrapperTest extends TestCase
     {
         $this->config = require_once("../app/settings.php");
     }
+
     public function test__construct()
     {
         $testSoapWrapper = new SoapWrapper();
@@ -27,6 +28,7 @@ class SoapWrapperTest extends TestCase
 
 
     }
+
     public function testCreateSoapClient()
     {
         $testSoapWrapper = new SoapWrapper();
@@ -36,6 +38,7 @@ class SoapWrapperTest extends TestCase
         $this->assertNotEmpty($testSoapWrapper->createSoapClient());
 
     }
+
     public function testPerformSoapCall()
     {
         $soapClientMock = $this->getMockFromWsdl(WSDL);
@@ -53,11 +56,10 @@ class SoapWrapperTest extends TestCase
 
         $testSoapWrapper = new SoapWrapper();
 
-        $this->assertNull($testSoapWrapper->performSoapCall($soapClientMock,'peekMessages', $webservice_call_parameters,
+        $this->assertNull($testSoapWrapper->performSoapCall($soapClientMock, 'peekMessages',
+            $webservice_call_parameters,
             $webservice_value));
     }
-
-
 
 
 }

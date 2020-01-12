@@ -26,12 +26,11 @@ $app->post('/deleteUsers', function (Request $request, Response $response) use (
             foreach ($usersToDelete['users'] as $key => $user_id) {
                 $database->deleteUser($user_id);
             }
-        }
-        catch (exception $exception) {
+        } catch (exception $exception) {
             $error = $exception->getMessage();
         }
 
-        if($error !== null) {
+        if ($error !== null) {
             $html_output = $this->view->render($response,
                 'responseView.html.twig',
                 [

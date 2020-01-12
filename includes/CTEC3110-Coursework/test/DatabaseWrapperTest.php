@@ -20,7 +20,6 @@ class DatabaseWrapperTest extends TestCase
     protected $test_db_config;
 
 
-
     protected function setUp(): void
     {
         $this->config = require_once("../app/settings.php");
@@ -34,7 +33,7 @@ class DatabaseWrapperTest extends TestCase
     {
         $testDbWrapper = new DatabaseWrapper();
 
-        $this->assertInstanceOf(DatabaseWrapper::class,$testDbWrapper);
+        $this->assertInstanceOf(DatabaseWrapper::class, $testDbWrapper);
         $this->assertNull($testDbWrapper->getVars()[0]);
         $this->assertNull($testDbWrapper->getVars()[1]);
         $this->assertNull($testDbWrapper->getVars()[2]);
@@ -44,6 +43,7 @@ class DatabaseWrapperTest extends TestCase
 
         var_dump($testDbWrapper->getVars());
     }
+
     public function testSetDatabaseConnectionSettings()
     {
         $testDbWrapper = new DatabaseWrapper();
@@ -51,6 +51,7 @@ class DatabaseWrapperTest extends TestCase
         $this->assertNull($testDbWrapper->setDatabaseConnectionSettings($this->test_db_config));
 
     }
+
     public function testMakeDatabaseConnection()
     {
         $testDbWrapper = new DatabaseWrapper();
@@ -75,8 +76,8 @@ class DatabaseWrapperTest extends TestCase
         $testDbWrapper = new DatabaseWrapper();
         $testDbWrapper->setDatabaseConnectionSettings($this->test_db_config);
 
-        $testMessage = new Message("447817814149","447817814149",1,0,
-            1,0,1,60,1,"01/01/2019 15:00:10" );
+        $testMessage = new Message("447817814149", "447817814149", 1, 0,
+            1, 0, 1, 60, 1, "01/01/2019 15:00:10");
 
         var_dump($testDbWrapper->addMessage($testMessage));
 

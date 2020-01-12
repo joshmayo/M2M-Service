@@ -3,7 +3,6 @@
  * MessageAnalyticsModel.php
  *
  * Processes and handles message analytics output.
-
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  *
@@ -29,7 +28,8 @@ class MessageAnalyticsModel
 
         $this->log = new Logger('logger');
         $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics.log', Logger::INFO));
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics_error.log', Logger::ERROR));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'analytics_error.log',
+            Logger::ERROR));
     }
 
     public function __destruct()
@@ -38,7 +38,11 @@ class MessageAnalyticsModel
 
     public function getVars()
     {
-        $vars = [$this->output_chart_details,$this->output_chart_path_and_name, $this->stored_message_data];
+        $vars = [
+            $this->output_chart_details,
+            $this->output_chart_path_and_name,
+            $this->stored_message_data
+        ];
 
         return $vars;
     }
@@ -118,7 +122,8 @@ class MessageAnalyticsModel
 
         $chart->getPlot()->getPalette()->setLineColor(array(
             new \Color(240, 53, 160),
-            new \Color(178, 69, 240)));
+            new \Color(178, 69, 240)
+        ));
 
         $series1 = new \XYDataSet();
         foreach ($series_data as $data_row) {
@@ -175,8 +180,7 @@ class MessageAnalyticsModel
             array_push($keypad_inputs, $data_row['keypad']);
         }
 
-        foreach(array_count_values($keypad_inputs) as $keypad => $keypad_value)
-        {
+        foreach (array_count_values($keypad_inputs) as $keypad => $keypad_value) {
             $this->log->info('Attempting add point to pie chart: ' . $keypad . ' ' . $keypad_value);
             $series1->addPoint(new \Point($keypad, $keypad_value));
         }
@@ -202,14 +206,14 @@ class MessageAnalyticsModel
 
         $chart->getPlot()->getPalette()->setBarColor(array(
             new \Color(240, 53, 160),
-            new \Color(178, 69, 240)));
+            new \Color(178, 69, 240)
+        ));
 
         foreach ($series_data as $data_row) {
             array_push($fan_inputs, $data_row['fan']);
         }
 
-        foreach(array_count_values($fan_inputs) as $fan => $fan_value)
-        {
+        foreach (array_count_values($fan_inputs) as $fan => $fan_value) {
             $fan = $fan == '0' ? 'Backwards' : 'Forwards';
             $this->log->info('Attempting add point to bar chart: ' . $fan . ' ' . $fan_value);
             $series1->addPoint(new \Point($fan, $fan_value));

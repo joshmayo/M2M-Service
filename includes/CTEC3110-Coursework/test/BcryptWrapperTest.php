@@ -17,7 +17,7 @@ class BcryptWrapperTest extends TestCase
     protected $hashedString = "$2y$12\$ZNrb2kvvDQGIsSq6Bw7NKetkOWzy5OalUxH2BpG0U6apBtvfzn7ma";
     protected $config;
 
-    protected function setup() : void
+    protected function setup(): void
     {
         $this->config = require_once("../app/settings.php");
     }
@@ -26,9 +26,12 @@ class BcryptWrapperTest extends TestCase
     {
         $testBcryptWrapper = new BcryptWrapper();
 
-        $this->assertIsBool($testBcryptWrapper->authenticatePassword($this->testString, $this->hashedString));
-        $this->assertTrue($testBcryptWrapper->authenticatePassword($this->testString, $this->hashedString));
-        $this->assertFalse($testBcryptWrapper->authenticatePassword($this->falseString, $this->hashedString));
+        $this->assertIsBool($testBcryptWrapper->authenticatePassword($this->testString,
+            $this->hashedString));
+        $this->assertTrue($testBcryptWrapper->authenticatePassword($this->testString,
+            $this->hashedString));
+        $this->assertFalse($testBcryptWrapper->authenticatePassword($this->falseString,
+            $this->hashedString));
     }
 
     public function testCreateHashedPassword()

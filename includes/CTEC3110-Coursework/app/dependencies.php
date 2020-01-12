@@ -11,7 +11,8 @@ $container['view'] = function ($container) {
     );
 
     // Instantiate and add Slim specific extension
-    $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
+    $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()),
+        '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
     return $view;
@@ -67,8 +68,7 @@ $container['loggerWrapper'] = function ($container) {
     return $logging_wrapper;
 };
 
-$container['libSodiumWrapper'] = function ($container)
-{
+$container['libSodiumWrapper'] = function ($container) {
     $wrapper = new \M2MConnect\LibSodiumWrapper();
     return $wrapper;
 };

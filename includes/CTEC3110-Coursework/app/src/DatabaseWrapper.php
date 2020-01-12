@@ -45,8 +45,14 @@ class DatabaseWrapper
 
     public function getVars()
     {
-        $vars = [$this->database_connection_settings,$this->db_handle,$this->sql_queries,
-            $this->prepared_statement,$this->errors,$this->log];
+        $vars = [
+            $this->database_connection_settings,
+            $this->db_handle,
+            $this->sql_queries,
+            $this->prepared_statement,
+            $this->errors,
+            $this->log
+        ];
 
         return $vars;
     }
@@ -344,9 +350,9 @@ class DatabaseWrapper
     {
         $this->makeDatabaseConnection();
         $query_string = 'UPDATE users 
-	    SET username = '. $name . ',
+	    SET username = ' . $name . ',
 	    hashed_password = ' . $hashed_pw . ',
-	    privilege = '. $privs . ' 
+	    privilege = ' . $privs . ' 
 	    WHERE user_id = ' . $user_id;
 
         $this->safeQuery($query_string);

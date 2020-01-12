@@ -8,6 +8,7 @@
  *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  */
+
 namespace M2MConnect;
 
 use PHPUnit\Framework\TestCase;

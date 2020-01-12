@@ -18,9 +18,9 @@ use Slim\Container;
 
 class ProcessMessageTest extends TestCase
 {
-   protected $test_db_config;
-   protected $config;
-   protected $testApp;
+    protected $test_db_config;
+    protected $config;
+    protected $testApp;
 
 
     protected function setUp(): void
@@ -34,14 +34,14 @@ class ProcessMessageTest extends TestCase
 
         $testSoapContainer = $testApp->getContainer();
 
-        $testSoapContainer['soapWrapper'] = function ($testSoapContainer){
+        $testSoapContainer['soapWrapper'] = function ($testSoapContainer) {
             $testSoapWrapper = $this->createMock(SoapWrapper::class);
             return $testSoapWrapper;
         };
 
         $testMsgModelContainer = $testApp->getContainer();
 
-        $testMsgModelContainer['messageDetailsModel'] = function ($testMsgModelContainer){
+        $testMsgModelContainer['messageDetailsModel'] = function ($testMsgModelContainer) {
             $testMsgDetailsModel = $this->createMock(MessageDetailsModel::class);
             return $testMsgDetailsModel;
         };
@@ -50,7 +50,7 @@ class ProcessMessageTest extends TestCase
         $testApp->add($testDBContainer);
 
         $testDBContainer = $testApp->getContainer();
-        $testDBContainer['databaseWrapper'] = function ($testDBContainer){
+        $testDBContainer['databaseWrapper'] = function ($testDBContainer) {
             $testDbConfig = $this->test_db_config;
             $testDBWrapper = new DatabaseWrapper();
             $testDBWrapper->setDatabaseConnectionSettings($testDbConfig);
@@ -58,13 +58,13 @@ class ProcessMessageTest extends TestCase
         };
 
         $testSettingsContainer = $testApp->getContainer();
-        $testSettingsContainer['settings'] = function ($testSettingsContainer){
+        $testSettingsContainer['settings'] = function ($testSettingsContainer) {
 
             $testSettingsModel['pdo_settings'] = $this->test_db_config;
 
             return $testSettingsModel;
         };
-        $this->testApp =$testApp;
+        $this->testApp = $testApp;
 
     }
 
@@ -72,20 +72,22 @@ class ProcessMessageTest extends TestCase
     {
         $testProcessMsg = new ProcessMessage();
 
-       $testApp = $this->testApp;
+        $testApp = $this->testApp;
 
         $this->assertNull($testProcessMsg->fetchMessages($testApp));
 
     }
+
     public function testReturnMessages()
     {
         $testProcessMsg = new ProcessMessage();
 
         $testApp = $this->testApp;
 
-        $this ->assertIsArray($testProcessMsg->returnMessages($testApp));
+        $this->assertIsArray($testProcessMsg->returnMessages($testApp));
 
     }
+
     public function testGetMessages()
     {
         $testProcessMsg = new ProcessMessage();
@@ -95,13 +97,14 @@ class ProcessMessageTest extends TestCase
         $this->assertNull($testProcessMsg->getMessages($testApp));
 
     }
+
     public function testSendSmsReceipt()
     {
         $testProcessMsg = new ProcessMessage();
 
         $testApp = $this->testApp;
 
-        $this->assertNull($testProcessMsg->sendSmsReceipt($testApp,""));
+        $this->assertNull($testProcessMsg->sendSmsReceipt($testApp, ""));
 
     }
 
@@ -125,8 +128,6 @@ class ProcessMessageTest extends TestCase
         $this->assertFalse($testProcessMsg->sanitiseMessage($testXml, $testValidator));
 
     }
-
-
 
 
 }
