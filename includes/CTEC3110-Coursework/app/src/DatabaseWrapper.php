@@ -255,6 +255,8 @@ class DatabaseWrapper
 
     public function deleteUser($user_id)
     {
+        $this->log->info('Attempting to delete user ' . $user_id);
+        $this->makeDatabaseConnection();
         $query_string = 'CALL DeleteUser(' . $user_id . ')';
 
         $this->safeQuery($query_string);
@@ -266,6 +268,7 @@ class DatabaseWrapper
 
     public function togglePrivilege($user_id)
     {
+        $this->makeDatabaseConnection();
         $query_string = 'CALL TogglePrivilege(' . $user_id . ')';
 
         $this->safeQuery($query_string);
@@ -331,6 +334,26 @@ class DatabaseWrapper
         }
 
         return $user['0'];
+    }
+
+    /**
+     * Gets the user details of all users
+     *
+     * @return array
+     */
+
+    public function getAllUsers()
+    {
+        $this->makeDatabaseConnection();
+        $query_string = 'CALL GetUsers()';
+
+        $this->safeQuery($query_string);
+
+        if ($this->countRows() > 0) {
+            $users = $this->safeFetchArray();
+        }
+
+        return $users;
     }
 
 

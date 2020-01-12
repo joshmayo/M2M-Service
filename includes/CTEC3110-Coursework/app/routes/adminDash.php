@@ -14,6 +14,22 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->get('/adminDash', function (Request $request, Response $response) use ($app) {
 
     if (isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0') {
+
+        $error = null;
+        $user_list = [];
+        $message = $response->getBody();
+
+        $database = $app->getContainer()->get('databaseWrapper');
+        $db_conf = $app->getContainer()->get('settings');
+        $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
+
+        try {
+            $user_list = $database->getAllUsers();
+        }
+        catch (exception $exception) {
+            $error = $exception->getMessage();
+        }
+
         $html_output = $this->view->render($response,
             'adminDash.html.twig',
             [
@@ -29,6 +45,12 @@ $app->get('/adminDash', function (Request $request, Response $response) use ($ap
                 'page_title' => APP_NAME,
                 'page_heading_1' => APP_NAME,
                 'page_heading_2' => 'Administrator Dashboard',
+                'users' => $user_list,
+                'error_msg' => $error,
+                'method' => 'post',
+                'delete_action' => 'deleteUsers',
+                'permission_action' => 'togglePermissions',
+                'message' => $message,
             ]
         );
 

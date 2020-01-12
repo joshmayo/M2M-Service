@@ -25,13 +25,16 @@ class XmlParser
 
     public function __destruct()
     {
-        xml_parser_free($this->xml_parser);
-        unset($this->xml_parser);
+        if ($this->xml_parser) {
+            xml_parser_free($this->xml_parser);
+            unset($this->xml_parser);
+        }
     }
 
     public function resetXmlParser()
     {
         $this->xml_parser = null;
+        $this->temporary_attributes = array();
     }
 
     public function setXmlStringToParse($xml_string_to_parse)

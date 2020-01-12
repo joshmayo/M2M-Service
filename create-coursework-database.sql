@@ -251,6 +251,12 @@ CREATE TABLE `users` (
 ) AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 INSERT INTO `users`(username, hashed_password, privilege) VALUES ('admin', '$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 0);
+INSERT INTO `users`(username, hashed_password, privilege) VALUES ('demo2',
+'$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 1);
+
+INSERT INTO `users`(username, hashed_password, privilege) VALUES ('demo1',
+'$2y$12$u/UEuYxcHNsYuV5y9rUoBuxhscADck0y45YFFQI1erHsi1325W5z.', 1);
+
 
 -- ----------------------------
 -- Stored procedures for `users`
@@ -261,7 +267,7 @@ DELIMITER $$
 CREATE PROCEDURE GetUsers()
 BEGIN
 
-  SELECT username, privilege
+  SELECT username, privilege, user_id
   FROM `users`;
 
 END$$
@@ -316,11 +322,11 @@ DELIMITER ;
 DELIMITER $$
  
 CREATE PROCEDURE DeleteUser(
-	IN username_to_delete int(4)
+	IN user_id_to_delete int(4)
 )
 BEGIN
 	DELETE FROM users
-	WHERE username = username_to_delete;
+	WHERE user_id = user_id_to_delete;
 END$$
 DELIMITER ;
 
@@ -337,6 +343,30 @@ BEGIN
 	hashed_password = hashed_pw,
 	privilege = privs 
 	WHERE username = name;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE TogglePrivilege(
+	IN user_id_to_toggle int(4)
+)
+BEGIN
+	SELECT privilege
+	FROM users
+	WHERE user_id = user_id_to_toggle
+	INTO @current_privilege;
+
+	 IF @current_privilege = 0 THEN
+	 UPDATE users
+	 SET privilege = 1
+	 WHERE user_id = user_id_to_toggle;
+
+	 ELSE
+	 UPDATE users
+	 SET privilege = 0
+	 WHERE user_id = user_id_to_toggle;
+	 END IF;
 END$$
 DELIMITER ;
 
