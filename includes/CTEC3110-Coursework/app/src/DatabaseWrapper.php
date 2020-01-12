@@ -311,6 +311,7 @@ class DatabaseWrapper
 
     public function deleteUser($user_id)
     {
+        $this->makeDatabaseConnection();
         $query_string = 'DELETE FROM users
 	    WHERE user_id =' . $user_id;
 
@@ -323,21 +324,9 @@ class DatabaseWrapper
 
     public function togglePrivilege($user_id)
     {
-        $query_string = 'SELECT privilege
-	    FROM users
-	    WHERE user_id = ' . $user_id . '
-	    INTO @current_privilege;
-
-	    IF @current_privilege = 0 THEN
-	    UPDATE users
-	    SET privilege = 1
-	    WHERE user_id = ' . $user_id . ';
-
-	    ELSE
-	    UPDATE users
-	    SET privilege = 0
-	    WHERE user_id = ' . $user_id . '
-	    END IF;';
+        $this->makeDatabaseConnection();
+        $query_string = 'UPDATE users SET privilege = IF(privilege = 1, 0, 1)
+        WHERE user_id = ' . $user_id;
 
         $this->safeQuery($query_string);
     }
@@ -353,6 +342,7 @@ class DatabaseWrapper
 
     public function updateUser($user_id, $name, $hashed_pw, $privs)
     {
+        $this->makeDatabaseConnection();
         $query_string = 'UPDATE users 
 	    SET username = '. $name . ',
 	    hashed_password = ' . $hashed_pw . ',
@@ -395,18 +385,20 @@ class DatabaseWrapper
 
     public function getUser($username)
     {
+        $user = [];
         $this->makeDatabaseConnection();
         $query_string = 'SELECT username, hashed_password, privilege  
 	    FROM `users`
-        WHERE username = ' . $username;
+        WHERE username = \'' . $username . '\'';
 
         $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
             $user = $this->safeFetchArray();
+            return $user['0'];
         }
 
-        return $user['0'];
+        return $user;
     }
 
     /**
@@ -419,7 +411,8 @@ class DatabaseWrapper
     {
         $this->makeDatabaseConnection();
         $query_string = 'SELECT username, privilege, user_id
-        FROM `users`';
+        FROM `users`
+        WHERE privilege != 2';
 
         $this->safeQuery($query_string);
 

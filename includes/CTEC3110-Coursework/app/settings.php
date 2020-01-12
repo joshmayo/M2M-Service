@@ -18,7 +18,7 @@ $url_root = $_SERVER['SCRIPT_NAME'];
 $url_root = implode('/', explode('/', $url_root, -1));
 $css_path = $url_root . '/css/standard.css';
 $js_path = $url_root . '/js/index.js';
-$logs_file_path = '/p3t/phpappfolder/var/';
+$logs_file_path = '/p3t/phpappfolder/logs/';
 
 
 define('CSS_PATH', $css_path);

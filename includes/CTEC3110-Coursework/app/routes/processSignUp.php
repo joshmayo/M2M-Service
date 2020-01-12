@@ -19,10 +19,8 @@ $app->post('/processSignUp', function (Request $request, Response $response) use
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanupSignupParameters($app, $tainted_parameters);
     $hashed_password = hash_password($app, $cleaned_parameters['password']);
-    //$hashed_confirm = hash_password($app, $cleaned_parameters['passwordConfirm']);
 
     if ($hashed_password != null &&
-        //$hashed_confirm != null &&
         $cleaned_parameters['sanitised_username'] != false &&
         $cleaned_parameters['password'] == $cleaned_parameters['passwordConfirm']) {
         try {

@@ -18,9 +18,15 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
     $db_conf = $app->getContainer()->get('settings');
     $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-    $stored_user = $database->getUser($cleaned_parameters['username']);
+    try {
 
-    if(auth_password($app, $cleaned_parameters['password'], $stored_user['hashed_password'])) {
+        $stored_user = $database->getUser($cleaned_parameters['username']);
+    }
+    catch (Exception $e) {
+        $stored_user = false;
+    }
+
+    if($stored_user != false && auth_password($app, $cleaned_parameters['password'], $stored_user['hashed_password'])) {
 
         $ecryption = $app->getContainer()->get('libSodiumWrapper');
 
