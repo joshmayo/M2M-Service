@@ -49,6 +49,11 @@ body {
     float: right;
 }
 
+.permission-table-button {
+    float: right;
+    margin-right: 20px;
+}
+
 .refresh-container {
     overflow: auto;
 }
@@ -189,6 +194,10 @@ hr {width:100%;height:1px;}
     color: #fff;
 }
 
+.delete-button {
+    padding: 15px 0px 0px 0px;
+}
+
 /*.sendMessage-btn-container {
     text-align: center;
 }*/
@@ -296,6 +305,22 @@ hr {width:100%;height:1px;}
     box-shadow: none;
 }
 
+#admin-user-table th:first-child:before {
+    content: none;
+}
+
+#admin-user-table th:first-child:after {
+    content: none;
+}
+
+#admin-perm-table th:last-child:before {
+    content: none;
+}
+
+#admin-perm-table th:last-child:after {
+    content: none;
+}
+
 /***********************************************/
 /* signup form styles                          */
 /***********************************************/
@@ -318,3 +343,24 @@ hr {width:100%;height:1px;}
     color: #fff;
 }
 
+/***********************************************/
+/* tabs styles                                 */
+/***********************************************/
+
+.admin-tabs .nav-link.active {
+    color: #fff;
+    background-color: #f035a0;
+    border-color: #f035a0;
+}
+
+.admin-tabs a.nav-link {
+    color: #fff;
+}
+
+.admin-tabs a.nav-link:hover {
+    border-color: #f035a0;
+}
+
+.admin-tabs.nav-tabs {
+    border-color: #f035a0;
+}
