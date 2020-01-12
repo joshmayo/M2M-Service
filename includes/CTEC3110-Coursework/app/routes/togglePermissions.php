@@ -1,9 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: p16190097
- * Date: 12/01/2020
- * Time: 12:54
+ * togglePermissions.php
+ *
+ * Route for toggling the permissions of application users
+ *
+ * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
  */
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
