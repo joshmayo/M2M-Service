@@ -18,14 +18,21 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
     $db_conf = $app->getContainer()->get('settings');
     $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-    $stored_hash = $database->getHash($cleaned_parameters['username']);
+    try {
 
-    if(auth_password($app, $cleaned_parameters['password'], $stored_hash)) {
+        $stored_user = $database->getUser($cleaned_parameters['username']);
+    }
+    catch (Exception $e) {
+        $stored_user = false;
+    }
+
+    if($stored_user != false && auth_password($app, $cleaned_parameters['password'], $stored_user['hashed_password'])) {
 
         $ecryption = $app->getContainer()->get('libSodiumWrapper');
 
         $encrypted_user = $ecryption->encrypt($cleaned_parameters['username']);
         $_SESSION['user'] = $encrypted_user['encrypted_string'];
+        $_SESSION['PERMISSIONS'] = $stored_user['privilege'];
         return $response->withRedirect(LANDING_PAGE);
     }
     else {
@@ -39,6 +46,7 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
                 'analytics_page' => 'analytics',
                 'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                 'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
+                'admin_dash' => isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2') ? 'adminDash' : null,
                 'SignUp_page' => 'signUp',
                 'method' => 'post',
                 'action' => 'performLogin',

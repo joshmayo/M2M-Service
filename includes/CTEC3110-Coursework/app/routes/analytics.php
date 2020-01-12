@@ -36,6 +36,7 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'analytics_page' => 'analytics',
             'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
             'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
+            'admin_dash' => isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2') ? 'adminDash' : null,
             'SignUp_page' => 'signUp',
             'initial_input_box_value' => null,
             'page_title' => APP_NAME,
