@@ -80,7 +80,7 @@ class ProcessMessage
         $validated_receivedTime = $validator->validateReceivedTime($message['RECEIVEDTIME']);
         $validated_bearer = $validator->validateBearer($message['BEARER']);
         $validated_messageRef = $validator->validateMessageRef($message['MESSAGEREF']);
-        $validated_message = $validator->validateMessage($message['MESSAGE']);
+        $validated_message = isset($message['MESSAGE']) ? $validator->validateMessage($message['MESSAGE']) : false;
 
         if ($validated_sourceMSISDN === false ||
             $validated_destinationMSISDN === false ||
