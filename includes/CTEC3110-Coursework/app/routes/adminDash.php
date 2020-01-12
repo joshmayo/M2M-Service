@@ -13,7 +13,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/adminDash', function (Request $request, Response $response) use ($app) {
 
-    if (isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2')) {
+    if (isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0') {
 
         $error = null;
         $user_list = [];
@@ -25,8 +25,7 @@ $app->get('/adminDash', function (Request $request, Response $response) use ($ap
 
         try {
             $user_list = $database->getAllUsers();
-        }
-        catch (exception $exception) {
+        } catch (exception $exception) {
             $error = $exception->getMessage();
         }
 
@@ -40,7 +39,7 @@ $app->get('/adminDash', function (Request $request, Response $response) use ($ap
                 'analytics_page' => 'analytics',
                 'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                 'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
-                'admin_dash' => isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2') ? 'adminDash' : null,
+                'admin_dash' => isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0' ? 'adminDash' : null,
                 'SignUp_page' => 'signUp',
                 'page_title' => APP_NAME,
                 'page_heading_1' => APP_NAME,
