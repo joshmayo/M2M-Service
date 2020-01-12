@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS coursework_db COLLATE utf8_unicode_ci;
 --
 -- Create the user account
 --
-GRANT EXECUTE ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY 'coursework_user_pass';
+GRANT SELECT, INSERT, UPDATE, DELETE, DROP ON coursework_db.* TO coursework_user@localhost IDENTIFIED BY'coursework_user_pass';
 
 USE coursework_db;
 

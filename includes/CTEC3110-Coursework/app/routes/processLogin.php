@@ -46,7 +46,7 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
                 'analytics_page' => 'analytics',
                 'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                 'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
-                'admin_dash' => isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0' ? 'adminDash' : null,
+                'admin_dash' => isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2') ? 'adminDash' : null,
                 'SignUp_page' => 'signUp',
                 'method' => 'post',
                 'action' => 'performLogin',

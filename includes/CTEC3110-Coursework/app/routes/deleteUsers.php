@@ -13,7 +13,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->post('/deleteUsers', function (Request $request, Response $response) use ($app) {
 
-    if (isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0') {
+    if (isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2')) {
 
         $error = null;
         $usersToDelete = $request->getParsedBody();
@@ -42,7 +42,7 @@ $app->post('/deleteUsers', function (Request $request, Response $response) use (
                     'analytics_page' => 'analytics',
                     'auth_page' => isset($_SESSION['user']) ? 'processLogout' : 'login',
                     'auth_text' => isset($_SESSION['user']) ? 'Sign out' : 'Sign in',
-                    'admin_dash' => isset($_SESSION['PERMISSIONS']) && $_SESSION['PERMISSIONS'] === '0' ? 'adminDash' : null,
+                    'admin_dash' => isset($_SESSION['PERMISSIONS']) && ($_SESSION['PERMISSIONS'] === '0' || $_SESSION['PERMISSIONS'] === '2') ? 'adminDash' : null,
                     'SignUp_page' => 'signUp',
                     'page_title' => APP_NAME,
                     'page_heading_1' => APP_NAME,
