@@ -42,9 +42,9 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'line_chart' => '/CTEC3110-Coursework/' . $line_chart,
-            'pie_chart' => '/CTEC3110-Coursework/' . $pie_chart,
-            'bar_chart' => '/CTEC3110-Coursework/' . $bar_chart
+            'line_chart' => $line_chart,
+            'pie_chart' => $pie_chart,
+            'bar_chart' => $bar_chart
         ]
     );
 
