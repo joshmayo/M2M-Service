@@ -16,9 +16,13 @@ namespace M2MConnect;
 
 class Validator
 {
-    public function __construct() { }
+    public function __construct()
+    {
+    }
 
-    public function __destruct() { }
+    public function __destruct()
+    {
+    }
 
     /**
      * Function for validating the heater setting field.
@@ -33,13 +37,10 @@ class Validator
     public function validateHeaterCode($heater_code_to_check)
     {
         $checked_heater_code = false;
-        if (isset($heater_code_to_check))
-        {
-            if (is_numeric($heater_code_to_check) && $heater_code_to_check <= 99 && $heater_code_to_check >= 0)
-            {
+        if (isset($heater_code_to_check)) {
+            if (is_numeric($heater_code_to_check) && $heater_code_to_check <= 99 && $heater_code_to_check >= 0) {
                 $checked_heater_code = (int)$heater_code_to_check;
-            }
-            else {
+            } else {
                 $checked_heater_code = 'invalid number';
             }
         }
@@ -61,13 +62,10 @@ class Validator
     public function validateKeypadCode($keypad_to_check)
     {
         $checked_keypad_code = false;
-        if (isset($keypad_to_check))
-        {
-            if (is_numeric($keypad_to_check) && $keypad_to_check <= 9 && $keypad_to_check >= 0)
-            {
+        if (isset($keypad_to_check)) {
+            if (is_numeric($keypad_to_check) && $keypad_to_check <= 9 && $keypad_to_check >= 0) {
                 $checked_keypad_code = (int)$keypad_to_check;
-            }
-            else {
+            } else {
                 $checked_keypad_code = 'invalid number';
             }
         }
@@ -86,15 +84,11 @@ class Validator
 
     public function validateSwitch($switch_to_check)
     {
-        if (is_bool($switch_to_check))
-        {
+        if (is_bool($switch_to_check)) {
             $checked_switch = $switch_to_check;
-        }
-        elseif ($switch_to_check == 'on')
-        {
+        } elseif ($switch_to_check == 'on') {
             $checked_switch = true;
-        }
-        else {
+        } else {
             $checked_switch = 'invalid switch';
         }
 
@@ -117,8 +111,7 @@ class Validator
     {
         $checked_MSISDN = false;
 
-        if(is_numeric($tainted_param) && strlen($tainted_param) == 12)
-        {
+        if (is_numeric($tainted_param) && strlen($tainted_param) == 12) {
             $checked_MSISDN = $tainted_param;
         }
 
@@ -142,8 +135,7 @@ class Validator
 
         $dateTimeRegex = '/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/';
 
-        if (!empty($tainted_param) && preg_match($dateTimeRegex, $tainted_param))
-        {
+        if (!empty($tainted_param) && preg_match($dateTimeRegex, $tainted_param)) {
             $checked_time = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
 
@@ -165,8 +157,7 @@ class Validator
     {
         $checked_Bearer = false;
 
-        if (!empty($tainted_param) && $tainted_param === "SMS" || $tainted_param === "GPRS" || $tainted_param === "BEEP")
-        {
+        if (!empty($tainted_param) && $tainted_param === "SMS" || $tainted_param === "GPRS" || $tainted_param === "BEEP") {
             $checked_Bearer = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
         return $checked_Bearer;
@@ -186,12 +177,9 @@ class Validator
     {
         $checked_ref = false;
 
-        if (is_numeric($tainted_param) && strlen($tainted_param) <= 5)
-        {
-            if(strpos($tainted_param, '.') === false)
-            {
-                if($tainted_param >= 0 && $tainted_param <= 65535)
-                {
+        if (is_numeric($tainted_param) && strlen($tainted_param) <= 5) {
+            if (strpos($tainted_param, '.') === false) {
+                if ($tainted_param >= 0 && $tainted_param <= 65535) {
                     $checked_ref = $tainted_param;
                 }
             }
@@ -215,8 +203,7 @@ class Validator
     {
         $checked_Message = false;
 
-        if (!empty($tainted_param))
-        {
+        if (!empty($tainted_param)) {
             $checked_Message = filter_var($tainted_param, FILTER_SANITIZE_STRING);
         }
         return $checked_Message;
@@ -239,9 +226,9 @@ class Validator
 
         $usernameRegex = '/^[A-Za-z0-9].{3,19}$/';
 
-        if(preg_match($usernameRegex, $tainted_param))
-        {
-            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (preg_match($usernameRegex, $tainted_param)) {
+            $checked_Username = filter_var($tainted_param, FILTER_SANITIZE_STRING,
+                FILTER_FLAG_NO_ENCODE_QUOTES);
         }
 
         return $checked_Username;
@@ -264,9 +251,9 @@ class Validator
 
         $passwordRegex = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{7,39}$/';
 
-        if(preg_match($passwordRegex, $tainted_param))
-        {
-            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (preg_match($passwordRegex, $tainted_param)) {
+            $checked_Password = filter_var($tainted_param, FILTER_SANITIZE_STRING,
+                FILTER_FLAG_NO_ENCODE_QUOTES);
         }
 
         return $checked_Password;

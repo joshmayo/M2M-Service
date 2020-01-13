@@ -13,8 +13,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/processLogout', function (Request $request, Response $response) use ($app) {
 
-    if (isset($_SESSION['user']))
-    {
+    if (isset($_SESSION['user'])) {
         session_unset();
         session_destroy();
 
@@ -37,8 +36,7 @@ $app->get('/processLogout', function (Request $request, Response $response) use 
         );
 
         return $html_output;
-    }
-    else {
+    } else {
         return $response->withRedirect(LANDING_PAGE);
     }
 

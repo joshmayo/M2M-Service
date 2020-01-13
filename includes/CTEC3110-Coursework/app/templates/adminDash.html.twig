@@ -1,0 +1,82 @@
+{% extends 'banner.html.twig' %}
+{% block title %}Administrator Dashboard{% endblock %}
+{% block content %}
+    <main>
+        <div class="header-container">
+            <h2 class="display-4">
+                {{ page_heading_2 }}
+                <small class="text-muted">{{ page_heading_1 }}</small>
+            </h2>
+        </div>
+
+        <div id="error-msg" class="alert alert-danger" role="alert">{{ error_msg }}</div>
+        <div id="error-msg" class="alert alert-danger" role="alert">{{ message }}</div>
+
+        <ul class="nav nav-tabs admin-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#users-tab">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#permissions-tab">Manage Permissions</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="users-tab" class="container tab-pane active"><br>
+                <h3>Manage Users</h3>
+                <form action="{{ delete_action }}" method="{{ method }}">
+                    <table id="admin-user-table" class="table table-sm table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Permissions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="admin-message-tbl-body">
+                        {% for user in users %}
+                            <tr>
+                                <td class="center-text"><input name="users[]" value="{{ user.user_id }}" type="checkbox"
+                                    /></td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.privilege == '0' ? 'Admin' : 'User' }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="sendMessage-btn-container delete-button">
+                        <button type="submit" class="btn btn-primary primary-color button">Delete Users</button>
+                    </div>
+                </form>
+            </div>
+            <div id="permissions-tab" class="container tab-pane fade"><br>
+                <h3>Manage Permissions</h3>
+                <form action="{{ permission_action }}" method="{{ method }}">
+                    <table id="admin-perm-table" class="table table-sm table-dark">
+                        <thead>
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Permissions</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="admin-message-tbl-body">
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.privilege == '0' ? 'Admin' : 'User' }}</td>
+                                <td class="center-text">
+                                    <button class="btn btn-primary primary-color btn-sm"
+                                            name="user" value="{{ user.user_id }}" type="submit">
+                                        {{ (user.privilege == '0') ? 'Demote to user' : 'Promote to admin' }}
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}

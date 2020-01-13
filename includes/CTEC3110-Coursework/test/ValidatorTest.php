@@ -24,24 +24,26 @@ class ValidatorTest extends TestCase
 
     public function testValidateHeaterCode()
     {
-    $testValidator = new Validator();
+        $testValidator = new Validator();
 
-    $this->assertSame(5,$testValidator->validateHeaterCode(5));
-    $this->assertSame("invalid number",$testValidator->validateHeaterCode(1000));
-    $this->assertSame("invalid number",$testValidator->validateHeaterCode(-1));
-    $this->assertSame("invalid number",$testValidator->validateHeaterCode("blue"));
+        $this->assertSame(5, $testValidator->validateHeaterCode(5));
+        $this->assertSame("invalid number", $testValidator->validateHeaterCode(1000));
+        $this->assertSame("invalid number", $testValidator->validateHeaterCode(-1));
+        $this->assertSame("invalid number", $testValidator->validateHeaterCode("blue"));
 
     }
+
     public function testValidateKeypadCode()
-{
-    $testValidator = new Validator();
+    {
+        $testValidator = new Validator();
 
-    $this->assertSame("invalid number",$testValidator->validateKeypadCode(11));
-    $this->assertSame(3,$testValidator->validateKeypadCode(3));
-    $this->assertSame("invalid number",$testValidator->validateKeypadCode(-11));
-    $this->assertSame("invalid number",$testValidator->validateKeypadCode("a"));
+        $this->assertSame("invalid number", $testValidator->validateKeypadCode(11));
+        $this->assertSame(3, $testValidator->validateKeypadCode(3));
+        $this->assertSame("invalid number", $testValidator->validateKeypadCode(-11));
+        $this->assertSame("invalid number", $testValidator->validateKeypadCode("a"));
 
     }
+
     public function testValidateSwitch()
     {
         $testValidator = new Validator();
@@ -49,9 +51,10 @@ class ValidatorTest extends TestCase
         $this->assertSame(false, $testValidator->validateSwitch(false));
         $this->assertSame(true, $testValidator->validateSwitch(true));
         $this->assertSame(true, $testValidator->validateSwitch("on"));
-        $this->assertSame("invalid switch",$testValidator->validateSwitch(3));
+        $this->assertSame("invalid switch", $testValidator->validateSwitch(3));
 
     }
+
     public function testValidateMSISDN()
     {
         $testValidator = new Validator();
@@ -63,11 +66,13 @@ class ValidatorTest extends TestCase
         $this->assertSame(false, $testValidator->validateMSISDN(true));
 
     }
+
     public function testValidateReceivedTime()
     {
         $testValidator = new Validator();
 
-        $this->assertSame("17/12/2019 00:00:00",$testValidator->validateReceivedTime("17/12/2019 00:00:00"));
+        $this->assertSame("17/12/2019 00:00:00",
+            $testValidator->validateReceivedTime("17/12/2019 00:00:00"));
         $this->assertFalse($testValidator->validateReceivedTime("17-12-2019 0120:00:00"));
         $this->assertFalse($testValidator->validateReceivedTime(""));
         $this->assertFalse($testValidator->validateReceivedTime(100));
@@ -131,8 +136,6 @@ class ValidatorTest extends TestCase
         $this->assertFalse($testValidator->validateUsername("TestusernameThatIsfarTooLongForThisField"));
 
     }
-
-
 
 
 }

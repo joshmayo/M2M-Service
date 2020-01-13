@@ -4,10 +4,13 @@ $(document).ready(function () {
     var rootURL = window.location.origin + '/CTEC3110-Coursework';
 
     var table = $('#message-table').DataTable();
+    var adminUserTable = $('#admin-user-table').DataTable();
+    var adminPermTable = $('#admin-perm-table').DataTable();
 
     if ($('.alert').text().length === 0) {
         $('.alert').hide();
-    };
+    }
+    ;
 
     $('#auto-refresh-switch').change(function (e) {
         if (this.checked) {

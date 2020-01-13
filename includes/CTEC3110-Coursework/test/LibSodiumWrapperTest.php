@@ -16,7 +16,7 @@ class LibSodiumWrapperTest extends TestCase
     protected $testEncryptString = "Binary String: 0x32ffe8530a4ff0d9b1a034befc6841a34d90340b61c60087";
     protected $config;
 
-    protected function setup() : void
+    protected function setup(): void
     {
         $this->config = require_once("../app/settings.php");
     }

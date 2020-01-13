@@ -30,45 +30,47 @@ define('M2M_PASS', 'Kmccrory2019');
 define('MSISDN', '7817814149');
 define('COUNTRY_CODE', '44');
 define('LOGS_PATH', $logs_file_path);
-define ('LIB_CHART_OUTPUT_PATH', 'media/charts/');
-define ('LIB_CHART_FILE_PATH', '/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/');
-define ('LIB_CHART_CLASS_PATH', 'libchart/classes/');
-define ('BCRYPT_ALGO', PASSWORD_DEFAULT);
-define ('BCRYPT_COST', 12);
+define('LIB_CHART_OUTPUT_PATH', 'media/charts/');
+define('LIB_CHART_FILE_PATH', '/p3t/phpappfolder/public_php/CTEC3110-Coursework/media/charts/');
+define('LIB_CHART_CLASS_PATH', 'libchart/classes/');
+define('BCRYPT_ALGO', PASSWORD_DEFAULT);
+define('BCRYPT_COST', 12);
 
 $wsdl = 'https://m2mconnect.ee.co.uk/orange-soap/services/MessageServiceByCountry?wsdl';
 define('WSDL', $wsdl);
 
 $settings = [
-  "settings" => [
-    'displayErrorDetails' => true,
-    'addContentLengthHeader' => false,
-    'mode' => 'development',
-    'debug' => true,
-    'class_path' => __DIR__ . '/src/',
-    'view' => [
-      'template_path' => __DIR__ . '/templates/',
-      'twig' => [
-        'cache' => false,
-        'auto_reload' => true,
-      ]],
-      'pdo_settings' => [
-          'rdbms' => 'mysql',
-          'host' => 'localhost',
-          'db_name' => 'coursework_db',
-          'port' => '3306',
-          'user_name' => 'coursework_user',
-          'user_password' => 'coursework_user_pass',
-          'charset' => 'utf8',
-          'collation' => 'utf8_unicode_ci',
-          'options' => [
-              PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-              PDO::ATTR_EMULATE_PREPARES   => true,
-          ]],
+    "settings" => [
+        'displayErrorDetails' => true,
+        'addContentLengthHeader' => false,
+        'mode' => 'development',
+        'debug' => true,
+        'class_path' => __DIR__ . '/src/',
+        'view' => [
+            'template_path' => __DIR__ . '/templates/',
+            'twig' => [
+                'cache' => false,
+                'auto_reload' => true,
+            ]
+        ],
+        'pdo_settings' => [
+            'rdbms' => 'mysql',
+            'host' => 'localhost',
+            'db_name' => 'coursework_db',
+            'port' => '3306',
+            'user_name' => 'coursework_user',
+            'user_password' => 'coursework_user_pass',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'options' => [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => true,
+            ]
+        ],
 
 
-  ],
+    ],
     "pdo_test_settings" => [
         'rdbms' => 'mysql',
         'host' => 'localhost',
@@ -79,13 +81,14 @@ $settings = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'options' => [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => true,
-        ]],
+            PDO::ATTR_EMULATE_PREPARES => true,
+        ]
+    ],
 ];
 
-$test_db_settings =[
+$test_db_settings = [
     "pdo_test_settings" => [
         'rdbms' => 'mysql',
         'host' => 'localhost',
@@ -96,10 +99,11 @@ $test_db_settings =[
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'options' => [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => true,
-        ]],
+            PDO::ATTR_EMULATE_PREPARES => true,
+        ]
+    ],
 ];
 define('TEST_DB_SETTINGS', $test_db_settings);
 

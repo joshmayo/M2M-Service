@@ -52,9 +52,7 @@ class ProcessMessage
 
                 $safe_message = $this->sanitiseMessage($parsed_xml, $validator);
 
-                if ($safe_message === false) {
-                    return 'Failed api validation';
-                } else {
+                if ($safe_message != false) {
                     $valid_messages[] = $safe_message;
                 }
             }
@@ -82,7 +80,7 @@ class ProcessMessage
         $validated_receivedTime = $validator->validateReceivedTime($message['RECEIVEDTIME']);
         $validated_bearer = $validator->validateBearer($message['BEARER']);
         $validated_messageRef = $validator->validateMessageRef($message['MESSAGEREF']);
-        $validated_message = $validator->validateMessage($message['MESSAGE']);
+        $validated_message = isset($message['MESSAGE']) ? $validator->validateMessage($message['MESSAGE']) : false;
 
         if ($validated_sourceMSISDN === false ||
             $validated_destinationMSISDN === false ||
@@ -116,9 +114,9 @@ class ProcessMessage
 
             foreach ($message_detail_result as $key => $message) {
 
-                if (strpos($message['MESSAGE'], '18-3110-AS') !== false && strpos($message['MESSAGE'], 'invalid code')
-                    ==
-                    false) {
+                if (strpos($message['MESSAGE'],
+                        '18-3110-AS') !== false && strpos($message['MESSAGE'],
+                        'invalid code') === false) {
 
                     $parsed_json = json_decode($message['MESSAGE'], true);
 
@@ -139,17 +137,13 @@ class ProcessMessage
                     $db_conf = $app->getContainer()->get('settings');
                     $database->setDatabaseConnectionSettings($db_conf['pdo_settings']);
 
-                    try
-                    {
+                    try {
                         $new_message = $database->addMessage($message);
 
-                        if(isset($new_message[0]['@new_message']) && $new_message[0]['@new_message'] != 0)
-                        {
+                        if (isset($new_message[0]['@new_message']) && $new_message[0]['@new_message'] != 0) {
                             $this->sendSmsReceipt($app, $new_message[0]['@new_message']);
                         }
-                    }
-                    catch (Exception $error)
-                    {
+                    } catch (Exception $error) {
                         return $error->getMessage();
                     }
                 }

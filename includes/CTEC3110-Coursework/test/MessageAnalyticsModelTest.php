@@ -1,13 +1,13 @@
 <?php
 /**
-* MessageAnalyticsModelTest.php
-*
+ * MessageAnalyticsModelTest.php
+ *
  * Unit Tests for MessageAnalyticsModel class
  *
  * @uses \M2MConnect\MessageAnalyticsModel
-*
+ *
  * @author Joshua Mayo, Sophie Hughes, Kieran McCrory
-*/
+ */
 
 namespace M2MConnect;
 
@@ -25,16 +25,16 @@ class MessageAnalyticsModelTest extends TestCase
     {
         $this->config = require_once("../app/settings.php");
         $this->test_db_config = (TEST_DB_SETTINGS['pdo_test_settings']);
-       include '../../libchart/classes/libchart.php';
-
+        include '../../libchart/classes/libchart.php';
 
 
     }
+
     public function test__construct()
     {
         $testAnalytics = new MessageAnalyticsModel();
 
-        $this->assertInstanceOf(MessageAnalyticsModel::class,$testAnalytics);
+        $this->assertInstanceOf(MessageAnalyticsModel::class, $testAnalytics);
         $this->assertEmpty($testAnalytics->getVars()[0]);
         $this->assertEmpty($testAnalytics->getVars()[1]);
         $this->assertEmpty($testAnalytics->getVars()[2]);
@@ -87,7 +87,6 @@ class MessageAnalyticsModelTest extends TestCase
     }
 
 
-
     public function testCreateLineChart()
     {
         $testAnalytics = new MessageAnalyticsModel();
@@ -115,12 +114,10 @@ class MessageAnalyticsModelTest extends TestCase
 
         $testAnalytics->createPieChart();
 
-        $this->assertStringContainsString('media/charts/message-piechart.png', $testAnalytics->getPieChartDetails());
+        $this->assertStringContainsString('media/charts/message-piechart.png',
+            $testAnalytics->getPieChartDetails());
 
     }
-
-
-
 
 
     public function testGetLineChartDetails()
@@ -133,6 +130,7 @@ class MessageAnalyticsModelTest extends TestCase
 
         $testAnalytics->createLineChart();
 
-        $this->assertStringContainsString('media/charts/message-linechart.png', $testAnalytics->getLineChartDetails());
+        $this->assertStringContainsString('media/charts/message-linechart.png',
+            $testAnalytics->getLineChartDetails());
     }
 }

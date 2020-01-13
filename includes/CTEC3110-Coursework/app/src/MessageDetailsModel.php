@@ -28,8 +28,8 @@ class MessageDetailsModel
         $this->result = '';
 
         $this->log = new Logger('logger');
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap.log',Logger::INFO));
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap_error.log',Logger::ERROR));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap.log', Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap_error.log', Logger::ERROR));
     }
 
     public function __destruct()
@@ -79,7 +79,8 @@ class MessageDetailsModel
             ];
 
             $webservice_value = 'peekMessagesResponse';
-            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
+            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle,
+                $webservice_function,
                 $webservice_call_parameters, $webservice_value);
 
             $this->result = $soapcall_result;
@@ -99,7 +100,7 @@ class MessageDetailsModel
 
         $soap_client_handle = $this->soap_wrapper->createSoapClient();
 
-        if($soap_client_handle !== false) {
+        if ($soap_client_handle !== false) {
 
             $webservice_function = 'sendMessage';
             $webservice_call_parameters = [
@@ -112,7 +113,8 @@ class MessageDetailsModel
             ];
             $webservice_value = 'sendMessageResponse';
 
-            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle, $webservice_function,
+            $soapcall_result = $this->soap_wrapper->performSoapCall($soap_client_handle,
+                $webservice_function,
                 $webservice_call_parameters, $webservice_value);
 
             $this->result = $soapcall_result;

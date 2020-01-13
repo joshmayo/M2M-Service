@@ -69,13 +69,12 @@ class LibSodiumWrapper
         $decrypted_string = '';
         $decoded = $base64_wrapper->decode_base64($string_to_decrypt);
 
-        if ($decoded === false)
-        {
+        if ($decoded === false) {
             throw new \Exception('Ooops, the encoding failed');
         }
 
-        if (mb_strlen($decoded, '8bit') < (SODIUM_CRYPTO_SECRETBOX_NONCEBYTES + SODIUM_CRYPTO_SECRETBOX_MACBYTES))
-        {
+        if (mb_strlen($decoded,
+                '8bit') < (SODIUM_CRYPTO_SECRETBOX_NONCEBYTES + SODIUM_CRYPTO_SECRETBOX_MACBYTES)) {
             throw new \Exception('Oops, the message was truncated');
         }
 
@@ -89,8 +88,7 @@ class LibSodiumWrapper
             $this->key
         );
 
-        if ($decrypted_string === false)
-        {
+        if ($decrypted_string === false) {
             throw new \Exception('the message was tampered with in transit');
         }
 

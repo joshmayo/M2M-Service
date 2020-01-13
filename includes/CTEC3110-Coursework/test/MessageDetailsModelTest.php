@@ -20,6 +20,7 @@ class MessageDetailsModelTest extends TestCase
     {
         $this->config = require_once("../app/settings.php");
     }
+
     public function test__construct()
     {
         $testMessageModel = new MessageDetailsModel();
@@ -33,7 +34,7 @@ class MessageDetailsModelTest extends TestCase
     {
         $testSoapWrapper = new SoapWrapper();
 
-        $testMessageModel= new MessageDetailsModel();
+        $testMessageModel = new MessageDetailsModel();
 
         $this->assertNull($testMessageModel->setSoapWrapper($testSoapWrapper));
     }
@@ -61,12 +62,6 @@ class MessageDetailsModelTest extends TestCase
         $testMessageBody = "Body";
         $this->assertNull($testMessageModel->sendMessage($testMessageBody));
     }
-
-
-
-
-
-
 
 
 }

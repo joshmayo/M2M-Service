@@ -24,7 +24,8 @@ class Base64WrapperTest extends TestCase
         $testB64Wrapper = new Base64Wrapper();
 
         $this->assertIsString($testB64Wrapper->encode_base64($this->testString));
-        $this->assertSame($this->encodedString,($testB64Wrapper->encode_base64($this->testString)));
+        $this->assertSame($this->encodedString,
+            ($testB64Wrapper->encode_base64($this->testString)));
         $this->assertEmpty($testB64Wrapper->encode_base64(""));
 
     }
@@ -34,7 +35,7 @@ class Base64WrapperTest extends TestCase
         $testB64Wrapper = new Base64Wrapper();
 
         $this->assertIsString($testB64Wrapper->decode_base64($this->encodedString));
-        $this->assertSame($this->testString,$testB64Wrapper->decode_base64($this->encodedString));
+        $this->assertSame($this->testString, $testB64Wrapper->decode_base64($this->encodedString));
         $this->assertEmpty($testB64Wrapper->decode_base64(""));
 
     }
