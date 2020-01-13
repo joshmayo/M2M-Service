@@ -9,7 +9,8 @@ $(document).ready(function () {
 
     if ($('.alert').text().length === 0) {
         $('.alert').hide();
-    };
+    }
+    ;
 
     $('#auto-refresh-switch').change(function (e) {
         if (this.checked) {

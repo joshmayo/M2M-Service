@@ -14,8 +14,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->get('/sendMessage', function (Request $request, Response $response) use ($app) {
 
-    if (isset($_SESSION['user']))
-    {
+    if (isset($_SESSION['user'])) {
         $html_output = $this->view->render($response,
             'sendMessageForm.html.twig',
             [
@@ -38,8 +37,7 @@ $app->get('/sendMessage', function (Request $request, Response $response) use ($
         );
 
         return $html_output;
-    }
-    else {
+    } else {
         return $response->withRedirect('login');
     }
 

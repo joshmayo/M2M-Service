@@ -42,9 +42,9 @@ $app->get('/analytics', function (Request $request, Response $response) use ($ap
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Analytics',
-            'line_chart' => $line_chart,
-            'pie_chart' => $pie_chart,
-            'bar_chart' => $bar_chart
+            'line_chart' => '/p16190373/CTEC3110-Coursework/' . $line_chart,
+            'pie_chart' => '/p16190373/CTEC3110-Coursework/' . $pie_chart,
+            'bar_chart' => '/p16190373/CTEC3110-Coursework/' . $bar_chart
         ]
     );
 
@@ -74,17 +74,16 @@ function createChart($app, array $message_data, $type)
 
     $messageChartModel->setStoredMessageData($message_data);
 
-    if($type == 'line')
-    {
+    if ($type == 'line') {
         $messageChartModel->createLineChart();
-    }
-    else if($type == 'pie')
-    {
-        $messageChartModel->createPieChart();
-    }
-    else if($type == 'bar')
-    {
-        $messageChartModel->createBarChart();
+    } else {
+        if ($type == 'pie') {
+            $messageChartModel->createPieChart();
+        } else {
+            if ($type == 'bar') {
+                $messageChartModel->createBarChart();
+            }
+        }
     }
 
     $chart_details = $messageChartModel->getLineChartDetails();

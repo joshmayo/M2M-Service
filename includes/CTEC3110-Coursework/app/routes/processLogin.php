@@ -9,7 +9,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app->post('/performLogin',  function (Request $request, Response $response) use ($app) {
+$app->post('/performLogin', function (Request $request, Response $response) use ($app) {
 
     $tainted_parameters = $request->getParsedBody();
     $cleaned_parameters = cleanupLoginParameters($app, $tainted_parameters);
@@ -21,12 +21,12 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
     try {
 
         $stored_user = $database->getUser($cleaned_parameters['username']);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $stored_user = false;
     }
 
-    if($stored_user != false && auth_password($app, $cleaned_parameters['password'], $stored_user['hashed_password'])) {
+    if ($stored_user != false && auth_password($app, $cleaned_parameters['password'],
+            $stored_user['hashed_password'])) {
 
         $ecryption = $app->getContainer()->get('libSodiumWrapper');
 
@@ -34,8 +34,7 @@ $app->post('/performLogin',  function (Request $request, Response $response) use
         $_SESSION['user'] = $encrypted_user['encrypted_string'];
         $_SESSION['PERMISSIONS'] = $stored_user['privilege'];
         return $response->withRedirect(LANDING_PAGE);
-    }
-    else {
+    } else {
         $html_output = $this->view->render($response,
             'loginForm.html.twig',
             [

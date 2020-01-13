@@ -19,8 +19,8 @@ class SoapWrapper
     public function __construct()
     {
         $this->log = new Logger('logger');
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap.log',Logger::INFO));
-        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap_error.log',Logger::ERROR));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap.log', Logger::INFO));
+        $this->log->pushHandler(new StreamHandler(LOGS_PATH . 'soap_error.log', Logger::ERROR));
     }
 
     public function __destruct()
@@ -70,15 +70,20 @@ class SoapWrapper
      * @return null|string by default empty for $soap_call_result
      */
 
-    public function performSoapCall($soap_client, $webservice_function, $webservice_call_parameters, $webservice_value)
-    {
+    public function performSoapCall(
+        $soap_client,
+        $webservice_function,
+        $webservice_call_parameters,
+        $webservice_value
+    ) {
         $soap_call_result = null;
 
         if ($soap_client) {
             try {
                 $this->log->info('Attempting to perform soap call: ' . $webservice_function);
 
-                $webservice_call_result = $soap_client->__soapCall($webservice_function, $webservice_call_parameters);
+                $webservice_call_result = $soap_client->__soapCall($webservice_function,
+                    $webservice_call_parameters);
                 $soap_call_result = $webservice_call_result;
             } catch (Exception $exception) {
                 // \SoapFault

@@ -114,7 +114,8 @@ class ProcessMessage
 
             foreach ($message_detail_result as $key => $message) {
 
-                if (strpos($message['MESSAGE'], '18-3110-AS') !== false && strpos($message['MESSAGE'],
+                if (strpos($message['MESSAGE'],
+                        '18-3110-AS') !== false && strpos($message['MESSAGE'],
                         'invalid code') === false) {
 
                     $parsed_json = json_decode($message['MESSAGE'], true);

@@ -45,8 +45,14 @@ class DatabaseWrapper
 
     public function getVars()
     {
-        $vars = [$this->database_connection_settings,$this->db_handle,$this->sql_queries,
-            $this->prepared_statement,$this->errors,$this->log];
+        $vars = [
+            $this->database_connection_settings,
+            $this->db_handle,
+            $this->sql_queries,
+            $this->prepared_statement,
+            $this->errors,
+            $this->log
+        ];
 
         return $vars;
     }
@@ -211,68 +217,76 @@ class DatabaseWrapper
     public function addMessage(Message $message)
     {
         $new_message = [];
+        $existing_time = [];
+        $metadata_id = [];
         $this->makeDatabaseConnection();
         $date = DateTime::createFromFormat('d/m/Y H:i:s', $message->getReceivedTime());
         $dateToBeInserted = $date->format('Y-m-d H:i:s');
 
         $query_string = 'SELECT received_time
 	    FROM message_content
-    	WHERE received_time = \'' . $dateToBeInserted . '\'
-      	INTO @existing_time;
-
-	    IF @existing_time IS NULL THEN
-
-        SET @new_message = ' . $message->getSourceMsisdn() . '
-
-        SELECT DISTINCT metadata_id
-        FROM message_metadata
-        WHERE source_msisdn = ' . $message->getSourceMsisdn() . '
-        and destination_msisdn = ' . $message->getDestinationMsisn() . '
-        INTO @existing_metadata;
-
-        IF @existing_metadata IS null THEN
-
-        INSERT INTO message_metadata (source_msisdn, destination_msisdn)
-        VALUES (' . $message->getSourceMsisdn() . ', ' . $message->getDestinationMsisn() . ');
-        SELECT LAST_INSERT_ID() INTO @existing_metadata;
-
-        END IF	;
-
-        INSERT INTO message_content
-        (
-        metadata_id,
-        switch_1,
-        switch_2,
-        switch_3,
-        switch_4,
-        fan,
-        heater,
-        keypad,
-        received_time
-        )
-        VALUES
-        (
-        @existing_metadata,
-        ' . $message->getSwitch1() . ',
-        ' . $message->getSwitch2() . ',
-        ' . $message->getSwitch3() . ',
-        ' . $message->getSwitch4() . ',
-        ' . $message->getFan() . ',
-        ' . $message->getHeater() . ',
-        ' . $message->getKeypad() . ',
-        \'' . $dateToBeInserted . '\'
-        );
-        ELSE
-        SET @new_message = 0;
-	    END IF ;
-
-	    SELECT @new_message';
-
+    	WHERE received_time = \'' . $dateToBeInserted . '\'';
 
         $this->safeQuery($query_string);
 
         if ($this->countRows() > 0) {
-            $new_message = $this->safeFetchArray();
+            $existing_time = $this->safeFetchArray();
+        }
+
+        if(is_null(implode(" ", $existing_time[0])) || empty(implode(" ", $existing_time[0])))
+        {
+            $query_string = 'SELECT DISTINCT metadata_id
+            FROM message_metadata
+            WHERE source_msisdn = ' . $message->getSourceMsisdn() . '
+                and destination_msisdn = ' . $message->getDestinationMsisn();
+
+            $this->safeQuery($query_string);
+
+            if ($this->countRows() > 0) {
+                $metadata_id = $this->safeFetchArray();
+            }
+
+            if(is_null(implode(" ", $metadata_id[0])) || empty(implode(" ", $metadata_id[0])))
+            {
+                $query_string = 'INSERT INTO message_metadata (source_msisdn, destination_msisdn)
+                VALUES (' . $message->getSourceMsisdn() . ', ' . $message->getDestinationMsisn();
+
+                $this->safeQuery($query_string);
+            }
+
+            $query_string = 'INSERT INTO message_content
+            (
+            metadata_id,
+            switch_1,
+            switch_2,
+            switch_3,
+            switch_4,
+            fan,
+            heater,
+            keypad,
+            received_time
+            )
+            VALUES
+            (' . implode(" ", $metadata_id[0]) . ',
+            ' . $message->getSwitch1() . ',
+                ' . $message->getSwitch2() . ',
+                ' . $message->getSwitch3() . ',
+                ' . $message->getSwitch4() . ',
+                ' . $message->getFan() . ',
+                ' . $message->getHeater() . ',
+                ' . $message->getKeypad() . ',
+                \'' . $dateToBeInserted . '\'
+                )';
+
+            $this->safeQuery($query_string);
+
+            $query_string = 'SELECT LAST_INSERT_ID()';
+
+            $this->safeQuery($query_string);
+
+            if ($this->countRows() > 0) {
+                $new_message = $this->safeFetchArray();
+            }
         }
 
         return $new_message;
@@ -344,9 +358,9 @@ class DatabaseWrapper
     {
         $this->makeDatabaseConnection();
         $query_string = 'UPDATE users 
-	    SET username = '. $name . ',
+	    SET username = ' . $name . ',
 	    hashed_password = ' . $hashed_pw . ',
-	    privilege = '. $privs . ' 
+	    privilege = ' . $privs . ' 
 	    WHERE user_id = ' . $user_id;
 
         $this->safeQuery($query_string);

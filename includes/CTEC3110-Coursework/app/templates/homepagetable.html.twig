@@ -12,13 +12,15 @@
         <div class="refresh-container">
             <div class="update-container">
                 <div class="loader" id="load-spinner"></div>
-                <button class="btn btn-primary primary-color button inline-block" id="update-table-btn">Update table
+                <button class="btn btn-primary primary-color button inline-block"
+                        id="update-table-btn">Update table
                 </button>
                 <div class="inline-block">
                     <div class="custom-control custom-switch">
                         <span class="secondary-color block">Auto Refresh</span>
                         <label class="switch-lb-left" for="auto-refresh-switch">Off</label>
-                        <input name="auto-refresh-switch" type="checkbox" class="custom-control-input"
+                        <input name="auto-refresh-switch" type="checkbox"
+                               class="custom-control-input"
                                id="auto-refresh-switch">
                         <label class="custom-control-label" for="auto-refresh-switch">On</label>
                     </div>
@@ -27,18 +29,18 @@
         </div>
         <table id="message-table" class="table table-sm table-dark">
             <thead>
-                <tr>
-                    <th scope="col">Heater</th>
-                    <th scope="col">Keypad</th>
-                    <th scope="col">Fan</th>
-                    <th scope="col">Switch 1</th>
-                    <th scope="col">Switch 2</th>
-                    <th scope="col">Switch 3</th>
-                    <th scope="col">Switch 4</th>
-                    <th scope="col">Received time</th>
-                    <th scope="col">Source MSISDN</th>
-                    <th scope="col">Destination MSISDN</th>
-                </tr>
+            <tr>
+                <th scope="col">Heater</th>
+                <th scope="col">Keypad</th>
+                <th scope="col">Fan</th>
+                <th scope="col">Switch 1</th>
+                <th scope="col">Switch 2</th>
+                <th scope="col">Switch 3</th>
+                <th scope="col">Switch 4</th>
+                <th scope="col">Received time</th>
+                <th scope="col">Source MSISDN</th>
+                <th scope="col">Destination MSISDN</th>
+            </tr>
             </thead>
             <tbody id="homepage-message-tbl-body">
             {% for message in message_list %}

@@ -30,7 +30,7 @@ $app->get('/login', function (Request $request, Response $response) use ($app) {
             'page_title' => APP_NAME,
             'page_heading_1' => APP_NAME,
             'page_heading_2' => 'Sign In',
-            'logo_path' => '/CTEC3110-Coursework/media/android-chrome-512x512.png',
+            'logo_path' => '/p16190373/CTEC3110-Coursework/media/android-chrome-512x512.png',
             'error_text' => '',
         ]
     );
