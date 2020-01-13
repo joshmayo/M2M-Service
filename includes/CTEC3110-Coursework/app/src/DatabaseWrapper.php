@@ -225,8 +225,7 @@ class DatabaseWrapper
 
         $query_string = 'SELECT received_time
 	    FROM message_content
-    	WHERE received_time = \'' . $dateToBeInserted . '\'
-      	INTO @existing_time';
+    	WHERE received_time = \'' . $dateToBeInserted . '\'';
 
         $this->safeQuery($query_string);
 
@@ -234,9 +233,9 @@ class DatabaseWrapper
             $existing_time = $this->safeFetchArray();
         }
 
-        $this->log->info('Existing_time (' . implode(" ", $existing_time) .')');
+        $this->log->info('Existing_time (' . implode(" ", $existing_time[0]) .')');
 
-        if(is_null(implode(" ", $existing_time)) || empty(implode(" ", $existing_time)))
+        if(is_null(implode(" ", $existing_time[0])) || empty(implode(" ", $existing_time[0])))
         {
             $query_string = 'SELECT DISTINCT metadata_id
             FROM message_metadata
