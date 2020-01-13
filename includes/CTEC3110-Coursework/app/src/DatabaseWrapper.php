@@ -233,8 +233,6 @@ class DatabaseWrapper
             $existing_time = $this->safeFetchArray();
         }
 
-        $this->log->info('Existing_time (' . implode(" ", $existing_time[0]) .')');
-
         if(is_null(implode(" ", $existing_time[0])) || empty(implode(" ", $existing_time[0])))
         {
             $query_string = 'SELECT DISTINCT metadata_id
@@ -247,8 +245,6 @@ class DatabaseWrapper
             if ($this->countRows() > 0) {
                 $metadata_id = $this->safeFetchArray();
             }
-
-            $this->log->info('Metadata_id (' . implode(" ", $metadata_id[0]) .')');
 
             if(is_null(implode(" ", $metadata_id[0])) || empty(implode(" ", $metadata_id[0])))
             {
