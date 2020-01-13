@@ -27,7 +27,7 @@ class LibSodiumWrapper
 
     private function initialiseEncryption()
     {
-        $this->key = 'The boy stood on the burning dek';
+        $this->key = 'Visited the Chika of good lucky!';
 
         if (mb_strlen($this->key, '8bit') !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
             throw new RangeException('Key is not the correct size (must be 32 bytes).');
